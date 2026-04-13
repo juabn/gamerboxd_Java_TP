@@ -10,7 +10,7 @@ Los usuarios pueden crear grupos de reseñadores y solicitar unirse a otros grup
 
 <h2>Diagrama de Entidad Relación </h2>
 
-![Texto Alternativo](assets/imagen_der.jpg)
+![Texto Alternativo](assets/modelo.jpg)
 
 
 <h2>Checklist regularidad</h2>
