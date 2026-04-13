@@ -9,7 +9,7 @@
 Los usuarios pueden crear grupos de reseñadores, los cuales otros usuarios pueden pedir unirse, en donde los administradores del grupo (permisos otorgados por el creador) aceptan o niegan la petición. Estos grupos juntan muchos reseñadores y permiten a ellos publicar reseñas bajo el nombre de ese grupo. La página del grupo mostrará todas las reseñas hechas por los miembros, los miembros de los grupos y el perfil del grupo. </p></br>  
 
 <h2>Diagrama de Entidad Relacional </h2>
-![image alt](https://github.com/juabn/gamerboxd_Java_TP/blob/80c6dc95a87ee80c5f6cbfaf83e65481e2e8719c/assets/modelo.jpg)
+![image alt](assets/modelo.jpg)
 
 
 <h2>Checklist regularidad</h2>
