@@ -9,6 +9,8 @@
 Los usuarios pueden crear grupos de reseñadores, los cuales otros usuarios pueden pedir unirse, en donde los administradores del grupo (permisos otorgados por el creador) aceptan o niegan la petición. Estos grupos juntan muchos reseñadores y permiten a ellos publicar reseñas bajo el nombre de ese grupo. La página del grupo mostrará todas las reseñas hechas por los miembros, los miembros de los grupos y el perfil del grupo. </p></br>  
 
 <h2>Diagrama de Entidad Relacional </h2>
+![image](https://drive.google.com/file/d/1Z_6Kui4FSDSyfM1VS-PyDNORFWR0e9Y4/view?usp=sharing)
+
 
 <h2>Checklist regularidad</h2>
 
