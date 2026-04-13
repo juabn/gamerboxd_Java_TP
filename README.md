@@ -17,19 +17,20 @@ Los usuarios pueden crear grupos de reseñadores, los cuales otros usuarios pued
 
 | Requerimiento    | Detalles |
 |------------------|----------|
-| ABMC Simple      |          |
-| ABMC Dependiente |          |
-| CU NO-ABMC       |          |
-| Listado simple   |          |
+| ABMC Simple      | Persona, Juego         |
+| ABMC Dependiente | Administrador         |
+| CU NO-ABMC       | Reseña         |
+| Listado simple   | Listado de juegos         |
 
 <h2>Checklist promoción directa</h2>
 
 | Requerimiento                 | Detalles |
 |-------------------------------|----------|
-| ABMC                          |          |
-| CU "Complejo" (nivel resumen) |          |
-| Listado complejo              |          |
-| Nivel de acceso               |          |
-| Manejo de errores             |          |
-| Publicar el sitio             |          |
+| ABMC                          | Personas, Usuario, Juego, Compañia, Grupo, Administrador, Propuesta          |
+| CU "Complejo" (nivel resumen) | Realizar reseña         |
+| Listado complejo              | Listar juegos por compañia         |
+| Nivel de acceso               | Usuario, Administrador         |
+
+
+
 
