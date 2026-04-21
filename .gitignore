@@ -1,1 +1,14 @@
+# Ignorar archivos compilados
 /bin/
+
+# Ignorar archivos específicos de configuración de Eclipse
+.metadata/
+.settings/
+
+# Archivos temporales o de sistema
+.DS_Store
+Thumbs.db
+
+# Si usas herramientas de construcción como Maven o Gradle (opcional)
+target/
+.gradle/
