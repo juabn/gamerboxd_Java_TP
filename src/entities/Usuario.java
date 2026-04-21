@@ -1,5 +1,5 @@
 package entities;
 
-public class Usuario {
-
+public class Usuario extends Persona {
+	
 }
