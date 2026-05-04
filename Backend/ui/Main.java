@@ -13,8 +13,15 @@ public class Main {
 		
 		if (juegos!=null) {
 			for (Juego j : juegos) {
-				System.out.println("nombre: "+ j.getTitulo() + j.getDescripcion()+ j.getImagen() + j.getId_juego());
-			}
+		        System.out.println("========================================");
+		        System.out.println("ID: " + j.getId_juego());
+		        System.out.println("TÍTULO: " + j.getTitulo());
+		        System.out.println("DESC/SLUG: " + j.getDescripcion());
+		        System.out.println("IMAGEN: " + j.getImagen());
+		        System.out.println("========================================");
+		    }
+		}else {
+		    System.out.println("La lista de juegos está vacía. Revisá el split en ApiJuego.");
 		}
 		
 	}
