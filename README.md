@@ -10,7 +10,7 @@ Los usuarios pueden crear grupos de reseñadores y solicitar unirse a otros grup
 
 <h2>Diagrama de Entidad Relación </h2>
 
-![Texto Alternativo](assets/modeloterminado.jpg)
+![Texto Alternativo](assets/modelooo.drawio.png)
 
 
 <h2>Checklist regularidad</h2>
