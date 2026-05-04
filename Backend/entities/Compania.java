@@ -1,17 +1,17 @@
 package entities;
 
-class Genero {
+class Compania {
 	
 	private int id;
 	private String nombre;
 	private String descripcion;
 	
 	
-	public int getId() {
+	public int getId_comp() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId_comp(int id_comp) {
+		this.id = id_comp;
 	}
 	public String getNombre() {
 		return nombre;
@@ -25,7 +25,7 @@ class Genero {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	
 
+	
+	
 }
