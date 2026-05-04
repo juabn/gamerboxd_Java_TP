@@ -2,6 +2,8 @@ package data;
 
 import java.sql.*;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class ApiPersona {
 	public static void main(String[] args) {
 		
@@ -24,9 +26,15 @@ try {
 		    
 		    String query = "update persona set contrasenia = ? where idpersona = ?";
 		    PreparedStatement ps = conn.prepareStatement(query);
-		    ps.setString(1, "12345678910");
-		    ps.setString(2, "1");
 		    
+		    
+		    int logRounds = 12;
+		    String salt = BCrypt.gensalt(logRounds);
+		    String password2 = "123";
+		    String hashedPassword = BCrypt.hashpw(password2, salt);	    
+		    
+		    ps.setString(1, hashedPassword);
+		    ps.setString(2, "1");
 		    ps.executeUpdate();
 		    
 }
