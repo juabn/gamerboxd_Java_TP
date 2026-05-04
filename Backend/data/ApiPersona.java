@@ -9,10 +9,7 @@ public class ApiPersona {
 		
 		actualizar_contrasenia();
 		
-		
-		
 	}
-	
 	
 	
 	
@@ -43,8 +40,7 @@ catch(SQLException ex){
 }
 		
 		
-		
-		
+	
 		
 		
 	}
