@@ -11,19 +11,11 @@ public class Main {
 		System.out.println("seeding");
 		ArrayList<Juego> juegos = api.obtenerJuegos();
 		
-		if (juegos!=null) {
+		if(juegos!=null) {
 			for (Juego j : juegos) {
-		        System.out.println("========================================");
-		        System.out.println("ID: " + j.getId_juego());
-		        System.out.println("TÍTULO: " + j.getTitulo());
-		        System.out.println("DESC/SLUG: " + j.getDescripcion());
-		        System.out.println("IMAGEN: " + j.getImagen());
-		        System.out.println("========================================");
-		    }
-		}else {
-		    System.out.println("La lista de juegos está vacía. Revisá el split en ApiJuego.");
+				System.out.println(j.getInfoJuego());
+			}
 		}
-		
 	}
 
 }

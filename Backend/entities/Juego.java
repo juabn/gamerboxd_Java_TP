@@ -1,13 +1,38 @@
 package entities;
-
+import com.google.gson.annotations.SerializedName;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
 public class Juego {
+	@SerializedName("id")
 	private int id_juego;
+	@SerializedName("name")
 	private String titulo;
+	@SerializedName("background_image")
 	private String imagen;
+	@SerializedName("slug")
 	private String descripcion;
 	private float precio;
-	private String plataforma;
 	private double puntaje_promedio;
+	//a ver si funca esto para el gson
+	
+	public static class Plataforma {
+		private String name; 
+	    public String getName() { return name; }
+	}
+	@SerializedName("platforms")
+	private ArrayList<PlatformEntry> plataformas;
+	
+	public static class PlatformEntry {
+	    
+	    private Plataforma platform; 
+
+	    public Plataforma getPlataforma() { return platform; }
+	}
+	
+
+	
+	
+	
 	public int getId_juego() {
 		return id_juego;
 	}
@@ -38,12 +63,7 @@ public class Juego {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-	public String getPlataforma() {
-		return plataforma;
-	}
-	public void setPlataforma(String plataforma) {
-		this.plataforma = plataforma;
-	}
+
 	public double getPuntaje_promedio() {
 		return puntaje_promedio;
 	}
@@ -51,5 +71,15 @@ public class Juego {
 		this.puntaje_promedio = puntaje_promedio;
 	}
 	
+	public String getPlataformasTexto() {
+	    if (plataformas == null) return "N/A";
+	    return plataformas.stream().map(p-> String.valueOf(p.getPlataforma().getName())).collect(Collectors.joining(", "));
+	}
+	
+	public String getInfoJuego() {
+		return  "ID: "+ this.id_juego + " titulo: " + this.titulo + " descrpicion: "+this.descripcion+" plataformas: "+this.getPlataformasTexto();
+	}
+	
+
 	
 }
