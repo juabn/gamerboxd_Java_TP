@@ -9,7 +9,7 @@ public class Juego {
 	private String titulo;
 	@SerializedName("background_image")
 	private String imagen;
-	@SerializedName("slug")
+	@SerializedName("description_raw")
 	private String descripcion;
 	private float precio;
 	private double puntaje_promedio;
@@ -29,7 +29,7 @@ public class Juego {
 	    public Plataforma getPlataforma() { return platform; }
 	}
 	
-
+	
 	
 	
 	

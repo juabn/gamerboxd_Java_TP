@@ -15,7 +15,23 @@ import entities.Juego;
 
 public class ApiJuego {
 	private static final String API_KEY = "018d48659af84265982427914211cf95";
-    private static final String URL_RAWG = "https://api.rawg.io/api/games?key=" + API_KEY + "&page_size=40";
+    private static final String URL_RAWG = "https://api.rawg.io/api/games?key=" + API_KEY + "&page_size=5";
+    private String obtenerDescripcion(int id_Juego) {
+        try {
+            String urlDetalle = "https://api.rawg.io/api/games/" + id_Juego + "?key=018d48659af84265982427914211cf95";
+            
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(urlDetalle)).GET().build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            JsonObject jsonDetalle = JsonParser.parseString(response.body()).getAsJsonObject();
+            return jsonDetalle.get("description_raw").getAsString();
+            
+        } catch (Exception e) {
+            return "Error al cargar descripción.";
+        }
+    }
+    
 	public ArrayList<Juego> obtenerJuegos(){
 		ArrayList<Juego> lista = new ArrayList<>();
 		try {
@@ -25,13 +41,19 @@ public class ApiJuego {
 			JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
 			JsonArray results = json.getAsJsonArray("results");
 			Gson gson = new Gson();
-            return gson.fromJson(results, new TypeToken<ArrayList<Juego>>(){}.getType());
+			lista = gson.fromJson(results, new TypeToken<ArrayList<Juego>>(){}.getType());
 			
 	          }catch (Exception e) {
             e.printStackTrace();
-            return lista;
+            }
+			for (Juego j : lista) {
+        	String descripcion = obtenerDescripcion(j.getId_juego());
+        	j.setDescripcion(descripcion);
+            
+            
         }
-		
+	
+		return lista;
 		
 		
 	}
