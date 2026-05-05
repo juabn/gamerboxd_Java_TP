@@ -1,4 +1,6 @@
 
+import miImagen from '../../assets/imagenlogin.jpg';
+
 import './Register.css'
 
 function Hola(){
@@ -7,17 +9,33 @@ function Hola(){
 	return(
 		
 		<div className="contenedorPrincipal">
+		
 		<div className="primerDiv">
 		
-		<p> primerdiv </p>
+		<div className="divlogin">
+		
+		<p className='bienvenido'> Bienvenido </p>
+		
+		<div className='inputs'>
+		<input className='input' type="text" placeholder='Ingrese su usuario'/>
+		<input className='input' type="password" placeholder='Ingrese su contraseña' />
 		
 		</div>
 		
-		<div>
+		<div className='divboton'>
+		<button className='ingresar'> Ingresar </button>
+		</div>
+		<p className='aviso'> ¿No tienes cuenta? </p>
+		<p className='aviso'> ¿Olvidaste tu contraseña? </p>
 		
-		<p> segundodiv </p>
+		
+		 </div>
+		
+		
 		
 		</div>
+		
+		
 		
 		
 		

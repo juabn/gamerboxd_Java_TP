@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url('./ruta/de/tu/imagen.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Esto hace que no se mueva al hacer scroll */
+  min-height: 100vh;
+}

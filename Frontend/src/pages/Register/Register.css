@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+    
+}
+
 .contenedorPrincipal{
 	
 	
@@ -6,13 +12,120 @@
 	width: 100%;        
     height: 100vh;        
     margin: 0;
+    border: none;
+    background-color: #4682B4;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../../assets/imagenlogin.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    
+}
+
+
+
+.divlogin{
+	
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border:solid;
+	border-color: white;
+	border-radius: 20px;
+	padding: 2rem 10rem 2rem 10rem;
+	background-color: #F5F5F5;
+	box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+	
+	
+	
+	
+	
+}
+
+.bienvenido {
+	
+	
+	font-size: 40px;
+}
+
+
+.divboton {
+	
+	padding-top: 2rem;
+	padding-bottom: 1rem;
+	
+	
+	
+}
+
+.ingresar {
+	
+	font-size: 20px;
+	padding-left: 6rem;
+	padding-right: 6rem;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	
+}
+
+.aviso{
+	
+		padding:0;
+		
+}
+
+
+.input {
+	
+	padding: 20px;
+	border-radius: 20px;
+	padding: 1rem 15rem 1rem 1rem;
+	text-align: left;
+}
+
+
+.inputs {
+	
+	display:flex;
+	flex-direction: column;
+	gap: 15px;
+	
+	
 }
 
 .primerDiv {
 	
 	display:flex;
-	width: 500x;
-	background-color: #f0f0f0; 
-	width: 50%
+	
+	 
+	width: 100%;
+	height: 100vh;
+	border: none;
+	align-items: center;
+	justify-content: center;
+	
+	
+}
+	
+
+
+.segundoDiv {
+	
+	
+	width: 40%;
+	height: 100vh;
+	border: none;
+}
+
+
+.imagen {
+	
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	object-fit: cover;
+	
 	
 }
