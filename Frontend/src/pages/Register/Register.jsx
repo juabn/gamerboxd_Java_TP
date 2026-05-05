@@ -1,18 +1,26 @@
 
-import miImagen from '../../assets/imagenlogin.jpg';
+
 
 import './Register.css'
 
 function Hola(){
 	
 	
+	const manejarClick = () => {
+	    alert("¡Hiciste click en el párrafo!");
+	  };
+	
 	return(
 		
 		<div className="contenedorPrincipal">
 		
+		
+		
 		<div className="primerDiv">
 		
 		<div className="divlogin">
+		
+		<div className='bordecolor'> </div>
 		
 		<p className='bienvenido'> Bienvenido </p>
 		
@@ -25,7 +33,7 @@ function Hola(){
 		<div className='divboton'>
 		<button className='ingresar'> Ingresar </button>
 		</div>
-		<p className='aviso'> ¿No tienes cuenta? </p>
+		<p onClick={manejarClick} className='aviso'> ¿No tienes cuenta? </p>
 		<p className='aviso'> ¿Olvidaste tu contraseña? </p>
 		
 		
@@ -36,6 +44,7 @@ function Hola(){
 		</div>
 		
 		
+				
 		
 		
 		
