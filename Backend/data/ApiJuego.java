@@ -16,7 +16,7 @@ import entities.Juego;
 public class ApiJuego {
 	private static final String API_KEY = "018d48659af84265982427914211cf95";
     private static final String URL_RAWG = "https://api.rawg.io/api/games?key=" + API_KEY + "&page_size=5";
-    private String obtenerDescripcion(int id_Juego) {
+    private String obtenerDescripcionRAWG(int id_Juego) {
         try {
             String urlDetalle = "https://api.rawg.io/api/games/" + id_Juego + "?key=018d48659af84265982427914211cf95";
             
@@ -32,7 +32,7 @@ public class ApiJuego {
         }
     }
     
-	public ArrayList<Juego> obtenerJuegos(){
+	public ArrayList<Juego> obtenerJuegosRAWG(){
 		ArrayList<Juego> lista = new ArrayList<>();
 		try {
 			HttpClient client = HttpClient.newHttpClient();
@@ -47,7 +47,7 @@ public class ApiJuego {
             e.printStackTrace();
             }
 			for (Juego j : lista) {
-        	String descripcion = obtenerDescripcion(j.getId_juego());
+        	String descripcion = obtenerDescripcionRAWG(j.getId_juego());
         	j.setDescripcion(descripcion);
             
             
