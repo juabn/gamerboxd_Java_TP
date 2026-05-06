@@ -12,17 +12,26 @@ public class Juego {
 	private String imagen;
 	@SerializedName("description_raw")
 	private String descripcion;
+	
 	private float precio;
 	private double puntaje_promedio;
 	private String genero;
 	
 	@SerializedName("platforms")
 	private ArrayList<PlatformEntry> plataformas;
+	@SerializedName("developers")
+	private ArrayList<DeveloperEntry> companias;
 	
 	public static class PlatformEntry {
 	    private Plataforma platform; 
 	    public Plataforma getPlataforma() { return platform; }
 	}
+	
+	public static class DeveloperEntry {
+	    private Compania compania; 
+	    public Compania getCompania() { return compania; }
+	}
+	
 	
 
 	public int getId_juego() {
@@ -70,6 +79,10 @@ public class Juego {
 	public void setPuntaje_promedio(double puntaje_promedio) {
 		this.puntaje_promedio = puntaje_promedio;
 	}
+	//no creo usar estos, 
+	public ArrayList<PlatformEntry> getPlataformas() {return plataformas;}
+	
+	public void setPlataformas(ArrayList<PlatformEntry> plataformas) {this.plataformas = plataformas;}
 	
 	public String getPlataformasTexto() {
 	    if (plataformas == null) return "N/A";

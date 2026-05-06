@@ -50,7 +50,6 @@ public class ApiJuego {
         	String descripcion = obtenerDescripcionRAWG(j.getId_juego());
         	j.setDescripcion(descripcion);
             
-            
         }
 	
 		return lista;

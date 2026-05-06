@@ -1,9 +1,13 @@
 package entities;
 
+import com.google.gson.annotations.SerializedName;
+
 class Compania {
 	
 	private int id;
+	@SerializedName("name")
 	private String nombre;
+	@SerializedName("description")
 	private String descripcion;
 	
 	
