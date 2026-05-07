@@ -2,7 +2,7 @@ package entities;
 
 import com.google.gson.annotations.SerializedName;
 
-class Compania {
+public class Compania {
 	
 	private int id;
 	@SerializedName("name")
@@ -11,15 +11,15 @@ class Compania {
 	private String descripcion;
 	
 	
-	public int getId_comp() {
+	public int getId() {
 		return id;
 	}
-	public void setId_comp(int id_comp) {
-		this.id = id_comp;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getNombre() {
 		return nombre;
-	}
+	} 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}

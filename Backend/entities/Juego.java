@@ -18,19 +18,15 @@ public class Juego {
 	private String genero;
 	
 	@SerializedName("platforms")
-	private ArrayList<PlatformEntry> plataformas;
+	private ArrayList<Plataforma> plataformas;
 	@SerializedName("developers")
-	private ArrayList<DeveloperEntry> companias;
+	private ArrayList<Compania> companias;
 	
-	public static class PlatformEntry {
-	    private Plataforma platform; 
-	    public Plataforma getPlataforma() { return platform; }
-	}
 	
-	public static class DeveloperEntry {
+	/*public static class DeveloperEntry {
 	    private Compania compania; 
 	    public Compania getCompania() { return compania; }
-	}
+	}*/
 	
 	
 
@@ -72,6 +68,10 @@ public class Juego {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
+	
+	public ArrayList<Compania> getCompanias(){return companias;}
+	
+	public void setCompanias(ArrayList<Compania> companias) {this.companias = companias;}
 
 	public double getPuntaje_promedio() {
 		return puntaje_promedio;
@@ -80,17 +80,23 @@ public class Juego {
 		this.puntaje_promedio = puntaje_promedio;
 	}
 	//no creo usar estos, 
-	public ArrayList<PlatformEntry> getPlataformas() {return plataformas;}
+	public ArrayList<Plataforma> getPlataformas() {return plataformas;}
 	
-	public void setPlataformas(ArrayList<PlatformEntry> plataformas) {this.plataformas = plataformas;}
+	public void setPlataformas(ArrayList<Plataforma> plataformas) {this.plataformas = plataformas;}
 	
 	public String getPlataformasTexto() {
 	    if (plataformas == null) return "N/A";
-	    return plataformas.stream().map(p-> String.valueOf(p.getPlataforma().getNombre())).collect(Collectors.joining(", "));
+	    return plataformas.stream().map(p-> String.valueOf(p.getNombre())).collect(Collectors.joining(", "));
+	}
+	
+	public String getCompaniasTexto() {
+	    if (this.companias == null){return "N/A";}
+
+	    return this.companias.stream().map(p -> String.valueOf(p.getNombre())).collect(java.util.stream.Collectors.joining(", "));
 	}
 	
 	public String getInfoJuego() {
-		return  "ID: "+ this.id_juego + "\n titulo: " + this.titulo + "\n descrpicion: "+this.descripcion+" \n plataformas: "+this.getPlataformasTexto();
+		return  "ID: "+ this.id_juego + "\n titulo: " + this.titulo + "\n descrpicion: "+this.descripcion+" \n plataformas: "+ getPlataformasTexto()+"\n developers: "+getCompaniasTexto();
 	}
 	
 
