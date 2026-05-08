@@ -1,3 +1,5 @@
+//ESTO NO ES UNA API NO SE POR QUE LE PUSE ESE NOMBRE JEJE DESPUES LO CAMBIO
+
 package data;
 
 import java.sql.*;
@@ -16,6 +18,7 @@ public class ApiPersona {
 	
 	
 	private static void actualizar_contrasenia() {
+		
 try {
 			
 			String url = "jdbc:mysql://localhost:3306/gamerboxd";
