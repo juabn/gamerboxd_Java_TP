@@ -26,7 +26,11 @@ function Hola(){
 		fetch ('http://localhost:8081/', {
 			
 			method: "POST", 
-			body: JSON.stringify(datix),
+			body: JSON.stringify({
+				
+				username: nombre,
+				password: contrasenia
+			}),
 			headers: {
 				"Content-type": "application/json",
 				

@@ -6,7 +6,7 @@ import java.sql.*;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class ApiPersona {
+public class Data_persona {
 	public static void main(String[] args) {
 		
 		
@@ -56,7 +56,7 @@ catch(SQLException ex){
 		
 	}
 	
-	private static void insertar_persona() {
+	public static void insertar_persona(String valor1, String valor2) {
 		
 		
 		try {
@@ -69,8 +69,8 @@ catch(SQLException ex){
 		    
 		    String query = "insert into persona (nombre, contrasenia,mail,foto_perfil,rol) values (?,?,?,?,?)";
 		    PreparedStatement statement = conn.prepareStatement(query);
-		    statement.setString(1, "probando");
-		    statement.setString(2, "probando");
+		    statement.setString(1, valor1);
+		    statement.setString(2, valor2);
 		    statement.setString(3, "probando");
 		    statement.setString(4, "probando");
 		    statement.setString(5, "probando");
