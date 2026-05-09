@@ -1,132 +1,103 @@
 import { useState } from 'react';
-
-
 import './Register.css'
 
-function Hola(){
-	
-	
+function Registro(){
 	
 	
 	const [nombre, setnombre] = useState("");
+	const [mail, setmail] = useState("");
 	const [contrasenia, setcontrasenia] = useState("");
 	
-	var datix = {
-		username: nombre,
-		password: contrasenia
-		
-	}
-	
-	
-	
-	const enviado = async(e) => { 
+	const enviar = async(e) => {
 		e.preventDefault();
-		console.log(datix)
+		
 		
 		try{
-		const res = await fetch ('http://localhost:8081/login', {
 			
-			method: "POST", 
-			body: JSON.stringify({
+			const res = await fetch('http://localhost:8081/registro',{
 				
+				method: "POST", 
+				body: JSON.stringify({
+								
 				username: nombre,
+				mail: mail,
 				password: contrasenia
-			}),
-			headers: {
+							}),
+				headers: {
 				"Content-type": "application/json",
-				
-			},
+								
+				},
 
-		})
-		
-		if(res.ok){
-		const data = await res.text()	
-		console.log(data)
-		alert("Usuario correcto")
-		}
-		
-		if(res.status === 401){
+			})
 			
-			alert("Mail no encontrado o credenciales incorrectas")
-		}
-		}catch{alert("Error en la conexion con la base de datos")}
-		
+			if(res.ok){
+			const data = await res.text()	
+			console.log(data)
+			alert("Usuario registrado")
+					}
+					
+			if(res.status === 409){
+								
+				alert("Usuario duplicado")}
 			
-	}
+		}catch{alert("Error en la conexion con la base de datos, intente mas tarde")}
+									
 	
-	
-	const manejarusuario = (e) => {
-		
+				
+			}
+			
+	const insertarnombre = (e) => {
+							
 		setnombre(e.target.value);
 		
 		
-	}
-	
-	const manejarpassword = (e) => {
+		}
 		
+	const insertarcontrasenia = (e) => {
 		
 		setcontrasenia(e.target.value);
-		
-		
 	}
 	
+	const insertarmail = (e) => {
+			
+		setmail(e.target.value);
+		}
+			
+
 	
 	
+	
+	return(	
 		
-	return(
+		<div className="contendorprincipal">
+		<p>registro</p>
+		<form onSubmit= {enviar} className='contendorprincipal'>
+		<input 
+		onChange={insertarmail} 
+		placeholder="Ingrese mail"
+		value={mail}/>
 		
-		<div className="contenedorPrincipal">
-			
-			<div className="primerDiv">
-			
-				<div className="divlogin">
-				
-					<div className='bordecolor'> </div>
-					
-					<p className='bienvenido'> Bienvenido </p>
-					
-					<form className='formulario' onSubmit={enviado}>
-					<div className='inputs'>
-						<input  
-						className='input' 
-						type="text" 
-						placeholder='Ingrese su usuario'
-						onChange={manejarusuario}
-						value = {nombre}
-						 	
-						/>
-						<input  
-						className='input' 
-						type="password" 
-						placeholder='Ingrese su contraseña' 
-						onChange={manejarpassword}
-						value={contrasenia} />
-					
-					</div>
-					
-					
-					<div className='divboton'>
-						<button  onClick={enviado}  className='ingresar'> Ingresar </button>
-					</div>
-					
-					</form>
-					<p  className='aviso'> ¿No tienes cuenta? </p>
-					<p className='aviso'> ¿Olvidaste tu contraseña? </p>
-				
-				
-				 </div>
-				
-			
-			
-			</div>
+		<input 
+		placeholder="Ingrese nombre"
+		onChange={insertarnombre} 
+		value={nombre}
 		
+		/>
+		<input 
+		placeholder="Ingrese contrasenia"
+		onChange={insertarcontrasenia} 
+		value={contrasenia}/>
 		
-				
-		
-		
-		
-		</div>
-	);
+		<p>aca iria para que ingrese la foto de perfil</p>
+		<button>Enviar  </button>
+		</form>
+	</div>
+	
+	)
+	
+	
 }
 
-export default Hola;
+
+
+export default Registro;

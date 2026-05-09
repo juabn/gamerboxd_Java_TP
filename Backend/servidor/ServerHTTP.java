@@ -2,6 +2,7 @@ package servidor;
 
 
 import servidor.AbmcUsuario.login;
+import servidor.AbmcUsuario.registro;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -16,6 +17,7 @@ public class ServerHTTP {
 		HttpServer server = HttpServer.create(new InetSocketAddress(8081), 0);
 		
 		server.createContext("/login", new login());
+		server.createContext("/registro", new registro());
 		server.start();
 		System.out.println("Server corriendo");
 		}

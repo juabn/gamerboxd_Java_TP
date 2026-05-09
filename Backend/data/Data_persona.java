@@ -100,10 +100,10 @@ catch(SQLException ex){
 		
 	}
 	
-	public static void insertar_persona(String valor1, String valor2) {
+	public static void insertar_persona(String valor1, String valor2, String mail, String rol ) throws SQLException {
 		
 		
-		try {
+		
 			
 			String url = "jdbc:mysql://localhost:3306/gamerboxd";
 			String usuario = "root"; 
@@ -113,24 +113,26 @@ catch(SQLException ex){
 		    
 		    String query = "insert into persona (nombre, contrasenia,mail,foto_perfil,rol) values (?,?,?,?,?)";
 		    PreparedStatement statement = conn.prepareStatement(query);
+		    
+		    
+		    int logRounds = 12;
+		    String salt = BCrypt.gensalt(logRounds);
+		    String hashedPassword = BCrypt.hashpw(valor2, salt);
+		    
 		    statement.setString(1, valor1);
-		    statement.setString(2, valor2);
-		    statement.setString(3, "probando");
-		    statement.setString(4, "probando");
-		    statement.setString(5, "probando");
+		    statement.setString(2, hashedPassword);
+		    statement.setString(3, mail);
+		    statement.setString(4, "vacio");
+		    statement.setString(5, rol);
 		    
 		    statement.executeUpdate();
-		}
 		
 		
 		
-		catch(SQLException ex){
+		
+		
 			
-			
-			System.out.println("SQLException: " + ex.getMessage());
-		    System.out.println("SQLState: " + ex.getSQLState());
-		    System.out.println("VendorError: " + ex.getErrorCode());
-		}
+		
 		
 		
 		
