@@ -19,11 +19,12 @@ function Hola(){
 	
 	
 	
-	const enviado = (e) => { 
+	const enviado = async(e) => { 
 		e.preventDefault();
 		console.log(datix)
 		
-		fetch ('http://localhost:8081/', {
+		try{
+		const res = await fetch ('http://localhost:8081/', {
 			
 			method: "POST", 
 			body: JSON.stringify({
@@ -35,12 +36,20 @@ function Hola(){
 				"Content-type": "application/json",
 				
 			},
-			
-			
-		}).then( (res) => res.text() ) 
-		.catch((error) => console.error("Error:", error))
+
+		})
 		
+		if(res.ok){
+		const data = await res.text()	
+		console.log(data)
+		alert("Usuario correcto")
+		}
 		
+		if(res.status === 401){
+			
+			alert("Mail no encontrado o credenciales incorrectas")
+		}
+		}catch{alert("Error en la conexion con la base de datos")}
 		
 			
 	}

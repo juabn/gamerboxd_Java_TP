@@ -87,7 +87,7 @@ public class ServerHTTP {
 		        return;
 		    }
 			
-
+		    String respuesta = "Funciona";
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 			
@@ -96,11 +96,20 @@ public class ServerHTTP {
 			System.out.println(per.getUsername());
 			System.out.println(per.getPassword());
 			
-			Data_persona.insertar_persona(per.getUsername(),per.getPassword() );
-		
 			
-            String respuesta = "Funciona";
-            exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+			Boolean resultado = Data_persona.buscar_persona(per.getUsername(),per.getPassword() );
+			if (resultado) {
+				System.out.println("Usuario existe y la contrasenia es correcta");
+				respuesta = "Usuario existe";
+				exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+				
+			}
+			else {
+				
+				respuesta = "Usuario no existe o credenciales incorrectas";
+				exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+			}
+			
             
             
             OutputStream os = exchange.getResponseBody();

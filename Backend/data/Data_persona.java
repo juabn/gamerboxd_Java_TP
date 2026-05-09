@@ -11,7 +11,51 @@ public class Data_persona {
 		
 		
 		
-		actualizar_contrasenia();
+		 buscar_persona("lucas.rod@mail.com", "123");
+		
+		
+	}
+	
+	
+	public static Boolean buscar_persona(String mail, String contrasenia) {
+		
+		Boolean resultado = false;
+		
+try {
+		
+		String url = "jdbc:mysql://localhost:3306/gamerboxd";
+		String usuario = "root"; 
+	    String password = "12345";
+	    Connection conn = DriverManager.getConnection(url, usuario, password);
+	    
+	    String query = "select * from persona where mail = ?";
+	    PreparedStatement ps = conn.prepareStatement(query);
+	    ps.setString(1, mail);
+	    ResultSet rs = ps.executeQuery();
+	    
+	    if (rs.next()) {
+	    	
+	    	resultado = BCrypt.checkpw(contrasenia,rs.getString("contrasenia"));
+	    	
+			
+		}
+	    
+	    
+	    
+	    
+	    
+	   
+	    
+	}
+catch(SQLException ex){
+	
+	
+	System.out.println("SQLException: " + ex.getMessage());
+    System.out.println("SQLState: " + ex.getSQLState());
+    System.out.println("VendorError: " + ex.getErrorCode());
+}
+		
+return resultado;
 		
 	}
 	
