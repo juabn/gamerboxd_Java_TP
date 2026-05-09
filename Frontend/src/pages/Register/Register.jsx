@@ -24,7 +24,7 @@ function Hola(){
 		console.log(datix)
 		
 		try{
-		const res = await fetch ('http://localhost:8081/', {
+		const res = await fetch ('http://localhost:8081/login', {
 			
 			method: "POST", 
 			body: JSON.stringify({
