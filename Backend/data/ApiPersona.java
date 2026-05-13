@@ -7,7 +7,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class ApiPersona {
 	public static void main(String[] args) {
-<<<<<<< HEAD
 
 
 
@@ -35,7 +34,6 @@ public class ApiPersona {
 
 
     }
-=======
 		
 		
 		
@@ -167,9 +165,6 @@ catch(SQLException ex){
 		
 		
 		
-		
-	
->>>>>>> a124394bd1549c9f52052a5ff2f1d5bc4c6441e6
 
 }
 }
