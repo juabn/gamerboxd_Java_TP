@@ -11,45 +11,21 @@ public class ApiPersona {
 
 
 
-        try {
-
-            String url = "jdbc:mysql://localhost:3306/gamerboxd";
-
-            String usuario = "root"; 
-            String password = "santigay123!";
-
-
-            Connection conn = DriverManager.getConnection(url, usuario, password);
-            System.out.println("funca");
-        }
-
-
-        catch(SQLException ex){
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
+        
 
         
 
 
     }
 		
-		
-		
-		actualizar_contrasenia();
-		
-	}
+
 	
 	
 	
 	private static void actualizar_contrasenia() {
 try {
 			
-			String url = "jdbc:mysql://localhost:3306/gamerboxd";
-			String usuario = "root"; 
-		    String password = "12345";
-		    Connection conn = DriverManager.getConnection(url, usuario, password);
+			Connection conn = Conexion.getInstancia().getConn();
 		    
 		    
 		    String query = "update persona set contrasenia = ? where idpersona = ?";
@@ -86,11 +62,8 @@ catch(SQLException ex){
 		
 		try {
 			
-			String url = "jdbc:mysql://localhost:3306/gamerboxd";
-			String usuario = "root"; 
-		    String password = "12345";
-		    Connection conn = DriverManager.getConnection(url, usuario, password);
-		    
+			
+			Connection conn = Conexion.getInstancia().getConn();
 		    
 		    String query = "insert into persona (nombre, contrasenia,mail,foto_perfil,rol) values (?,?,?,?,?)";
 		    PreparedStatement statement = conn.prepareStatement(query);
@@ -122,10 +95,7 @@ catch(SQLException ex){
 			
 			try {
 				
-				String url = "jdbc:mysql://localhost:3306/gamerboxd";
-				String usuario = "root"; 
-			    String password = "12345";
-			    Connection conn = DriverManager.getConnection(url, usuario, password);
+				Connection conn = Conexion.getInstancia().getConn();
 			    
 			    
 			    

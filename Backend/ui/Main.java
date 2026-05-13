@@ -2,17 +2,21 @@ package ui;
 
 import data.ApiJuego;
 import data.ApiPlataforma;
+import data.Conexion;
 import entities.Plataforma;
 import entities.Juego;
+
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Main {
 
 	public static void main(String[] args) {
+		/*
 		ApiJuego api = new ApiJuego();
-		//ApiPlataforma apip = new ApiPlataforma();
+		ApiPlataforma apip = new ApiPlataforma();
 		System.out.println("seeding");
-		//ArrayList<Plataforma> plataformas = apip.obtenerPlataformaRAWG();
+		ArrayList<Plataforma> plataformas = apip.obtenerPlataformaRAWG();
 		ArrayList<Juego> juegos = api.obtenerJuegosRAWG();
 		
 		if(juegos!=null) {
@@ -21,11 +25,15 @@ public class Main {
 			}
 		}
 			
-		/*	for(Plataforma p : plataformas) {
+			for(Plataforma p : plataformas) {
 				System.out.println(p.getInfoPlataforma());
 		}*/
+		
+		
+		}
+		
 	
 	
-	}
+	
 
 }
