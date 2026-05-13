@@ -1,36 +1,34 @@
 package ui;
 
-import data.ApiJuego;
-import data.ApiPlataforma;
-import data.Conexion;
-import entities.Plataforma;
-import entities.Juego;
-
-import java.sql.*;
 import java.util.ArrayList;
 
-public class Main {
+import data.ApiJuego;
+import data.DataJuego;
+import entities.Juego;
 
-	public static void main(String[] args) {
-		/*
+public class Main {
+	public static void seed() {
 		ApiJuego api = new ApiJuego();
-		ApiPlataforma apip = new ApiPlataforma();
-		System.out.println("seeding");
-		ArrayList<Plataforma> plataformas = apip.obtenerPlataformaRAWG();
-		ArrayList<Juego> juegos = api.obtenerJuegosRAWG();
-		
-		if(juegos!=null) {
-			for (Juego j : juegos) {
-				System.out.println(j.getInfoJuego());
-			}
-		}
-			
-			for(Plataforma p : plataformas) {
-				System.out.println(p.getInfoPlataforma());
-		}*/
-		
-		
-		}
+	    DataJuego dj = new DataJuego();
+
+	    System.out.println("seeding..");
+	    
+	    // 1. Traemos la lista de la API (Asegúrate de que page_size sea 100 en ApiJuego)
+	    ArrayList<Juego> listaJuegos = api.obtenerJuegosRAWG();
+
+	    if (listaJuegos != null) {
+	        for (Juego j : listaJuegos) {
+	            // 2. Procesamos cada juego uno por uno
+	            dj.registrarJuegoCompleto(j);
+	        }
+	        System.out.println("--- Proceso de seeding finalizado ---");
+	    }
+	}
+	
+	public static void main(String[] args) {
+	   
+		seed();
+	}
 		
 	
 	

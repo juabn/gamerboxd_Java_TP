@@ -12,7 +12,7 @@ public class DataCompania {
 	        stmt.setString(2, c.getNombre());
 	        stmt.executeUpdate();
 	    } catch (SQLException e) {
-	        System.err.println("Error al persistir compañía: " + c.getNombre() + " - " + e.getMessage());
+	        System.err.println("Error al persistir compañia: " + c.getNombre() + " - " + e.getMessage());
 	    }
 	}
 }
