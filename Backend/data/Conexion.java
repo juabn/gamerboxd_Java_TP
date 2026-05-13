@@ -11,7 +11,7 @@ public class Conexion {
     private Conexion() {
         String url = "jdbc:mysql://localhost:3306/gamerboxd";
         String usuario = "root"; 
-        String password = "santigay123!"; //va tu password
+        String password = "santigay123!"; // tu password
         try {
             conn = DriverManager.getConnection(url, usuario, password);
         } catch (SQLException e) {
