@@ -2,11 +2,12 @@ package data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.sql.*;
 import entities.Compania;
 import entities.Juego;
 import entities.Plataforma;
-import data.DataPlataforma;
+
 
 public class DataJuego {
 
@@ -17,10 +18,12 @@ public class DataJuego {
 	    try {
 	        // 1. Persistir Plataformas y Compañías primero
 	        for (Plataforma p : juego.getPlataformas()) {
-	            persistirPlataforma(p, conn);
+	        	DataPlataforma dp = new DataPlataforma();
+	            dp.persistirPlataforma(p, conn);
 	        }
 	        for (Compania c : juego.getCompanias()) {
-	            persistirCompania(c, conn);
+	        	DataCompania dc = new DataCompania();
+	            dc.persistirCompania(c, conn);
 	        }
 
 	        String sqlJuego = "INSERT IGNORE INTO juego (idjuego, titulo, descripcion, imagen) VALUES (?, ?, ?, ?)";
@@ -32,7 +35,7 @@ public class DataJuego {
 	        stmtJuego.executeUpdate();
 
 	        // 3. Persistir Relaciones en tablas intermedias
-	        guardarRelaciones(juego, conn);
+	       // guardarRelaciones(juego, conn);
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
