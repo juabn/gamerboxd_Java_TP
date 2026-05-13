@@ -9,6 +9,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
@@ -37,20 +38,41 @@ public class ApiJuego {
     
     private void cargarDetallesIndividuales(Juego j, Gson gson) {
         try {
-            String urlDetalle = "https://api.rawg.io/api/games/" + j.getId_juego() + "?key=TU_KEY_AQUÍ";
+            String urlDetalle = "https://api.rawg.io/api/games/" + j.getId_juego() + "?key="+API_KEY;
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(urlDetalle)).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             
             JsonObject jsonDetalle = JsonParser.parseString(response.body()).getAsJsonObject(); 
-            
-            j.setDescripcion(jsonDetalle.get("description_raw").getAsString());
-            
-            JsonArray devsArray = jsonDetalle.getAsJsonArray("developers");
-            ArrayList<Compania> listaDevs = gson.fromJson(devsArray, new TypeToken<ArrayList<Compania>>(){}.getType());
-            j.setCompanias(listaDevs); 
-            
-            
+            System.out.println();
+            if (jsonDetalle.has("description_raw")) {
+                j.setDescripcion(jsonDetalle.get("description_raw").getAsString());
+            }
+            if (jsonDetalle.has("developers")) {
+                JsonArray devsArray = jsonDetalle.getAsJsonArray("developers");
+                ArrayList<Compania> listaDevs = new ArrayList<>();
+                for (JsonElement element : devsArray) {
+                    JsonObject devObj = element.getAsJsonObject();
+                    Compania c = new Compania();
+                    c.setNombre(devObj.get("name").getAsString());
+                    c.setId(devObj.get("id").getAsInt());
+                    listaDevs.add(c);
+                }
+                j.setCompanias(listaDevs);
+            }
+            if (jsonDetalle.has("platforms")) {
+                JsonArray platsArray = jsonDetalle.getAsJsonArray("platforms");
+                ArrayList<Plataforma> listaPlats = new ArrayList<>();
+                for (JsonElement element : platsArray) {
+                   
+                    JsonObject nestedPlatform = element.getAsJsonObject().get("platform").getAsJsonObject();
+                    Plataforma p = new Plataforma();
+                    p.setNombre(nestedPlatform.get("name").getAsString());
+                    p.setId(nestedPlatform.get("id").getAsInt());
+                    listaPlats.add(p);
+                }
+                j.setPlataformas(listaPlats);
+            }
 
             
         } catch (Exception e) {
