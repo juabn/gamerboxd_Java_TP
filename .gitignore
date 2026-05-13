@@ -12,3 +12,5 @@ Thumbs.db
 # Si usas herramientas de construcción como Maven o Gradle (opcional)
 target/
 .gradle/
+
+.classpath
