@@ -1,6 +1,7 @@
 package servidor;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -12,72 +13,12 @@ import com.sun.net.httpserver.HttpHandler;
 
 import data.Data_persona;
 
-
+import entities.Persona;
 
 public class AbmcUsuario {
 	
 	
-	
-	//Clase que utiliza gson
-	public static class personalogin {
-		
-		public String username;
-		public String password;
-		
-		
-		public String getUsername() {
-			return username;
-		}
-		public void setUsername(String username) {
-			this.username = username;
-		}
-		public String getPassword() {
-			return password;
-		}
-		public void setPassword(String password) {
-			this.password = password;
-		}
-		
-		
-	}
-	
-	public static class personaregistro {
-		
-		public String username;
-		public String password;
-		public String mail;
-		public String image;	
-		
-		public String getUsername() {
-			return username;
-		}
-		public void setUsername(String username) {
-			this.username = username;
-		}
-		public String getPassword() {
-			return password;
-		}
-		public void setPassword(String password) {
-			this.password = password;
-		}
-		public String getMail() {
-			return mail;
-		}
-		public void setMail(String mail) {
-			this.mail = mail;
-		}
-		public String getImagen() {
-			return image;
-		}
-		public void setImagen(String imagen) {
-			this.image = imagen;
-		}
-		
-		
-		
-	}
-	
-	
+
 	//metodo para controlar cors
 	public static void controlCors(HttpExchange exchange) {
 		
@@ -92,13 +33,17 @@ public class AbmcUsuario {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			
+
+		    
+		    
+		    
 			controlCors(exchange);
 			
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
 		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
 
 		        return;
 		    }
@@ -106,15 +51,17 @@ public class AbmcUsuario {
 		    String respuesta = "Funciona";
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			is.close();
+			System.out.println("Body: " + body);
 			
 			
 			Gson gson = new Gson();
-			personalogin per = gson.fromJson(body, personalogin.class);	
-			System.out.println(per.getUsername());
-			System.out.println(per.getPassword());
+			Persona per = gson.fromJson(body, Persona.class);	
+			System.out.println(per.getMail());
+			System.out.println(per.getContrasena());
 			
 			
-			Boolean resultado = Data_persona.buscar_persona(per.getUsername(),per.getPassword() );
+			Boolean resultado = Data_persona.buscar_persona(per.getMail(),per.getContrasena() );
 			if (resultado) {
 				System.out.println("Usuario existe y la contrasenia es correcta");
 				respuesta = "Usuario existe";
@@ -130,8 +77,10 @@ public class AbmcUsuario {
             
             
             OutputStream os = exchange.getResponseBody();
-            os.write(respuesta.getBytes());
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.flush();
             os.close();
+            exchange.close();
 		}
 		
 	}
@@ -141,7 +90,7 @@ public class AbmcUsuario {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			
+	
 			controlCors(exchange);
 			
 			
@@ -156,18 +105,19 @@ public class AbmcUsuario {
 			try {
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			System.out.println(body);
 			
 			Gson gson = new Gson();
-			personaregistro per = gson.fromJson(body, personaregistro.class);	
+			Persona per = gson.fromJson(body, Persona.class);	
 			
-			
-			
-			Data_persona.insertar_persona(per.getUsername(), per.getPassword(), per.getMail(), "usuario", per.getImagen());
-			
-			System.out.println(per.getUsername());
-			System.out.println(per.getPassword());
+			System.out.println(per.getNombre_usuario());
+			System.out.println(per.getContrasena());
 			System.out.println(per.getMail());
-			System.out.println(per.getImagen());
+			System.out.println(per.getFoto_perfil());
+			
+			
+			
+			Data_persona.insertar_persona(per.getNombre_usuario(), per.getContrasena(), per.getMail(), "usuario", per.getFoto_perfil());
 			
 			
 			exchange.sendResponseHeaders(200, mensaje.getBytes().length);
@@ -199,9 +149,7 @@ public class AbmcUsuario {
 					
 				}
 			}
-			
-
-			
+					
 			
 			
 		}

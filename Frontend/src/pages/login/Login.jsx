@@ -15,7 +15,9 @@ function Login(){
 	
 	
 	const enviado = async(e) => { 
+	console.log("FETCH");
 		e.preventDefault();
+		
 		
 		
 		try{
@@ -24,8 +26,8 @@ function Login(){
 			method: "POST", 
 			body: JSON.stringify({
 				
-				username: nombre,
-				password: contrasenia
+				mail: nombre,
+				contrasenia: contrasenia
 			}),
 			headers: {
 				"Content-type": "application/json",
@@ -44,6 +46,7 @@ function Login(){
 			
 			alert("Mail no encontrado o credenciales incorrectas")
 		}
+		
 		}catch{alert("Error en la conexion con la base de datos")}
 		
 			
@@ -53,6 +56,7 @@ function Login(){
 	const manejarusuario = (e) => {
 		
 		setnombre(e.target.value);
+		
 		
 		
 	}
@@ -97,28 +101,21 @@ function Login(){
 						onChange={manejarpassword}
 						value={contrasenia} />
 					
-					</div>
-					
+					</div>				
 					
 					<div className='divboton'>
-						<button  onClick={enviado}  className='ingresar'> Ingresar </button>
+						<button className='ingresar'> Ingresar </button>
 					</div>
 					
 					</form>
 					<p  className='aviso'> ¿No tienes cuenta? </p>
-					<p className='aviso'> ¿Olvidaste tu contraseña? </p>
+					<p className='aviso'> ¿Olvidaste tu contraseña? </p>		
 				
-				
-				 </div>
-				
-			
+				 </div>		
 			
 			</div>
 		
-		
-				
-		
-		
+
 		
 		</div>
 	);

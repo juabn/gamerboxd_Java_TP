@@ -5,7 +5,7 @@ import Login from './pages/login/login.jsx'
 import Registro from './pages/Register/Register.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  
     <Registro />
-  </StrictMode>,
+  
 )

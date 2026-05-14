@@ -9,17 +9,11 @@ function Registro(){
 	const [contrasenia, setcontrasenia] = useState("");
 	const [imagen, setimagen] = useState("")
 	
-	
-	
+
 	
 	const enviar = async(e) => {
 		e.preventDefault();
-		console.log(JSON.stringify({
-		    username: nombre,
-		    mail: mail,
-		    password: contrasenia,
-		    image: imagen
-		}))
+	
 		
 		try{
 			
@@ -29,10 +23,10 @@ function Registro(){
 				method: "POST", 
 				body: JSON.stringify({
 								
-				username: nombre,
+				nombre_usuario: nombre,
 				mail: mail,
-				password: contrasenia,
-				image : imagen
+				contrasenia: contrasenia,
+				foto_perfil : imagen
 							}),
 				headers: {
 				"Content-type": "application/json",
@@ -42,8 +36,7 @@ function Registro(){
 
 			})
 			
-			
-			
+		
 			if(res.ok){
 			const data = await res.text()	
 			console.log(data)
@@ -56,8 +49,7 @@ function Registro(){
 			
 		}catch{alert("Error en la conexion con la base de datos, intente mas tarde")}
 									
-	
-				
+			
 			}
 			
 	const insertarnombre = (e) => {

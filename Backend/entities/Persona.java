@@ -3,7 +3,7 @@ package entities;
 public class Persona {
 	private int id;
 	private String nombre_usuario;
-	private String contrasena;
+	private String contrasenia;
 	private String mail;
 	private String foto_perfil;
 	
@@ -20,10 +20,10 @@ public class Persona {
 		this.nombre_usuario = nombre_usuario;
 	}
 	public String getContrasena() {
-		return contrasena;
+		return contrasenia;
 	}
 	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
+		this.contrasenia = contrasena;
 	}
 	public String getMail() {
 		return mail;

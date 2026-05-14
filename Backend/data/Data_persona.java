@@ -22,10 +22,6 @@ public class Data_persona {
 		
 
 
-
-		
-		
-		
 	
 	
 	public static Boolean buscar_persona(String mail, String contrasenia) {
@@ -34,10 +30,7 @@ public class Data_persona {
 		
 try {
 		
-		String url = "jdbc:mysql://localhost:3306/gamerboxd";
-		String usuario = "root"; 
-	    String password = "12345";
-	    Connection conn = DriverManager.getConnection(url, usuario, password);
+		Connection conn = Conexion.getInstancia().getConn();
 	    
 	    String query = "select * from persona where mail = ?";
 	    PreparedStatement ps = conn.prepareStatement(query);
@@ -47,6 +40,7 @@ try {
 	    if (rs.next()) {
 	    	
 	    	resultado = BCrypt.checkpw(contrasenia,rs.getString("contrasenia"));
+	    	
 	    	
 			
 		}
