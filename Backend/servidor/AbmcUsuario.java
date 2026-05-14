@@ -46,6 +46,7 @@ public class AbmcUsuario {
 		public String username;
 		public String password;
 		public String mail;
+		public String image;	
 		
 		public String getUsername() {
 			return username;
@@ -64,6 +65,12 @@ public class AbmcUsuario {
 		}
 		public void setMail(String mail) {
 			this.mail = mail;
+		}
+		public String getImagen() {
+			return image;
+		}
+		public void setImagen(String imagen) {
+			this.image = imagen;
 		}
 		
 		
@@ -99,6 +106,7 @@ public class AbmcUsuario {
 		    String respuesta = "Funciona";
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			
 			
 			Gson gson = new Gson();
 			personalogin per = gson.fromJson(body, personalogin.class);	
@@ -154,11 +162,12 @@ public class AbmcUsuario {
 			
 			
 			
-			Data_persona.insertar_persona(per.getUsername(), per.getPassword(), per.getMail(), "usuario");
+			Data_persona.insertar_persona(per.getUsername(), per.getPassword(), per.getMail(), "usuario", per.getImagen());
 			
 			System.out.println(per.getUsername());
 			System.out.println(per.getPassword());
 			System.out.println(per.getMail());
+			System.out.println(per.getImagen());
 			
 			
 			exchange.sendResponseHeaders(200, mensaje.getBytes().length);

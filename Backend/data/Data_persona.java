@@ -109,7 +109,7 @@ catch(SQLException ex){
 		
 	}
 	
-	public static void insertar_persona(String valor1, String valor2, String mail, String rol ) throws SQLException {
+	public static void insertar_persona(String valor1, String valor2, String mail, String rol, String imagen ) throws SQLException {
 		
 		
 		
@@ -128,7 +128,7 @@ catch(SQLException ex){
 		    statement.setString(1, valor1);
 		    statement.setString(2, hashedPassword);
 		    statement.setString(3, mail);
-		    statement.setString(4, "vacio");
+		    statement.setString(4, imagen);
 		    statement.setString(5, rol);
 		    
 		    statement.executeUpdate();

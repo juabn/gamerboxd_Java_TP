@@ -7,3 +7,12 @@
 	gap:10px;
 	
 }
+
+.imagen {
+	
+	
+	width: 20vh;
+    height: 20vh;
+    object-fit: cover;
+    border-radius:100px
+}
