@@ -31,7 +31,6 @@ function Login(){
 	
 	
 	const enviado = async(e) => { 
-	console.log("FETCH");
 		e.preventDefault();
 		
 		

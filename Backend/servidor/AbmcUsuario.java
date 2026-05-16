@@ -28,6 +28,39 @@ public class AbmcUsuario {
 	}
 	
 	
+	
+	public static class recuperarpersona implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    InputStream is = exchange.getRequestBody();
+		    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			is.close();
+		    
+		    String tipo = exchange.getRequestMethod();
+		    System.out.println(body);
+			
+			
+		}
+	}
+	
+	
+	
+	
+	
 	public static class login implements HttpHandler  {
 		
 		
