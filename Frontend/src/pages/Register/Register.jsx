@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 import './Register.css'
 
 function Registro(){
@@ -8,6 +9,13 @@ function Registro(){
 	const [mail, setmail] = useState("");
 	const [contrasenia, setcontrasenia] = useState("");
 	const [imagen, setimagen] = useState("")
+	const navigate = useNavigate();
+	
+	
+	const volver = () => {
+		
+		navigate("/")
+	}
 	
 
 	
@@ -112,9 +120,10 @@ function Registro(){
 		accept="image/*"
 		onChange={insertarimagen}	
 		/>
-		<img className='imagen' src = {imagen}
+		<img className='imagen' style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }} src = {imagen} //lo pongo asi porque en el css no aplica los cambios no se qeu onda
 		/>
 		<button type="submit">Enviar  </button>
+		<button onClick={volver}> Volver </button>
 		</form>
 	</div>
 	

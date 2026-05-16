@@ -33,9 +33,6 @@ public class AbmcUsuario {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-
-		    
-		    
 		    
 			controlCors(exchange);
 			
@@ -52,7 +49,6 @@ public class AbmcUsuario {
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 			is.close();
-			System.out.println("Body: " + body);
 			
 			
 			Gson gson = new Gson();

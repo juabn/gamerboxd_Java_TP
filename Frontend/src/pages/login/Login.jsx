@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 
 
 import './Login.css'
@@ -8,9 +9,24 @@ function Login(){
 	
 	
 	
+	
+	
 	const [nombre, setnombre] = useState("");
 	const [contrasenia, setcontrasenia] = useState("");
+	const navigate = useNavigate();
 	
+	
+	const registro_navigate = () => {
+		
+		
+		navigate('/registro');
+		
+	}
+	
+	const recuperarpassword_navigate = () => {
+		
+		navigate('/recuperarpassword')
+	}
 
 	
 	
@@ -70,6 +86,8 @@ function Login(){
 	}
 	
 	
+
+	
 	
 		
 	return(
@@ -108,8 +126,8 @@ function Login(){
 					</div>
 					
 					</form>
-					<p  className='aviso'> ¿No tienes cuenta? </p>
-					<p className='aviso'> ¿Olvidaste tu contraseña? </p>		
+					<p onClick={registro_navigate} className='aviso'> ¿No tienes cuenta? </p>
+					<p onClick={recuperarpassword_navigate} className='aviso'> ¿Olvidaste tu contraseña? </p>		
 				
 				 </div>		
 			
