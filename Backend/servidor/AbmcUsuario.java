@@ -50,8 +50,12 @@ public class AbmcUsuario {
 		    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 			is.close();
 		    
-		    String tipo = exchange.getRequestMethod();
-		    System.out.println(body);
+		    
+		    Gson gson = new Gson();
+			Persona per = gson.fromJson(body, Persona.class);	
+			String mail = per.getMail();
+			String resultado = Data_persona.recuperar_contrasenia(mail);
+			System.out.println(resultado);
 			
 			
 		}

@@ -2,6 +2,10 @@
 
 package data;
 import java.sql.*;
+import java.security.SecureRandom;
+import java.util.Base64;
+import servidor.GestionMail;
+
 
 import java.sql.*;
 
@@ -9,16 +13,69 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class Data_persona {
 	public static void main(String[] args) {
-
-
-
-
-		 buscar_persona("lucas.rod@mail.com", "123");
-
         
 
 
     }
+	
+	
+	
+	public static String recuperar_contrasenia(String mail) {
+		
+		String contrasenia = "Error";
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			String query = "select * from persona where mail = ?";
+		    PreparedStatement ps = conn.prepareStatement(query);
+		    ps.setString(1, mail);
+		    ResultSet rs = ps.executeQuery();
+		    
+		    if (rs.next()) {
+		    	
+		    	
+		    	SecureRandom random = new SecureRandom();
+		        byte[] bytes = new byte[24]; 
+		        random.nextBytes(bytes);
+		        
+		        // Lo convertimos a una cadena legible (letras, números y caracteres como + o /)
+		        contrasenia = Base64.getEncoder().encodeToString(bytes);
+		    	
+		    	String query1 = "update persona set contrasenia = ? where mail = ?";
+		    	PreparedStatement ps1 = conn.prepareStatement(query1);
+		    	ps1.setString(1, contrasenia);
+		    	ps1.setString(2, mail);
+		    	ps1.executeUpdate();
+		    	GestionMail.enviarmail(mail, "nuevacontrasenia", "su nueva contrsenia es: " + contrasenia);
+ 	
+				
+			}else {
+				
+				contrasenia = "No existe mail";
+				
+			}
+					
+			
+			
+			
+			
+			
+			
+		}
+		catch(SQLException ex){
+			
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+			
+		}
+		
+		
+		return contrasenia;
+		
+		
+	}
 		
 
 
@@ -45,10 +102,7 @@ try {
 			
 		}
 	    
-	    
-	    
-	    
-	    
+	        
 	   
 	    
 	}
