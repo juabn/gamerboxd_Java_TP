@@ -2,9 +2,12 @@
 
 package data;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.security.SecureRandom;
 import java.util.Base64;
 import servidor.GestionMail;
+import java.util.Random;
 
 
 import java.sql.*;
@@ -20,9 +23,9 @@ public class Data_persona {
 	
 	
 	
-	public static String recuperar_contrasenia(String mail) {
+	public static String enviar_token(String mail) {
 		
-		String contrasenia = "Error";
+		String token = "Error";
 		
 		try {
 			
@@ -34,25 +37,26 @@ public class Data_persona {
 		    
 		    if (rs.next()) {
 		    	
+		    	Random random = new Random();
+		    	int numeroMinMax = random.nextInt(1000, 9999);
+		    	token = String.valueOf(numeroMinMax);
 		    	
-		    	SecureRandom random = new SecureRandom();
-		        byte[] bytes = new byte[24]; 
-		        random.nextBytes(bytes);
-		        
-		        // Lo convertimos a una cadena legible (letras, números y caracteres como + o /)
-		        contrasenia = Base64.getEncoder().encodeToString(bytes);
 		    	
-		    	String query1 = "update persona set contrasenia = ? where mail = ?";
+		    	
+		        LocalDateTime fecha_hora_vencimiento = LocalDateTime.now().plusMinutes(10);
+		    	
+		    	String query1 = "insert into recuperacion_password (codigo,fecha_expiracion, mail_persona) values  (?, ?, ?)";
 		    	PreparedStatement ps1 = conn.prepareStatement(query1);
-		    	ps1.setString(1, contrasenia);
-		    	ps1.setString(2, mail);
+		    	ps1.setString(1, token);
+		    	ps1.setObject(2, fecha_hora_vencimiento);
+		    	ps1.setString(3, mail);
 		    	ps1.executeUpdate();
-		    	GestionMail.enviarmail(mail, "nuevacontrasenia", "su nueva contrsenia es: " + contrasenia);
+		    	GestionMail.enviarmail(mail, "nuevacontrasenia", "El token de recuperacion de contrasenia es: " + token);
  	
 				
 			}else {
 				
-				contrasenia = "No existe mail";
+				token = "No existe mail";
 				
 			}
 					
@@ -72,7 +76,7 @@ public class Data_persona {
 		}
 		
 		
-		return contrasenia;
+		return token;
 		
 		
 	}

@@ -32,10 +32,11 @@ function Recuperarpassword(){
 				
 			})
 			
+			
 			if(res.ok){
-				const data = await res.text()	
-				console.log(data)
-				alert("Usuario correcto")
+				
+				console.log(res.text)
+				
 				
 			}
 			
@@ -61,6 +62,11 @@ function Recuperarpassword(){
 		
 	}
 	
+	const ingresotoken = () => {
+		
+		navigate('/ingresoToken');
+	}
+	
 	
 	const cargarmail = (e) => {
 		
@@ -81,7 +87,7 @@ function Recuperarpassword(){
 		onChange={cargarmail}
 		type="email"
 		value={nombremail} />
-		<button > Enviar </button>
+		<button onClick={ingresotoken}> Enviar </button>
 		</form>
 		<button  onClick={volver}> Volver </button>
 		</div>
