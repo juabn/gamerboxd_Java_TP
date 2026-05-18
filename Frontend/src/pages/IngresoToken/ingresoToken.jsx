@@ -20,8 +20,6 @@ function IngresarToken(){
 	const enviar = async(e) => {
 		e.preventDefault()
 		
-		console.log(mail1)
-		console.log(token)
 		
 		try {
 			
@@ -45,7 +43,9 @@ function IngresarToken(){
 			
 			if(res.ok){
 				
-				alert("ok")
+				console.log("ok")
+				avanzar()
+				
 			}
 			if(res.status === 401){
 				alert("Token incorrecto o expirado")
@@ -63,6 +63,11 @@ function IngresarToken(){
 		
 		setToken(e.target.value)
 		
+	}
+	
+	const avanzar = () => {
+		
+		navigate('/ingresarnuevapassword')
 	}
 	
 

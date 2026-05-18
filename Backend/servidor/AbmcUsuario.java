@@ -32,6 +32,61 @@ public class AbmcUsuario {
 	
 	
 	
+	
+	
+	
+	public static class cambiarpassword implements HttpHandler{
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	 InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+					Persona per = gson.fromJson(body, Persona.class);
+					System.out.println(per.getContrasena());
+					System.out.println(per.getMail());
+					Data_persona.actualizar_contrasenia(per.getMail(), per.getContrasena());
+					
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    }
+		    catch(Error e ) {
+		    	
+		    	respuesta = "todinho mal";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    	
+		    	
+		    	
+		    	
+		    }
+			
+		}
+		
+	
+	
+	
+	
 	public static class verificartoken implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {

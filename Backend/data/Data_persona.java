@@ -22,6 +22,10 @@ public class Data_persona {
     }
 	
 	
+	
+
+	
+	
 	public static Boolean veriToken(String token, String mail) {
 		
 		Boolean ok = false;
@@ -107,7 +111,7 @@ public class Data_persona {
 		    	
 		    	
 		    	
-		        LocalDateTime fecha_hora_vencimiento = LocalDateTime.now().plusSeconds(20);
+		        LocalDateTime fecha_hora_vencimiento = LocalDateTime.now().plusMinutes(10);
 		    	
 		    	String query1 = "insert into recuperacion_password (codigo,fecha_expiracion, mail_persona) values  (?, ?, ?)";
 		    	PreparedStatement ps1 = conn.prepareStatement(query1);
@@ -185,24 +189,23 @@ return resultado;
 	
 	
 	
-	private static void actualizar_contrasenia() {
+	public static void actualizar_contrasenia(String mail, String password) {
 		
 try {
 			
 			Connection conn = Conexion.getInstancia().getConn();
 		    
 		    
-		    String query = "update persona set contrasenia = ? where idpersona = ?";
+		    String query = "update persona set contrasenia = ? where mail = ?";
 		    PreparedStatement ps = conn.prepareStatement(query);
 		    
 		    
 		    int logRounds = 12;
 		    String salt = BCrypt.gensalt(logRounds);
-		    String password2 = "123";
-		    String hashedPassword = BCrypt.hashpw(password2, salt);	    
+		    String hashedPassword = BCrypt.hashpw(password, salt);	    
 		    
 		    ps.setString(1, hashedPassword);
-		    ps.setString(2, "1");
+		    ps.setString(2, mail);
 		    ps.executeUpdate();
 		    
 }

@@ -105,8 +105,8 @@ function Login(){
 					<div className='inputs'>
 						<input  
 						className='input' 
-						type="text" 
-						placeholder='Ingrese su usuario'
+						type="email" 
+						placeholder='Ingrese su mail'
 						onChange={manejarusuario}
 						value = {nombre}
 						 	
