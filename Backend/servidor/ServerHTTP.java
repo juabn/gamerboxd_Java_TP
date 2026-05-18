@@ -26,7 +26,6 @@ public class ServerHTTP {
 		System.out.println("Server corriendo");
 		}
 		catch (IOException e){
-			
 			System.out.println("error al inciar el servidor:" + e);
 			
 		}
