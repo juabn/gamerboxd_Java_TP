@@ -1,4 +1,15 @@
-.titulo{
-	font-size: 100px
+
+.headerDiv{
 	
+	background-color: var(--color1);
+	display:flex;
+	flex-direction: column;
+	justify-content:center;
+	align-items:center;
+	width:100%;
 }
+
+.headerDivTitle{
+	color: var(--color3);
+}
+

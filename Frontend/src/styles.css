@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 /* CSS HSL */
 :root{
---prussian-blue: hsla(240, 53%, 8%, 1);
---deep-twilight: hsla(240, 63%, 21%, 1);
---persian-blue: hsla(240, 51%, 45%, 1);
---soft-periwinkle: hsla(240, 61%, 72%, 1);
---periwinkle: hsla(240, 64%, 80%, 1);
+--color1: hsla(240, 53%, 8%, 1);
+--color2: hsla(240, 63%, 21%, 1);
+--color3: hsla(240, 51%, 45%, 1);
+--color4: hsla(240, 61%, 72%, 1);
+--color5: hsla(240, 64%, 80%, 1);
 
 /* SCSS Gradient */
 --gradient-top: linear-gradient(0deg, #0a0a21ff, #141459ff, #3838abff, #8a8ae3ff, #adadedff);
