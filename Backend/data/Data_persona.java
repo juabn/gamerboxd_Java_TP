@@ -25,25 +25,45 @@ public class Data_persona {
 	public static Boolean veriToken(String token, String mail) {
 		
 		Boolean ok = false;
+		Boolean ok1 = false;
+		String token_real = "asdas";
+		LocalDateTime tiempo_expiracion = LocalDateTime.MIN;
 		
 		try {
 			
 			Connection conn = Conexion.getInstancia().getConn();
-			String query = "SELECT codigo FROM recuperacion_password WHERE id IN (SELECT MAX(id) FROM recuperacion_password  WHERE mail_persona = ?  GROUP BY mail_persona)";
+			String query = "SELECT id FROM recuperacion_password WHERE id IN (SELECT MAX(id) FROM recuperacion_password  WHERE mail_persona = ?  GROUP BY mail_persona)";
 			PreparedStatement ps = conn.prepareStatement(query);
 	    	ps.setString(1, mail);
 	    	ResultSet rs = ps.executeQuery();
 	    	
 	    	if (rs.next()) {
 	    		
-	    		String token_real = rs.getString("codigo");
+	    		String query1 = "SELECT * from recuperacion_password where id = ?";
+	    		PreparedStatement ps1 = conn.prepareStatement(query1);
+		    	ps1.setString(1, rs.getString("id"));
+		    	ResultSet rs1 = ps1.executeQuery();
+		    	if (rs1.next()) {
+		    		
+		    		tiempo_expiracion = rs1.getObject("fecha_expiracion", LocalDateTime.class);
+		    		token_real = rs1.getString("codigo");
+		    	}
+		    	
+	    	
 	    		if (token_real.equals(token)) {
-	    			
-	    			ok = true;
-					
+	    			ok1 = true;
 				}
-	    		
 	    	}
+	    	
+	    	if (ok1 == true && tiempo_expiracion.isAfter(LocalDateTime.now()) ) {
+	    		
+	    		ok = true;
+	    		
+				
+			}else {
+    			
+    			ok = false;
+    		}
 			
 			
 			
@@ -87,7 +107,7 @@ public class Data_persona {
 		    	
 		    	
 		    	
-		        LocalDateTime fecha_hora_vencimiento = LocalDateTime.now().plusMinutes(10);
+		        LocalDateTime fecha_hora_vencimiento = LocalDateTime.now().plusSeconds(20);
 		    	
 		    	String query1 = "insert into recuperacion_password (codigo,fecha_expiracion, mail_persona) values  (?, ?, ?)";
 		    	PreparedStatement ps1 = conn.prepareStatement(query1);

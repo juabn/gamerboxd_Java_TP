@@ -36,6 +36,8 @@ public class AbmcUsuario {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
+			String respuesta = "aaa no seee";
+			
 			controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
@@ -50,30 +52,39 @@ public class AbmcUsuario {
 		    	
 			    InputStream is = exchange.getRequestBody();
 			    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			    is.close();
 			    
 			    Gson gson = new Gson();
 				Persona per = gson.fromJson(body, Persona.class);
-				Boolean respuesta = Data_persona.veriToken(per.getToken(), per.getMail());
-				if (respuesta == true) {
+				Boolean respuesta_token = Data_persona.veriToken(per.getToken(), per.getMail());
+				if (respuesta_token == true) {
 					
-					System.out.println("ok");
+					respuesta = "todo bem";
+					exchange.sendResponseHeaders(200, respuesta.getBytes().length);
 					
 					
 				}
 				
-			    
-				is.close();
-		    	
-		    	
-		    	
-		    	
+				else {
+					
+					respuesta = "token vencido a ver";
+			    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+					
+				}
+				
+    	
 		    	
 		    }catch(Error e ) {
 		    	
-		    	
+		    	respuesta = "todinho mal";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
 		    	
 		    	
 		    }
+		    
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
 			
 			
 		}

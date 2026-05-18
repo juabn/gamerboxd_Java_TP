@@ -8,6 +8,8 @@ function IngresarToken(){
 	
 	const [token, setToken] = useState("")
 	
+	var mail1 = localStorage.getItem("mail");
+	
 
 	const volver = () => {
 		
@@ -17,9 +19,9 @@ function IngresarToken(){
 	
 	const enviar = async(e) => {
 		e.preventDefault()
-		var mail = localStorage.getItem("mail");
-		console.log(mail)
 		
+		console.log(mail1)
+		console.log(token)
 		
 		try {
 			
@@ -30,7 +32,7 @@ function IngresarToken(){
 				body: JSON.stringify({
 					
 					token: token,
-					mail : localStorage.getItem("mail")
+					mail : mail1
 					
 					
 				}),
@@ -43,14 +45,14 @@ function IngresarToken(){
 			
 			if(res.ok){
 				
-				console.log("adad")
+				alert("ok")
 			}
 			if(res.status === 401){
 				alert("Token incorrecto o expirado")
 					}
 			
 		}
-		catch{alert("asdad")}
+		catch{alert("Error")}
 		
 		
 		
