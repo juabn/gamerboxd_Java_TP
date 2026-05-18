@@ -32,6 +32,8 @@ function Recuperarpassword(){
 				
 			})
 			
+			localStorage.setItem("mail", nombremail)
+			
 			
 			if(res.ok){
 				

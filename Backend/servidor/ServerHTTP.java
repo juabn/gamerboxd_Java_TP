@@ -3,9 +3,12 @@ package servidor;
 
 import servidor.AbmcUsuario.login;
 
+
 import servidor.AbmcUsuario.registro;
 
 import servidor.AbmcUsuario.recuperarpersona;
+
+import servidor.AbmcUsuario.verificartoken;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -22,6 +25,7 @@ public class ServerHTTP {
 		server.createContext("/login", new login());
 		server.createContext("/registro", new registro());
 		server.createContext("/recuperarpassword", new recuperarpersona());
+		server.createContext("/verificartoken", new verificartoken());
 		server.start();
 		System.out.println("Server corriendo");
 		}

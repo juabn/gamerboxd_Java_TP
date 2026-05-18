@@ -22,7 +22,51 @@ public class Data_persona {
     }
 	
 	
+	public static Boolean veriToken(String token, String mail) {
+		
+		Boolean ok = false;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			String query = "SELECT codigo FROM recuperacion_password WHERE id IN (SELECT MAX(id) FROM recuperacion_password  WHERE mail_persona = ?  GROUP BY mail_persona)";
+			PreparedStatement ps = conn.prepareStatement(query);
+	    	ps.setString(1, mail);
+	    	ResultSet rs = ps.executeQuery();
+	    	
+	    	if (rs.next()) {
+	    		
+	    		String token_real = rs.getString("codigo");
+	    		if (token_real.equals(token)) {
+	    			
+	    			ok = true;
+					
+				}
+	    		
+	    	}
+			
+			
+			
+		}catch(SQLException ex){
+			
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+			
+		}
+		
+		
+		return ok;
+		
+		
+		
+		
+		
+		
+	}
 	
+	
+	//Genera token de cambio de password, lo guarda en la bd y lo envia por mail
 	public static String enviar_token(String mail) {
 		
 		String token = "Error";
@@ -60,11 +104,7 @@ public class Data_persona {
 				
 			}
 					
-			
-			
-			
-			
-			
+				
 			
 		}
 		catch(SQLException ex){
