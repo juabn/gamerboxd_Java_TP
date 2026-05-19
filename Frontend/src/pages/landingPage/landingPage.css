@@ -47,6 +47,13 @@
 	
 }
 
+.botonLogin{
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	outline: none;
+}
+
 
 
 

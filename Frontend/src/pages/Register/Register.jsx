@@ -14,7 +14,7 @@ function Registro(){
 	
 	const volver = () => {
 		
-		navigate("/")
+		navigate("/login")
 	}
 	
 
