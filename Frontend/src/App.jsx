@@ -29,7 +29,6 @@ function App (){
 		<Route path = "/" element = {<LandingPage/>}/>
 		<Route path = "/ingresoToken" element = {<IngresarToken/>}/>
 		<Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login setAuth={setIsAuth} />}/>
-		
 		<Route path = "/registro" element = {<Registro/>} />
 		<Route path = "/recuperarpassword" element = {<Recuperarpassword/>} />
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />

@@ -8,9 +8,6 @@ function Login({ setAuth }){
 	
 	
 	
-	
-	
-	
 	const [nombre, setnombre] = useState("");
 	const [contrasenia, setcontrasenia] = useState("");
 	const navigate = useNavigate();
