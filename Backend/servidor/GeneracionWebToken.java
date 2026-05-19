@@ -15,7 +15,7 @@ public class GeneracionWebToken {
 
 	public static void main(String[] args) {
 		
-		probando();
+		
 
 
 }
@@ -41,6 +41,37 @@ public static void probando(){
 		System.out.println("No Confies");
 	}
 
+}
+
+
+
+
+public static String enviotoken() {
+	
+	SecretKey key = Jwts.SIG.HS256.key().build();
+	
+	byte[] content = "Hello World".getBytes(StandardCharsets.UTF_8);
+	
+	String jws = Jwts.builder()
+	
+	.header()
+		.keyId("IdEJEMPLO")
+		.and()
+	
+		.subject("Santi")
+		
+		// (3) JSON Claims, or
+	    //.content(aByteArray, "text/plain")        //     any byte[] content, with media type
+
+	    .signWith(key)                       // (4) if signing, or
+	    //.encryptWith(key, keyAlg, encryptionAlg)  //     if encrypting
+
+	    .compact();  
+	
+	return(jws);
+	
+	
+	
 }
 
 }
