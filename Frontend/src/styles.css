@@ -1,11 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
 /* CSS HSL */
 :root{
+--color0: hsla(240, 33.3%, 3.5%, 1);
 --color1: hsla(240, 53%, 8%, 1);
 --color2: hsla(240, 63%, 21%, 1);
 --color3: hsla(240, 51%, 45%, 1);
 --color4: hsla(240, 61%, 72%, 1);
 --color5: hsla(240, 64%, 80%, 1);
+--color6: hsla(240, 54.5%, 95.7%,1);
 
 /* SCSS Gradient */
 --gradient-top: linear-gradient(0deg, #0a0a21ff, #141459ff, #3838abff, #8a8ae3ff, #adadedff);
@@ -18,9 +25,12 @@
 --gradient-bottom-left: linear-gradient(315deg, #0a0a21ff, #141459ff, #3838abff, #8a8ae3ff, #adadedff);
 --gradient-radial: radial-gradient(#0a0a21ff, #141459ff, #3838abff, #8a8ae3ff, #adadedff);
 
-/* fuentes */
-  font-family: "Nunito", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+
 }
 
+body{
+	font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background: var(--color0);
+}

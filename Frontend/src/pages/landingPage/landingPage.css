@@ -9,6 +9,11 @@
 	height:100%;
 }
 
+.nav{
+	position:absolute;
+	z-index: 5;
+}
+
 .headerContainer{
 	height: 70vh; 
   justify-content: space-between;
@@ -36,7 +41,7 @@
 }
 
 .headerDivTitle{
-	color: var(--color3);
+	color: #ffffff;
 	font-size: 5rem;
 }
 
@@ -52,8 +57,22 @@
 	color: inherit;
 	cursor: pointer;
 	outline: none;
+	padding: .8rem;
+	border:none;
+	color:var(--color2);
+	background-color:var(--color6);
+	border-radius: 12px;
+	margin-top:2rem;
+	font-weight:600;
+	transition:.1s;
+	box-shadow:0 0 15px .8;
 }
 
+.botonLogin:hover{
+	background-color:var(--color4);
+	color:var(--color6);
+	box-shadow:0 0 20px var(--color6);
+}
 
 
 

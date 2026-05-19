@@ -2,26 +2,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  content-fit: ;
   opacity: 0; 
-  filter: blur(5px);
+  position:cover;
+  
 }
 
 .carrusel-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 100%; 
+  filter: blur(10px);
 }
 
 .carrousel-container{
 	background-color: black;
 	color: black;
 }
-
-
-
 
 .carrusel-img.fade-in {
   animation: entradaSuave 0.5s ease-in-out forwards;
