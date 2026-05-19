@@ -2,6 +2,7 @@ package servidor;
 
 import java.io.IOException;
 
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,132 @@ public class AbmcUsuario {
 		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public static class cambiarpassword implements HttpHandler{
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	 InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+					Persona per = gson.fromJson(body, Persona.class);
+					System.out.println(per.getContrasena());
+					System.out.println(per.getMail());
+					Data_persona.actualizar_contrasenia(per.getMail(), per.getContrasena());
+					
+			    	respuesta = "todo bem";
+			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+					
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	
+		    }
+		    catch(Error e ) {
+		    	
+		    	respuesta = "todinho mal";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+
+			
+		}
+		
+	
+	
+	
+	
+	public static class verificartoken implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			String respuesta = "aaa no seee";
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+			    InputStream is = exchange.getRequestBody();
+			    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			    is.close();
+			    
+			    Gson gson = new Gson();
+				Persona per = gson.fromJson(body, Persona.class);
+				Boolean respuesta_token = Data_persona.veriToken(per.getToken(), per.getMail());
+				if (respuesta_token == true) {
+					
+					respuesta = "todo bem";
+					exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+					
+					
+				}
+				
+				else {
+					
+					respuesta = "token vencido a ver";
+			    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+					
+				}
+				
+    	
+		    	
+		    }catch(Error e ) {
+		    	
+		    	respuesta = "todinho mal";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+			
+		}
+		
+		
 	}
 	
 	
@@ -57,12 +184,23 @@ public class AbmcUsuario {
 		    Gson gson = new Gson();
 			Persona per = gson.fromJson(body, Persona.class);	
 			String mail = per.getMail();
-			String resultado = Data_persona.enviar_token(mail);
-			System.out.println(resultado);
-			exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+			String response =  Data_persona.enviar_token(mail);
+			
+			if (response.equals("No existe mail")) {
+				
+				respuesta = "No existe usuario con ese mail";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+				
+			}
+			else {
+				respuesta = "ok";
+				exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+			}
+			
+			
 		    }
 		    catch(Error e){
-		    	respuesta = "ok";
+		    	respuesta = "Error en la conexion con la base de datos";
 		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
 		    }
 			

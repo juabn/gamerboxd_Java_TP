@@ -23,6 +23,74 @@ public class Data_persona {
 	
 	
 	
+
+	
+	
+	public static Boolean veriToken(String token, String mail) {
+		
+		Boolean ok = false;
+		Boolean ok1 = false;
+		String token_real = "asdas";
+		LocalDateTime tiempo_expiracion = LocalDateTime.MIN;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			String query = "SELECT id FROM recuperacion_password WHERE id IN (SELECT MAX(id) FROM recuperacion_password  WHERE mail_persona = ?  GROUP BY mail_persona)";
+			PreparedStatement ps = conn.prepareStatement(query);
+	    	ps.setString(1, mail);
+	    	ResultSet rs = ps.executeQuery();
+	    	
+	    	if (rs.next()) {
+	    		
+	    		String query1 = "SELECT * from recuperacion_password where id = ?";
+	    		PreparedStatement ps1 = conn.prepareStatement(query1);
+		    	ps1.setString(1, rs.getString("id"));
+		    	ResultSet rs1 = ps1.executeQuery();
+		    	if (rs1.next()) {
+		    		
+		    		tiempo_expiracion = rs1.getObject("fecha_expiracion", LocalDateTime.class);
+		    		token_real = rs1.getString("codigo");
+		    	}
+		    	
+	    	
+	    		if (token_real.equals(token)) {
+	    			ok1 = true;
+				}
+	    	}
+	    	
+	    	if (ok1 == true && tiempo_expiracion.isAfter(LocalDateTime.now()) ) {
+	    		
+	    		ok = true;
+	    		
+				
+			}else {
+    			
+    			ok = false;
+    		}
+			
+			
+			
+		}catch(SQLException ex){
+			
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+			
+		}
+		
+		
+		return ok;
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	//Genera token de cambio de password, lo guarda en la bd y lo envia por mail
 	public static String enviar_token(String mail) {
 		
 		String token = "Error";
@@ -60,11 +128,7 @@ public class Data_persona {
 				
 			}
 					
-			
-			
-			
-			
-			
+				
 			
 		}
 		catch(SQLException ex){
@@ -125,24 +189,23 @@ return resultado;
 	
 	
 	
-	private static void actualizar_contrasenia() {
+	public static void actualizar_contrasenia(String mail, String password) {
 		
 try {
 			
 			Connection conn = Conexion.getInstancia().getConn();
 		    
 		    
-		    String query = "update persona set contrasenia = ? where idpersona = ?";
+		    String query = "update persona set contrasenia = ? where mail = ?";
 		    PreparedStatement ps = conn.prepareStatement(query);
 		    
 		    
 		    int logRounds = 12;
 		    String salt = BCrypt.gensalt(logRounds);
-		    String password2 = "123";
-		    String hashedPassword = BCrypt.hashpw(password2, salt);	    
+		    String hashedPassword = BCrypt.hashpw(password, salt);	    
 		    
 		    ps.setString(1, hashedPassword);
-		    ps.setString(2, "1");
+		    ps.setString(2, mail);
 		    ps.executeUpdate();
 		    
 }

@@ -6,6 +6,7 @@ public class Persona {
 	private String contrasenia;
 	private String mail;
 	private String foto_perfil;
+	private String token;
 	
 	public int getId() {
 		return id;
@@ -36,6 +37,12 @@ public class Persona {
 	}
 	public void setFoto_perfil(String foto_perfil) {
 		this.foto_perfil = foto_perfil;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	
