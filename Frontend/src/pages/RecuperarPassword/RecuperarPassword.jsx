@@ -62,7 +62,7 @@ function Recuperarpassword(){
 	
 	const volver = () => {
 		
-		navigate('/')
+		navigate('/login')
 		
 	}
 	

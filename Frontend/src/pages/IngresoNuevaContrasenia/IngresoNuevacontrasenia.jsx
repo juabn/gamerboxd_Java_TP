@@ -40,7 +40,7 @@ function IngresoNuevacontrasenia(){
 				if(res.ok){
 					
 					alert("Contrasenia cambiada")
-					navigate("/")
+					navigate("/login")
 				}
 
 			}catch{

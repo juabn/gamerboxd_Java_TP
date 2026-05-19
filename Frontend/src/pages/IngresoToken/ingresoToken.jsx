@@ -13,7 +13,7 @@ function IngresarToken(){
 
 	const volver = () => {
 		
-		navigate('/')
+		navigate('/login')
 	}
 	
 	
@@ -53,7 +53,7 @@ function IngresarToken(){
 			
 		}
 		catch{alert("Error en la conexion con la base de datos, intente nuevamente")
-			navigate("/")
+			navigate("/login")
 		}
 		
 		
