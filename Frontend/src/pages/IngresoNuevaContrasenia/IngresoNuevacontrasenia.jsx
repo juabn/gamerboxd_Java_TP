@@ -39,12 +39,14 @@ function IngresoNuevacontrasenia(){
 				
 				if(res.ok){
 					
-					console.log("adads")
+					alert("Contrasenia cambiada")
+					navigate("/")
 				}
 
 			}catch{
 					
-				alert("asdad")
+				alert("Error en la conexion con la base de datos, intente nuevamente")
+				
 					
 				}
 			

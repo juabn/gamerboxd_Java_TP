@@ -52,7 +52,9 @@ function IngresarToken(){
 					}
 			
 		}
-		catch{alert("Error")}
+		catch{alert("Error en la conexion con la base de datos, intente nuevamente")
+			navigate("/")
+		}
 		
 		
 		

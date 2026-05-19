@@ -61,6 +61,9 @@ public class AbmcUsuario {
 					System.out.println(per.getMail());
 					Data_persona.actualizar_contrasenia(per.getMail(), per.getContrasena());
 					
+			    	respuesta = "todo bem";
+			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+					
 		    	
 		    	
 		    	
@@ -77,9 +80,13 @@ public class AbmcUsuario {
 		    }
 		    	
 		    	
-		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
 		    	
 		    }
+
 			
 		}
 		
@@ -177,12 +184,23 @@ public class AbmcUsuario {
 		    Gson gson = new Gson();
 			Persona per = gson.fromJson(body, Persona.class);	
 			String mail = per.getMail();
-			Data_persona.enviar_token(mail);
+			String response =  Data_persona.enviar_token(mail);
 			
-			exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+			if (response.equals("No existe mail")) {
+				
+				respuesta = "No existe usuario con ese mail";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+				
+			}
+			else {
+				respuesta = "ok";
+				exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+			}
+			
+			
 		    }
 		    catch(Error e){
-		    	respuesta = "ok";
+		    	respuesta = "Error en la conexion con la base de datos";
 		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
 		    }
 			

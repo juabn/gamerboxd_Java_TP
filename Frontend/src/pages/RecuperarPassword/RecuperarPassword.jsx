@@ -37,13 +37,15 @@ function Recuperarpassword(){
 			
 			if(res.ok){
 				
-				console.log(res.text)
-				
+				const data = await res.text();
+				alert(data)
+				ingresotoken()
 				
 			}
 			
 			if(res.status === 401){
-				alert("Mail no encontrado")
+				const data = await res.text();
+								alert(data)
 					}
 		}
 		catch{alert("Error en la conexion con la base de datos")
@@ -88,8 +90,10 @@ function Recuperarpassword(){
 		placeholder="Ingrese su mail"
 		onChange={cargarmail}
 		type="email"
+		autoComplete="email"
+		name="email"
 		value={nombremail} />
-		<button onClick={ingresotoken}> Enviar </button>
+		<button > Enviar </button>
 		</form>
 		<button  onClick={volver}> Volver </button>
 		</div>
