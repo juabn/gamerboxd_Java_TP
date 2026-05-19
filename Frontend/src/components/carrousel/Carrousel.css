@@ -2,35 +2,29 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
-  &.fade-in{
-  	animation: fadeIn 1.5s forwards;
-  }
+  opacity: 0; 
+  position:cover;
   
-  &.fade-out{
-  	animation: fadeOut 1.5s forwards;
-  }
+}
+
+.carrusel-slide {
+  width: 100%;
+  height: 100%; 
+  filter: blur(10px);
+}
+
+.carrousel-container{
+	background-color: black;
+	color: black;
+}
+
+.carrusel-img.fade-in {
+  animation: entradaSuave 0.5s ease-in-out forwards;
+}
+
+@keyframes entradaSuave {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.98); 
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: scale(0.98); 
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Carrousel.css';
 
 
@@ -6,17 +6,8 @@ import './Carrousel.css';
 export default function Carrousel({ imagenes }) {
 	
   const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const [animacionClase, setAnimacionClase] = useState(false);
-  
-  useEffect(()=>{
-	const animacionId = setInterval(()=> {
-		setAnimacionClase((prev)=> !prev);
-	}, 1500);
-	return() => {
-		clearInterval(animacionId)
-	}
-  }, []);
+  const imagenRef = useRef(null);
+
 
 
   const siguienteImagen = () => {
@@ -26,26 +17,33 @@ export default function Carrousel({ imagenes }) {
   };
 	
   useEffect(() => {
-	
-	
-	
-      const temporizador = setInterval(() => {
-        siguienteImagen();
-      }, 5000);
+      const temporizador = setInterval(siguienteImagen, 7000);
       return () => clearInterval(temporizador);
-      
-    }, [currentIndex, imagenes.length]);
+    }, [currentIndex]);
+
+	useEffect(() => {
+	    const imgElement = imagenRef.current;
+	    
+	    if (imgElement) {
+	      imgElement.classList.remove('fade-in');
+	      
+	      void imgElement.offsetWidth;
+	      
+	      imgElement.classList.add('fade-in');
+	    }
+	  }, [currentIndex]); 
 
   return (
-    <div className="carrousel-contenedor">
+	<div className="carrusel-contenedor">
+	      <div className="carrusel-slide">
+	        <img 
+	          ref={imagenRef}
+	          src={imagenes[currentIndex]} 
+	          alt={`Slide ${currentIndex + 1}`} 
+	          className="carrusel-img" 
+	        />
+	      </div>
 
-      <div className="carorusel-slide">
-        <img 
-          src={imagenes[currentIndex]} 
-          alt={`Slide ${currentIndex + 1}`} 
-          className={animacionClase ? "fade-out" : "fade-in"} 
-        />
-      </div>
-    </div>
+	    </div>
   );
 }
