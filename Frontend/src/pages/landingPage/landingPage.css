@@ -1,15 +1,52 @@
 
 .headerDiv{
 	
-	background-color: var(--color1);
 	display:flex;
 	flex-direction: column;
 	justify-content:center;
 	align-items:center;
-	width:100%;
+	
+	height:100%;
+}
+
+.headerContainer{
+	height: 70vh; 
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  position:relative;
+}
+
+.cFilter{
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  
+}
+
+
+.cFilter .carrusel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.4);
 }
 
 .headerDivTitle{
 	color: var(--color3);
+	font-size: 5rem;
 }
+
+.cAnim{
+	animation: 3s ease-in 1s;
+	background-color:black;
+	color: black;
+	
+}
+
+
+
 

@@ -1,5 +1,5 @@
 import './landingPage.css';
-import {useState,useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import Carrousel from '../../components/carrousel/Carrousel';
 import banner1 from '../../assets/juego1.jpg';
 import banner2 from '../../assets/juego2.jpg';
@@ -12,12 +12,17 @@ export default function LandingPage() {
   return (
 	
     <section className="header">
-	
+	<div className="headerContainer">
 		<div className='headerDiv'>
 			<h1 className='headerDivTitle'>Reseña tus juegos favoritos</h1>
-			
+			<Link to='/login'>
+				<button >Pruebalo ahora</button>
+			</Link>
 		</div>
-		<Carrousel imagenes={imagenesCarrousel} />
+		<div className="cFilter">
+			<Carrousel imagenes={imagenesCarrousel} className="cAnim"/>
+		</div>
+	</div>
     </section>
   );
 }
