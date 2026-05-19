@@ -6,7 +6,7 @@ import Login from './pages/login/Login'
 import Recuperarpassword from './pages/RecuperarPassword/RecuperarPassword'
 import IngresarToken from './pages/IngresoToken/ingresoToken'
 
-import LandingPage from './pages/landingPage/landingPage'
+import LandingPage  from './pages/landingPage/landingPage'
 import './styles.css'
 
 import IngresoNuevacontrasenia from './pages/IngresoNuevaContrasenia/IngresoNuevacontrasenia'
