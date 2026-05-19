@@ -3,6 +3,7 @@ package servidor;
 import java.io.IOException;
 
 
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +14,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import data.Data_persona;
+import servidor.GestionMail;
 
 import entities.Persona;
 
@@ -214,6 +216,51 @@ public class AbmcUsuario {
 	
 	
 	
+	public static class Respuesta {
+		
+		
+		private String response;
+		private String token;
+		
+		
+		
+		public Respuesta(String texto, String token) {
+			
+			this.response = texto;
+			this.token = token;
+		}
+
+
+
+		public String getResponse() {
+			return response;
+		}
+
+
+
+		public void setResponse(String response) {
+			this.response = response;
+		}
+
+
+
+		public String getToken() {
+			return token;
+		}
+
+
+
+		public void setToken(String token) {
+			this.token = token;
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
 	
 	public static class login implements HttpHandler  {
 		
@@ -222,6 +269,13 @@ public class AbmcUsuario {
 			
 		    
 			controlCors(exchange);
+			
+			String respuesta = "Error";
+			String token = "";
+			Gson gson = new Gson();
+            Respuesta res = new Respuesta(respuesta, token);
+            String jsonResultado = gson.toJson(res);
+            
 			
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
@@ -232,13 +286,12 @@ public class AbmcUsuario {
 		        return;
 		    }
 			
-		    String respuesta = "Funciona";
+		    respuesta = "Funciona";
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 			is.close();
 			
 			
-			Gson gson = new Gson();
 			Persona per = gson.fromJson(body, Persona.class);	
 			System.out.println(per.getMail());
 			System.out.println(per.getContrasena());
@@ -247,24 +300,33 @@ public class AbmcUsuario {
 			Boolean resultado = Data_persona.buscar_persona(per.getMail(),per.getContrasena() );
 			if (resultado) {
 				System.out.println("Usuario existe y la contrasenia es correcta");
-				respuesta = "Usuario existe";
-				exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+				respuesta = "Usuario existee";
+				token = GeneracionWebToken.enviotoken();
+				res.setResponse(respuesta);
+				res.setToken(token);
+				jsonResultado = gson.toJson(res);
+				exchange.sendResponseHeaders(200, jsonResultado.getBytes().length);
+				
+				
 				
 			}
 			else {
 				
 				respuesta = "Usuario no existe o credenciales incorrectas";
-				exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+				res.setResponse(respuesta);
+				res.setToken(token);
+				jsonResultado = gson.toJson(res);
+				exchange.sendResponseHeaders(401, jsonResultado.getBytes().length);
 			}
 			
-            
+
             
             OutputStream os = exchange.getResponseBody();
-            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.write(jsonResultado.getBytes(StandardCharsets.UTF_8));
             os.flush();
             os.close();
             exchange.close();
-		}
+		}  
 		
 	}
 	

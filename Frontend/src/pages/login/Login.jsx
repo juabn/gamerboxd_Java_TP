@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 import './Login.css'
 
-function Login(){
+function Login({ setAuth }){
 	
 	
 	
@@ -52,9 +52,12 @@ function Login(){
 		})
 		
 		if(res.ok){
-		const data = await res.text()	
-		console.log(data)
+		const data = await res.json()	
+		console.log(data.token)
+		localStorage.setItem('token', data.token);
 		alert("Usuario correcto")
+		setAuth(true);
+		navigate('/');
 		}
 		
 		if(res.status === 401){
