@@ -53,7 +53,9 @@ public class AbmcCompania {
 		
 	}
 	
-	public static void recuperarPorId() {		
+	public static Compania recuperarPorId(int id) {		
+		Compania c = null;
+
 		try {
 			// crear una conexión
 			Connection conn = Conexion.getInstancia().getConn();
@@ -62,18 +64,18 @@ public class AbmcCompania {
             PreparedStatement stmt = conn.prepareStatement("select * from compania where idcompania=?");
             
             // setear el/los parámetros
-            stmt.setInt(1, 2);
+            stmt.setInt(1, id);
 
-            Compania c=new Compania();
+            
 
             // ejecutar query y obtener resultados
             ResultSet rs= stmt.executeQuery();
 
             // mapear de resultset a objeto
             if(rs.next()) {
+        		c=new Compania();
                 c.setId(rs.getInt("idcompania"));
                 c.setNombre(rs.getString("nombre"));
-
             }
             //cerrar recursos
             if(rs!=null){rs.close();}
@@ -92,6 +94,7 @@ public class AbmcCompania {
 		    System.out.println("SQLState: " + ex.getSQLState());
 		    System.out.println("VendorError: " + ex.getErrorCode());
 		}
+		return c;
 	}
 	
 	public static void insertarNuevo() {

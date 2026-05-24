@@ -17,13 +17,9 @@ public class Main {
 	public static void main(String[] args) {
 		
 		
-		LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
-		System.out.println("Listado Completo");
-		// Recorremos la lista objeto por objeto
-		for (Compania c : companias) {
-		    System.out.println("ID: " + c.getId() + " - Nombre: " + c.getNombre()); 
-		    // Ajustá 'getId()' y 'getNombre()' según los nombres reales de tus getters
-		}
+		//LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
+		Compania compania = AbmcCompania.recuperarPorId(10);
+		System.out.println("ID: " + compania.getId() + ", Nombre: "+compania.getNombre());
 	
 	
 	}
