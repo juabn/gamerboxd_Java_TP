@@ -1,5 +1,6 @@
 package ui;
 import servidor.AbmcCompania;
+import servidor.AbmcGrupo;
 import servidor.AbmcPlataforma;
 
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import data.ApiPlataforma;
 import data.Conexion;
 import entities.Plataforma;
 import entities.Compania;
+import entities.Grupo;
 import entities.Juego;
 
 
@@ -17,18 +19,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		//ABMC Compania USOS
+		//ABMC Grupo uso
 		
-		//LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
-		//Compania compania = AbmcCompania.recuperarPorId(10);
-		//AbmcCompania.insertarNuevo("Warner Bros");
-		
-		//ABMC Plataforma USOS
-		//LinkedList<Plataforma> plataformas = AbmcPlataforma.recuperarTodos();
-		//Plataforma plataforma = AbmcPlataforma.recuperarPorId(1);
-		//AbmcPlataforma.insertarNuevo("Gamecube");
-		
-	
+		//AbmcGrupo.insertarNuevo("foto2.jpg", "IGN", "Grupo reconocitdo internacionalmente ");
+		//Grupo g = AbmcGrupo.recuperarPorId(1);
+		//LinkedList<Grupo> grupos = AbmcGrupo.recuperarTodos();
 
 	
 	}
