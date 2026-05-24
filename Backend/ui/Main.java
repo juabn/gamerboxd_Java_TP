@@ -20,15 +20,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		//ABMC Grupo uso
-		
-		//AbmcGrupo.insertarNuevo("foto2.jpg", "IGN", "Grupo reconocitdo internacionalmente ");
-		//Grupo g = AbmcGrupo.recuperarPorId(1);
-		//LinkedList<Grupo> grupos = AbmcGrupo.recuperarTodos();
-		ArrayList<Grupo> grupos = AbmcGrupo.recuperarPorNombre("IG");
-		for (Grupo g: grupos) {
-			System.out.println("Nombre: "+g.getNombre()+", ID: "+g.getId());
-		}
+
 		
 	
 	}
