@@ -16,11 +16,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		//ABMC Compania USOS
 		
 		//LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
-		Compania compania = AbmcCompania.recuperarPorId(10);
-		System.out.println("ID: " + compania.getId() + ", Nombre: "+compania.getNombre());
+		//Compania compania = AbmcCompania.recuperarPorId(10);
+		//AbmcCompania.insertarNuevo("Warner Bros");
+		
 	
+
 	
 	}
 }

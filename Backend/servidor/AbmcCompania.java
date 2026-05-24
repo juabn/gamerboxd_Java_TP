@@ -97,10 +97,10 @@ public class AbmcCompania {
 		return c;
 	}
 	
-	public static void insertarNuevo() {
+	public static void insertarNuevo(String nombre) {
 		Compania compania= new Compania();
 		
-		compania.setNombre("Warner Bros");
+		compania.setNombre(nombre);
 		
 		try {
 			Connection conn = Conexion.getInstancia().getConn();
@@ -130,7 +130,7 @@ public class AbmcCompania {
 		    conn.close();
 		    
 		    // mostrar objeto
-		    System.out.println("Nueva Persona");
+		    System.out.println("Nueva Compania");
 		    System.out.println(compania);
 		    System.out.println();System.out.println();
 
