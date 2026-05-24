@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+
+import entities.Grupo;
 import entities.Plataforma;
 
 import data.Conexion;
@@ -146,5 +148,7 @@ public class AbmcPlataforma {
 		    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 	}
+	
+	
 
 }

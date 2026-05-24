@@ -3,6 +3,7 @@ import servidor.AbmcCompania;
 import servidor.AbmcGrupo;
 import servidor.AbmcPlataforma;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import data.ApiJuego;
@@ -24,7 +25,11 @@ public class Main {
 		//AbmcGrupo.insertarNuevo("foto2.jpg", "IGN", "Grupo reconocitdo internacionalmente ");
 		//Grupo g = AbmcGrupo.recuperarPorId(1);
 		//LinkedList<Grupo> grupos = AbmcGrupo.recuperarTodos();
-
+		ArrayList<Grupo> grupos = AbmcGrupo.recuperarPorNombre("IG");
+		for (Grupo g: grupos) {
+			System.out.println("Nombre: "+g.getNombre()+", ID: "+g.getId());
+		}
+		
 	
 	}
 }
