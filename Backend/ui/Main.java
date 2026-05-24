@@ -1,5 +1,6 @@
 package ui;
 import servidor.AbmcCompania;
+import servidor.AbmcPlataforma;
 
 import java.util.LinkedList;
 
@@ -21,6 +22,11 @@ public class Main {
 		//LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
 		//Compania compania = AbmcCompania.recuperarPorId(10);
 		//AbmcCompania.insertarNuevo("Warner Bros");
+		
+		//ABMC Plataforma USOS
+		//LinkedList<Plataforma> plataformas = AbmcPlataforma.recuperarTodos();
+		//Plataforma plataforma = AbmcPlataforma.recuperarPorId(1);
+		//AbmcPlataforma.insertarNuevo("Gamecube");
 		
 	
 

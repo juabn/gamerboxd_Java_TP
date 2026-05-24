@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
+	// Conexion USO
+	// Connection conn = Conexion.getInstancia().getConn();
+	// Si ya hay conexion, trae esa instancia, si no hay la crea
 	private static Conexion instancia;
     private Connection conn;
 
