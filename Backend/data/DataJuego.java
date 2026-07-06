@@ -11,10 +11,10 @@ import entities.Plataforma;
 
 public class DataJuego {
 
-	/*
+	
 	public void guardarJuegoCompleto(Juego juego) {
-	   // Connection conn = ConnectionManager.getConnection(); 
-	    
+	   //Connection conn = ConnectionManager.getConnection(); 
+	    /*
 	    try {
 	        
 	        for (Plataforma p : juego.getPlataformas()) {
@@ -30,6 +30,6 @@ public class DataJuego {
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
-	    }
-	}*/
+	    }*/
+	}
 }

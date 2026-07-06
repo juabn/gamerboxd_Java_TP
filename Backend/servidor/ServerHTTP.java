@@ -3,7 +3,7 @@ package servidor;
 
 import servidor.AbmcUsuario.login;
 
-
+import servidor.AbmcResenia.;
 import servidor.AbmcUsuario.registro;
 
 import servidor.AbmcUsuario.recuperarpersona;
@@ -29,6 +29,8 @@ public class ServerHTTP {
 		server.createContext("/recuperarpassword", new recuperarpersona());
 		server.createContext("/verificartoken", new verificartoken());
 		server.createContext("/cambiarpassword", new cambiarpassword());
+		server.createContext("/api/resenias", new ());
+		
 		server.start();
 		System.out.println("Server corriendo");
 		}

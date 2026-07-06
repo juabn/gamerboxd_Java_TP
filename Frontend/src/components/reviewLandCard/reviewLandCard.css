@@ -1,0 +1,71 @@
+.card-container {
+  /* Clave para el futuro despliegue horizontal */
+  flex: 0 0 auto; 
+  width: 280px; 
+  
+  /* Estilos visuales de la tarjeta */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background-color: #f0f0f0; /* Color de fondo por si la imagen tarda en cargar */
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Hace que el contenido ocupe el espacio restante si las tarjetas tienen alto fijo */
+}
+
+.card-title {
+  margin: 0 0 8px 0;
+  font-size: 1.15rem;
+  color: #222222;
+  font-family: sans-serif;
+}
+
+.card-description {
+  margin: 0 0 16px 0;
+  font-size: 0.9rem;
+  color: #555555;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.card-button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.card-button:hover {
+  background-color: #1d4ed8;
+}
