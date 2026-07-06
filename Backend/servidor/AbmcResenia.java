@@ -59,4 +59,52 @@ public class AbmcResenia {
 		}
 		return lista;
 	}
+	
+	public static List<Resenia> recuperarPorMailUsuario(String mail_usuario) {
+		List<Resenia> lista = new ArrayList<>();
+
+		try {
+			// crear una conexión
+			Connection conn = Conexion.getInstancia().getConn();
+
+			// definir la query
+			PreparedStatement stmt = conn.prepareStatement("select * from resenia where mail_usuario=?");
+
+			// setear el/los parámetros
+			stmt.setString(1, mail_usuario);
+
+			// ejecutar query y obtener resultados
+			ResultSet rs = stmt.executeQuery();
+
+			// mapear cada fila del resultset a un objeto y agregarlo a la lista
+			while (rs.next()) {
+				Resenia r = new Resenia();
+				r.setId_juego(rs.getInt("id_juego"));
+				r.setFecha(rs.getString("fecha"));
+				r.setHora(rs.getString("hora"));
+				r.setTitulo(rs.getString("titulo"));
+				r.setDescripcion(rs.getString("descripcion"));
+				r.setPuntaje(rs.getFloat("puntaje"));
+				r.setMail_usuario(rs.getString("mail_usuario"));
+				lista.add(r);
+			}
+
+			// cerrar recursos
+			if (rs != null) { rs.close(); }
+			if (stmt != null) { stmt.close(); }
+			conn.close();
+
+			// mostrar objetos
+			System.out.println("Buscar por mail usuario");
+			System.out.println();
+			System.out.println();
+
+		} catch (SQLException ex) {
+			// Manejo de errores
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		return lista;
+	}
 }
