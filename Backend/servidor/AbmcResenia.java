@@ -5,12 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import data.Conexion;
-import entities.Grupo;
 import entities.Resenia;
 
 public class AbmcResenia {
@@ -61,6 +62,52 @@ public class AbmcResenia {
 		}
 		return resenias;
 		
+	}
+	
+	public static void insertarNuevo(int idJuego, String mailUsuario, String titulo, String descripcion, float puntaje) {
+		Resenia resenia= new Resenia();
+		
+		 resenia.setId_juego(idJuego);
+		 resenia.setMail_usuario(mailUsuario);
+		 resenia.setTitulo(titulo);
+		 resenia.setDescripcion(descripcion);
+		 resenia.setPuntaje(puntaje);
+		
+		try {
+			Connection conn = Conexion.getInstancia().getConn();
+			// definir la query
+            PreparedStatement pstmt = conn.prepareStatement(
+            		"insert into resenia(id_juego,fecha,hora,titulo,descripcion,puntaje,mail_usuario) values (?,?,?,?,?,?,?)"
+            		,PreparedStatement.RETURN_GENERATED_KEYS
+            		);
+            
+            
+            LocalDate fecha = LocalDate.now();
+            LocalTime hora = LocalTime.now();
+
+            pstmt.setInt(1, idJuego);
+            pstmt.setString(2, fecha.toString());
+            pstmt.setString(3, hora.toString());
+            pstmt.setString(4, titulo);
+            pstmt.setString(5, descripcion);
+            pstmt.setString(6, String.valueOf(puntaje));
+            pstmt.setString(7, mailUsuario);
+
+            pstmt.executeUpdate();
+
+            if (pstmt != null) { pstmt.close(); }
+            conn.close();
+
+            System.out.println("Nueva Resenia");
+            System.out.println(resenia);
+            System.out.println();
+            System.out.println();
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
 	}
 
 	public static List<Resenia> recuperarPorIdJuego(int id) {
