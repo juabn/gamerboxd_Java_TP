@@ -5,13 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
+	// Conexion USO
+	// Connection conn = Conexion.getInstancia().getConn();
+	// Si ya hay conexion, trae esa instancia, si no hay la crea
 	private static Conexion instancia;
     private Connection conn;
 
     private Conexion() {
         String url = "jdbc:mysql://localhost:3306/gamerboxd";
         String usuario = "root"; 
-        String password = "12345"; // tu password
+        String password = "santigay123!"; // tu password
         try {
             conn = DriverManager.getConnection(url, usuario, password);
         } catch (SQLException e) {

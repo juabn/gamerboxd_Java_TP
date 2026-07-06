@@ -1,6 +1,6 @@
 package entities;
 
- class Grupo {
+ public class Grupo {
 	 private int id;
 	 private String foto_perfil;
 	 private String nombre;
