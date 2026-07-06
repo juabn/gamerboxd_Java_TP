@@ -52,5 +52,9 @@ public class Resenia {
 		this.mail_usuario = mail_usuario;
 	}
 	
+	public String toString() {
+	    return "Resenia [id_juego=" + id_juego + ", titulo=" + titulo + ", puntaje=" + puntaje + ", mail_usuario=" + mail_usuario + "]";
+	}
+	
 	
 }

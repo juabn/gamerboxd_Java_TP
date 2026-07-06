@@ -16,3 +16,5 @@ public class Plataforma {
     	return "ID: "+this.id+"\nNOMBRE: "+this.nombre+"\n";
     }
 }
+
+
