@@ -1,11 +1,12 @@
 import {Route, Routes, Navigate} from 'react-router-dom'
 
+// eslint-disable-next-line no-unused-vars
 import { useState, useEffect } from 'react';
 import Registro from './pages/Register/Register'
 import Login from './pages/login/Login'
 import Recuperarpassword from './pages/RecuperarPassword/RecuperarPassword'
 import IngresarToken from './pages/IngresoToken/ingresoToken'
-
+import Navbar from './components/Navbar/Navbar';
 import LandingPage  from './pages/landingPage/landingPage'
 import './styles.css'
 
@@ -24,6 +25,8 @@ function App (){
 	  });
 
 	return(
+		<>
+		<Navbar autenticado={isAuth} />
 		
 		<Routes>
 		<Route path = "/" element = {<LandingPage/>}/>
@@ -34,6 +37,8 @@ function App (){
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />
 		
 		</Routes>
+		
+		</>
 	);
 	
 	
