@@ -31,6 +31,9 @@ export default function LandingPage() {
                       <Carrousel imagenes={imagenesCarrousel} className="cAnim" />
                   </div>
               </div>
+			  <div className='highlightedReviews'>
+			  	
+			  </div>
           </section>
   );
 }
