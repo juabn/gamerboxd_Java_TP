@@ -11,32 +11,24 @@ export default function Navbar() {
 		<nav>
 		<div className="nav-group">
 			<div className="logo">Gamerboxd</div>
-			<ul class="nav-links">
+			<ul className="nav-links">
 				<li>
-					<Link to="/">
-						<a>Inicio</a>
-					</Link>
+				<Link to="/">Inicio</Link>
 				</li>
 				<li>
-					<Link to="/">
-						<a>Juegos</a>
-					</Link>
+					<Link to="/">Juegos</Link>
 				</li>
 				<li>
-					<Link to="/">
-						<a>Administracion</a>
-					</Link>
+					<Link to="/">Administracion</Link>
 				</li>
 				<li>
-					<Link to="/">
-						<a>Sobre nosotros</a>
-					</Link>
+					<Link to="/">Sobre nosotros</Link>
 				</li>
 			</ul>
 			</div> 
-			<div class="divlogin">
+			<div className="divlogin">
 			<Link to="/login">
-				<button class="btnlogin">Login</button>
+				<button className="btnlogin">Login</button>
 			</Link>
 			</div>
 		</nav>
