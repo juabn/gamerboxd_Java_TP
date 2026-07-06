@@ -21,7 +21,7 @@ import servidor.AbmcResenia;
 public class Main {
 
 	public static void main(String[] args) {
-		ArrayList<Resenia> reseñas = (ArrayList<Resenia>) AbmcResenia.recuperarPorMailUsuario("juan.perez@gmail.com");
+		LinkedList<Resenia> reseñas = (LinkedList<Resenia>) AbmcResenia.recuperarTodos();
 		for (Resenia r : reseñas) {
 		    System.out.println(r);
 		}
