@@ -78,7 +78,7 @@ export default function LandingPage() {
 				    slides-per-view="1" 
 				    navigation="true" 
 				    loop="true"
-			      style={{ padding: '20px 40px' }} /* Un poco de padding para que las flechas no pisen las tarjetas */
+			      
 			    >
 			      {resenas.map((resenia, index) => (
 			        <swiper-slide key={index}>

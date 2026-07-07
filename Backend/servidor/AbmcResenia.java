@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import data.Conexion;
+import entities.Juego;
+import entities.Persona;
 import entities.Resenia;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -30,11 +32,16 @@ public class AbmcResenia {
 
 			// ejecutar la query
             Statement stmt = conn.createStatement();
-            ResultSet rs= stmt.executeQuery("select * from resenia");
+            String sql = "SELECT r.*, j.titulo AS nombre_juego, j.imagen AS foto_juego, p.nombre AS nombre_usuario " +
+				     "FROM resenia r " +
+				     "INNER JOIN juego j ON r.id_juego = j.idjuego " +
+				     "INNER JOIN persona p ON r.mail_usuario = p.mail";
+            ResultSet rs= stmt.executeQuery("sql");
 
             // mapear de resultset a objeto
             while(rs.next()) {
             	Resenia r=new Resenia();
+            	
                 r.setId_juego(rs.getInt("id_juego"));
                 r.setTitulo(rs.getString("titulo"));
                 r.setDescripcion(rs.getString("descripcion"));
@@ -42,6 +49,20 @@ public class AbmcResenia {
                 r.setHora(rs.getString("hora"));
                 r.setPuntaje(rs.getFloat("puntaje"));
                 r.setMail_usuario(rs.getString("mail_usuario"));
+                
+                Juego j = new Juego();
+                j.setId_juego(rs.getInt("id_juego"));
+                j.setTitulo(rs.getString("nombre_juego")); 
+                j.setImagen(rs.getString("foto_juego"));   
+                r.setJuego(j);
+
+                
+                Persona p = new Persona();
+                p.setMail(rs.getString("mail_usuario"));
+                p.setNombre_usuario(rs.getString("nombre_usuario")); 
+                r.setUsuario(p);
+
+                resenias.add(r);
 
                 resenias.add(r);
 

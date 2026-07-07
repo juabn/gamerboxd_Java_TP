@@ -8,6 +8,14 @@ public class Resenia {
 	String descripcion;
 	float puntaje;
 	String mail_usuario;
+	private Juego juego;
+    private Persona usuario;
+    
+    public Juego getJuego() { return juego; }
+    public void setJuego(Juego juego) { this.juego = juego; }
+    
+    public Persona getUsuario() { return usuario; }
+    public void setUsuario(Persona usuario) { this.usuario = usuario; }
 	
 	public int getId_juego() {
 		return id_juego;
