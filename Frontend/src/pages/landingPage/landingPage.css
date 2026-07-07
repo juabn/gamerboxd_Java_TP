@@ -85,18 +85,27 @@
     gap: 20px;
     background-color:var(--color1);
     width: 100%;
-  	padding: 40px 0; 
+  	padding:0px 300px; 
+  	overflow:hidden;
 }
 
-.swiper-slide {
-  width: 50%; 
-  display: flex;
-  justify-content: center;
+
+
+swiper-container {
+  width: 100%;
+  height: 100%;
 }
 
-.swiper-pagination-bullet {
-  background-color: #ffffff !important;
+swiper-slide{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	width:auto;
 }
 
+
+swiper-container::part(bullet-active) {
+  background-color: #ffffff; 
+}
 
 

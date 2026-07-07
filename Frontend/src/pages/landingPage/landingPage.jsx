@@ -2,7 +2,8 @@ import './landingPage.css';
 import { Link } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import {useState,useEffect} from 'react';
-
+import { register } from 'swiper/element/bundle';
+register();
 
 
 import Carrousel from '../../components/carrousel/Carrousel';
@@ -63,22 +64,36 @@ export default function LandingPage() {
                       <Carrousel imagenes={imagenesCarrousel} className="cAnim" />
                   </div>
               </div>
-			  <div className='highlightedReviews'  >
-			  
+			  <div className='highlightedReviews'>
+			    <swiper-container
+				className='swiper-container-highlighted-r' 
+				  effect="coverflow"
+				  coverflow-effect-rotate="0"     
+				    coverflow-effect-stretch="-90"   
+				    coverflow-effect-depth="150"     
+				    coverflow-effect-modifier="1"    
+				    coverflow-effect-slide-shadows="false" 
+				    grab-cursor="false" 
+				    centered-slides="true"
+				    slides-per-view="1" 
+				    navigation="true" 
+				    loop="true"
+			      style={{ padding: '20px 40px' }} /* Un poco de padding para que las flechas no pisen las tarjetas */
+			    >
 			      {resenas.map((resenia, index) => (
-			        
+			        <swiper-slide key={index}>
 			          <ReviewLandCard 
-					  	key={index}
 			            titulo={resenia.titulo} 
 			            descripcion={resenia.descripcion} 
 			            puntaje={resenia.puntaje}
 			            nombreJuego="Stardew Valley" 
 			            nombreUsuario="Gamer123"
-			            fotoJuego={banner3} />
-			        
+			            fotoJuego={banner3} 
+			          />
+			        </swiper-slide>
 			      ))}
-			    
-	            </div>
+			    </swiper-container>
+			  </div>
           </section>
   );
 }

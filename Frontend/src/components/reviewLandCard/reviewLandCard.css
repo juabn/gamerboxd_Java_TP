@@ -1,6 +1,6 @@
 .card-container-moderna {
   flex: 0 0 auto;
-  width: 50%;
+  width: 75%;
   height: 80%; 
   border-radius: 20px;
   overflow: hidden;
@@ -24,7 +24,7 @@
   box-sizing: border-box; 
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px); 
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.6); 
   color: #ffffff;
 }
 .card-title-moderna {
