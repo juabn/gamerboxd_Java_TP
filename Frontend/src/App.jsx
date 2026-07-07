@@ -1,4 +1,6 @@
 import {Route, Routes, Navigate} from 'react-router-dom'
+import { register } from 'swiper/element/bundle';
+register();
 
 // eslint-disable-next-line no-unused-vars
 import { useState, useEffect } from 'react';

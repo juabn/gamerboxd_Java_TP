@@ -12,7 +12,7 @@ export default function ReviewLandCard({
     <div 
       className="card-container-moderna"
       style={{ 
-        backgroundImage: `url(${fotoJuego}')` 
+        backgroundImage: `url('${fotoJuego}')` 
       }}
     >
       <div className="card-overlay">
