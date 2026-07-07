@@ -64,12 +64,15 @@ export default function LandingPage() {
               </div>
 			  <div className='highlightedReviews'  >
 	                {resenas.map((resenia, index) => (
-	                    <ReviewLandCard 
-	                        // Usamos el index como key temporal si no hay un ID de reseña único
-	                        key={index} 
-	                        tituloResenia={resenia.titulo} 
-	                        puntaje={resenia.puntaje} 
-	                    />
+						<ReviewLandCard 
+						    key={index} 
+						    titulo={resenia.titulo} 
+						    descripcion={resenia.descripcion} 
+						    puntaje={resenia.puntaje}
+						    nombreJuego="Stardew Valley" 
+						    nombreUsuario="Gamer123"
+						    fotoJuego={banner2} 
+						/>
 	                ))}
 	            </div>
           </section>
