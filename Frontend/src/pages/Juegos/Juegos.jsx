@@ -75,18 +75,20 @@ function Juegos(){
 	
 	var array_filtro = [];
 
-	for (let i = 0; i < juegosnorepetidos.length; i++){
+	for (let i = 0; i < listaJuegos.length; i++){
 		
-		if(juegosnorepetidos[i].developers == companiaelegida){
+		
+		if(listaJuegos[i].developers.includes(companiaelegida)){
 			
-			array_filtro.unshift(juegosnorepetidos[i])
+			array_filtro.unshift(listaJuegos[i])
+		}
+		
+		if(companiaelegida == "Todos"){
+			
+			array_filtro = listaJuegos;
 			
 		}
 		
-		if(companiaelegida == 'Todos'){
-			
-			array_filtro = juegosnorepetidos;
-		}
 		
 		
 	}
