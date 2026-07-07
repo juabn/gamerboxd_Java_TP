@@ -18,27 +18,34 @@ export default function LandingPage() {
 
 	const imagenesCarrousel = [banner1,banner2,banner3,banner4,banner5];
 	
-	const [resenas, setReseñas] = useState([]);
+	const [resenas, setResenas] = useState([]);
 
-	  // 2. Simulamos la llamada a tu API/backend
 	  useEffect(() => {
-	    // Reemplazá esta URL con el endpoint real de tu backend
-	    fetch('http://localhost:8080/api/reseñas') 
+	    fetch('http://localhost:8081/allresenias') 
 	      .then(respuesta => respuesta.json())
 	      .then(datos => {
-	        setReseñas(datos);
-	      })
-	      .catch(error => console.error("Error al cargar la base de datos:", error));
+			console.log("Datos crudos del servidor:", datos);
+			const juegosVistos = new Set();
+			        const resenasJuegosUnicos = datos.filter(resenia => {
+			          
+			          const id = resenia.id_juego;
+					  if (!juegosVistos.has(id)) {
+					              juegosVistos.add(id);
+					              return true;
+					            }
+						return false;
+						});
+						
+					
+				const resenasMezcladas = resenasJuegosUnicos.sort(()=> 0.5 - Math.random());
+				const top5Aleatorias = resenasMezcladas.slice(0, 5);
+				
+				setResenas(top5Aleatorias);
+				
+			})
+	      .catch(error => console.error("Error conexion:", error));
 	      
-	      /* Si aún no tenés el backend listo, podés comentar el fetch de arriba 
-	         y usar datos de prueba (mock) así:
-	      
-	      setReseñas([
-	        { id: 1, fotoJuego: 'ruta/foto1.jpg', tituloResenia: 'Obra maestra', puntaje: 10 },
-	        { id: 2, fotoJuego: 'ruta/foto2.jpg', tituloResenia: 'Muy repetitivo', puntaje: 6 },
-	        { id: 3, fotoJuego: 'ruta/foto3.jpg', tituloResenia: 'Buen multijugador', puntaje: 8 },
-	      ]);
-	      */
+	    
 	  }, []);
   return (
 	  <section className="body">
@@ -55,16 +62,16 @@ export default function LandingPage() {
                       <Carrousel imagenes={imagenesCarrousel} className="cAnim" />
                   </div>
               </div>
-			  <div className='highlightedReviews' style={{ display: 'flex', overflowX: 'auto', gap: '16px', padding: '20px' }}>
-			                {resenas.map((resenia) => (
-			                    <ReviewLandCard 
-			                        key={resenia.id} 
-			                        fotoJuego={resenia.fotoJuego} 
-			                        tituloResenia={resenia.tituloResenia} 
-			                        puntaje={resenia.puntaje} 
-			                    />
-			                ))}
-			            </div>
+			  <div className='highlightedReviews'  >
+	                {resenas.map((resenia, index) => (
+	                    <ReviewLandCard 
+	                        // Usamos el index como key temporal si no hay un ID de reseña único
+	                        key={index} 
+	                        tituloResenia={resenia.titulo} 
+	                        puntaje={resenia.puntaje} 
+	                    />
+	                ))}
+	            </div>
           </section>
   );
 }

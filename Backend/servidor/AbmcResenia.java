@@ -58,46 +58,6 @@ public class AbmcResenia {
 		    System.out.println();System.out.println();
 		    
 		    
-		    public static class obtenerResenias implements HttpHandler {
-				@Override
-				public void handle(HttpExchange exchange) throws IOException {
-					
-					// 1. Configuramos CORS para que React no bloquee la petición
-					exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-					exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
-					exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-					
-					// Si el navegador manda una petición de chequeo (OPTIONS), le damos OK y salimos
-					if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
-						exchange.sendResponseHeaders(204, -1);
-						return;
-					}
-
-					// 2. Verificamos que sea una petición GET
-					if ("GET".equals(exchange.getRequestMethod())) {
-						
-						// Llamamos a tu método para ir a la Base de Datos
-						LinkedList<Resenia> listaResenias = recuperarTodos();
-						
-						// Convertimos la lista de objetos Java a formato JSON
-						Gson gson = new Gson();
-						String jsonResponse = gson.toJson(listaResenias);
-						
-						// Preparamos y enviamos la respuesta a React
-						byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
-						exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
-						exchange.sendResponseHeaders(200, bytesResponse.length);
-						
-						OutputStream os = exchange.getResponseBody();
-						os.write(bytesResponse);
-						os.close();
-						
-					} else {
-						// Si no es GET, devolvemos error 405 (Method Not Allowed)
-						exchange.sendResponseHeaders(405, -1);
-					}
-				}
-			}
 		    
 		    
 		    
@@ -111,6 +71,33 @@ public class AbmcResenia {
 		return resenias;
 		
 	}
+	
+	public static class obtenerResenias implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+			exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
+			exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+			if ("GET".equals(exchange.getRequestMethod())) {
+				LinkedList<Resenia> listaResenias = recuperarTodos();
+				
+				Gson gson = new Gson();
+				String jsonResponse = gson.toJson(listaResenias);
+				
+				byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
+				exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
+				exchange.sendResponseHeaders(200, bytesResponse.length);
+				
+				OutputStream os = exchange.getResponseBody();
+				os.write(bytesResponse);
+				os.close();
+				
+			} else {
+				exchange.sendResponseHeaders(405, -1);
+			}
+		}
+	}
+    
 	
 	public static void insertarNuevo(int idJuego, String mailUsuario, String titulo, String descripcion, float puntaje) {
 		Resenia resenia= new Resenia();

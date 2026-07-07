@@ -1,23 +1,20 @@
 
 import './reviewLandCard.css';
 
-const reviewLandCard = ({ title, description, imageUrl, buttonText }) => {
+export default function ReviewLandCard({ fotoJuego, tituloResenia, puntaje }) {
   return (
     <div className="card-container">
-      {imageUrl && (
+      {fotoJuego && (
         <div className="card-image-wrapper">
-          <img src={imageUrl} alt={title} className="card-image" />
+          <img src={fotoJuego} alt="Portada del juego" className="card-image" />
         </div>
       )}
       <div className="card-content">
-        <h3 className="card-title">{title}</h3>
-        <p className="card-description">{description}</p>
-        {buttonText && (
-          <button className="card-button">{buttonText}</button>
-        )}
+        <h3 className="card-title">{tituloResenia}</h3>
+        <p className="card-description">
+          Puntaje: <strong>{puntaje} / 5</strong>
+        </p>
       </div>
     </div>
   );
-};
-
-export default reviewLandCard;
+}

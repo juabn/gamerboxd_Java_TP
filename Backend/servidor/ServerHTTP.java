@@ -3,7 +3,6 @@ package servidor;
 
 import servidor.AbmcUsuario.login;
 
-import servidor.AbmcResenia.;
 import servidor.AbmcUsuario.registro;
 
 import servidor.AbmcUsuario.recuperarpersona;
@@ -15,7 +14,7 @@ import servidor.AbmcUsuario.cambiarpassword;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
-
+import servidor.AbmcResenia.obtenerResenias;
 
 public class ServerHTTP {
 
@@ -29,7 +28,7 @@ public class ServerHTTP {
 		server.createContext("/recuperarpassword", new recuperarpersona());
 		server.createContext("/verificartoken", new verificartoken());
 		server.createContext("/cambiarpassword", new cambiarpassword());
-		server.createContext("/api/resenias", new ());
+		server.createContext("/allresenias", new obtenerResenias());
 		
 		server.start();
 		System.out.println("Server corriendo");

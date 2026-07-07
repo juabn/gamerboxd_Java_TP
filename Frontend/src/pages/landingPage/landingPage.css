@@ -74,5 +74,14 @@
 	box-shadow:0 0 20px var(--color6);
 }
 
+.highlightedReviews {
+	justify-content:center;
+    display: flex !important; 
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 20px !important; 
+    padding: 20px !important;
+}
 
 
