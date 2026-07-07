@@ -1,0 +1,29 @@
+.titulo{
+	
+	text-align: center;
+	color:white;
+	font-size:8vh;
+	
+}
+
+.filtros {
+	text-align: center;
+	
+	
+}
+
+.selector {
+	
+	margin-right:5vh;
+}
+
+.catalogo-juegos{
+	display: flex;
+  flex-wrap: wrap; 
+  gap: 20px;       
+  padding: 20px;
+  justify-content: center; 
+	
+	
+	
+}

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 public class Juego {
 	@SerializedName("id")
-	private int id_juego;
+	private String id_juego;
 	@SerializedName("name")
 	private String titulo;
 	@SerializedName("background_image")
@@ -30,10 +30,10 @@ public class Juego {
 	
 	
 
-	public int getId_juego() {
+	public String getId_juego() {
 		return id_juego;
 	}
-	public void setId_juego(int id_juego) {
+	public void setId_juego(String id_juego) {
 		this.id_juego = id_juego;
 	}
 	public String getTitulo() {
