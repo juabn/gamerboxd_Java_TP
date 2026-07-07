@@ -1,5 +1,6 @@
 package ui;
 import servidor.AbmcCompania;
+
 import servidor.AbmcGrupo;
 import servidor.AbmcPlataforma;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import data.ApiJuego;
+
 import data.ApiPlataforma;
 import data.Conexion;
 import data.DataJuego;

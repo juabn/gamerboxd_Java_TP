@@ -1,3 +1,5 @@
+
+/*
 package data;
 
 
@@ -55,7 +57,7 @@ public class ApiJuego {
                     JsonObject devObj = element.getAsJsonObject();
                     Compania c = new Compania();
                     c.setNombre(devObj.get("name").getAsString());
-                    c.setId(devObj.get("id").getAsInt());
+                   
                     listaDevs.add(c);
                 }
                 j.setCompanias(listaDevs);
@@ -108,5 +110,5 @@ public class ApiJuego {
     }
 
 
-
+*/
 

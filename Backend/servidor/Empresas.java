@@ -11,14 +11,13 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import entities.Juego;
 
 import data.Conexion;
+import entities.Compania;
 
-public class Juegos {
+public class Empresas {
 	
-	
-	public static void controlCors(HttpExchange exchange) {
+public static void controlCors(HttpExchange exchange) {
 		
 		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -27,13 +26,9 @@ public class Juegos {
 	
 
 	
-	
-	
-	
-public static class listajuegos implements HttpHandler {
+public static class listaempresas implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
-			
 			
 			controlCors(exchange);
 			
@@ -44,43 +39,35 @@ public static class listajuegos implements HttpHandler {
 
 		        return;
 		    }
-			
-			ArrayList<Juego> listadejuegos = new ArrayList<>();
-			
-		
-			
+		    
+		    ArrayList<Compania> listadeempresas = new ArrayList<>();
+		    
 			try {
 				
 				Connection conn = Conexion.getInstancia().getConn();
 	
-				String query = "select juego.idjuego, juego. titulo, juego.imagen, juego.descripcion, compania.idcompania, compania.nombre from juego\r\n"
-						+ "inner join juego_compania on juego_compania.idjuego = juego.idjuego\r\n"
-						+ "inner join compania on juego_compania.id_comp = compania.idcompania";
+				String query = "select * from compania";
 				PreparedStatement Resultado = conn.prepareStatement(query);
 				ResultSet rs = Resultado.executeQuery();
 				
 				
 				while (rs.next()) {
 					
-					Juego juego = new Juego();
+					Compania compania = new Compania();
 					
-					juego.setId_juego(rs.getString("idjuego"));
-					juego.setTitulo(rs.getString("titulo"));
-					juego.setImagen(rs.getString("imagen"));
-					juego.setDescripcion(rs.getString("descripcion"));
-					juego.setCompanias(rs.getString("nombre"));
+					compania.setId(rs.getInt("idcompania"));
+					compania.setNombre(rs.getString("nombre"));
+				
 					
 					
-					listadejuegos.add(juego);
+					listadeempresas.add(compania);
 					
 					
 				}
 				
-				
+				System.out.println(listadeempresas.get(1).getNombre());
 		
 			}
-			
-			
 			catch(SQLException ex){
 				
 				
@@ -90,7 +77,7 @@ public static class listajuegos implements HttpHandler {
 			}
 			
 			Gson gson = new Gson();
-		    String jsonRespuesta = gson.toJson(listadejuegos);
+		    String jsonRespuesta = gson.toJson(listadeempresas);
 		    
 		    
 		    byte[] bytesRespuesta = jsonRespuesta.getBytes("UTF-8");
@@ -101,6 +88,9 @@ public static class listajuegos implements HttpHandler {
 		    os.write(bytesRespuesta);
 		    os.close();
 			
-			
+		    
+		    
 		}
-}}
+		}
+
+}
