@@ -1,7 +1,7 @@
 .card-container-moderna {
   flex: 0 0 auto;
-  width: 320px;
-  height: 450px; 
+  width: 50%;
+  height: 80%; 
   border-radius: 20px;
   overflow: hidden;
   background-size: cover; 
@@ -29,7 +29,7 @@
 }
 .card-title-moderna {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 3.5rem;
   font-weight: bold;
   color: #ffffff;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
@@ -37,28 +37,23 @@
 }
 
 .comillas{
-	font-size:2rem;
+	font-size:5rem;
 	font-style:italic;
 }
 
-/* Contenedor superior para que título y reseña queden juntos */
+
 .card-top-info {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* Espaciado entre el título y el texto de la reseña */
+  gap: 12px; 
 }
 
-/* Estilos de la reseña */
+
 .card-descripcion {
   margin: 0;
-  font-size: 0.9rem;
-  color: #e0e0e0; /* Un gris muy clarito para que contraste bien */
+  font-size: 1.5rem;
+  color: #e0e0e0; 
   line-height: 1.4;
-  
-  /* TRUCO MAGICO: Limitar la cantidad de líneas */
-  display: -webkit-box;
-  -webkit-line-clamp: 7; /* Máximo de líneas permitidas antes de poner "..." */
-  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -86,11 +81,11 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: bold;
-  color: #ffc107 !important; /* Amarillo/Dorado para el puntaje */
+  color: var(--color7);
 }
 
 .card-user-name {
   margin: 0;
   font-size: 0.9rem;
-  color: #e0e0e0 !important;
+  color: #e0e0e0 ;
 }

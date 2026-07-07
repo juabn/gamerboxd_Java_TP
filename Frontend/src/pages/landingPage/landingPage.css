@@ -76,12 +76,27 @@
 
 .highlightedReviews {
 	justify-content:center;
-    display: flex !important; 
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    gap: 20px !important; 
-    padding: 20px !important;
+	align-items:center;
+    display: flex;
+    flex-direction: row;
+    height:70vh;
+    flex-wrap: nowrap;
+    overflow-x: auto; 
+    gap: 20px;
+    background-color:var(--color1);
+    width: 100%;
+  	padding: 40px 0; 
 }
+
+.swiper-slide {
+  width: 50%; 
+  display: flex;
+  justify-content: center;
+}
+
+.swiper-pagination-bullet {
+  background-color: #ffffff !important;
+}
+
 
 
