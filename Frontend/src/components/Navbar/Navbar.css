@@ -62,8 +62,8 @@ nav{
 
 .usuariologeado {
   display: flex;
-  align-items: center; /* Alinea verticalmente el botón y el texto al centro */
-  gap: 10px;           /* Deja un espacio de 10px entre el botón y el texto */
+  align-items: center; 
+  gap: 10px;           
 }
 
 .divlogin{
