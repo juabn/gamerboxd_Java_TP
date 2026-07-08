@@ -10,7 +10,11 @@ import IngresarToken from './pages/IngresoToken/ingresoToken'
 import Navbar from './components/Navbar/Navbar';
 import LandingPage  from './pages/landingPage/landingPage'
 import Juegos from './pages/Juegos/Juegos'
+
 import Modificarperfil from './pages/modificarperfil/modificarperfil'
+
+import CrearGrupo from './pages/crearGrupo/crearGrupo'
+
 
 import './styles.css'
 
@@ -30,7 +34,7 @@ function App (){
 
 	return(
 		<>
-		<Navbar autenticado={isAuth} />
+		<Navbar autenticado={isAuth} className="nav"/>
 		
 		<Routes>
 		<Route path = "/" element = {<LandingPage/>}/>
@@ -40,7 +44,11 @@ function App (){
 		<Route path = "/recuperarpassword" element = {<Recuperarpassword/>} />
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />
 		<Route path = "/Juegos" element = {<Juegos/>} />
+
 		<Route path = "/Modificarperfil" element = {<Modificarperfil/>} />
+
+		<Route path = "/CrearGrupo" element = {<CrearGrupo/>}/>
+
 		
 		</Routes>
 		

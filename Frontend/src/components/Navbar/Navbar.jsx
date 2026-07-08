@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-import avatar from '../../assets/avatar.svg';
+
 import { useNavigate } from "react-router";
 import { useState} from 'react';
 
@@ -51,10 +51,7 @@ export default function Navbar({autenticado}) {
 					<Link to="Juegos">Juegos</Link>
 				</li>
 				<li>
-					<Link to="/">Administracion</Link>
-				</li>
-				<li>
-					<Link to="/">Sobre nosotros</Link>
+					<Link to="/CrearGrupo">Comunidad</Link>
 				</li>
 			</ul>
 			</div> 

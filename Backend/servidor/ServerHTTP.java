@@ -16,6 +16,7 @@ import servidor.AbmcUsuario.obtencionfotousuario;
 
 import servidor.Juegos.listajuegos;
 import servidor.Empresas.listaempresas;
+import servidor.AbmcGrupo.creargrupo;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -37,7 +38,11 @@ public class ServerHTTP {
 		server.createContext("/allresenias", new obtenerResenias());
 		server.createContext("/listajuegos", new listajuegos());
 		server.createContext("/listaempresas", new listaempresas());
+
 		server.createContext("/fotousuario", new obtencionfotousuario());
+
+		server.createContext("/creargrupo", new creargrupo());
+
 		server.start();
 		System.out.println("Server corriendo");
 		}
@@ -49,10 +54,4 @@ public class ServerHTTP {
 	}
 	
 	}	
-	
-	
-	
-	
-	
-
 
