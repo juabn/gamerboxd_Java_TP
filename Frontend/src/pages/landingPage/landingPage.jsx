@@ -64,6 +64,9 @@ export default function LandingPage() {
                       <Carrousel imagenes={imagenesCarrousel} className="cAnim" />
                   </div>
               </div>
+			  <h1 className="highlighterReviewsTitle">
+			  			  	Reseñas destacadas
+			  			  </h1>
 			  <div className='highlightedReviews'>
 			    <swiper-container
 				className='swiper-container-highlighted-r' 
