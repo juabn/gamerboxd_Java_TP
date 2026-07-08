@@ -136,6 +136,29 @@ public class AbmcGrupo {
 				
 				Gson gson = new Gson();
 				Grupo nuevoGrupo = gson.fromJson(body, Grupo.class);
+				boolean existe = false;
+				ArrayList<Grupo> gruposExistentes = AbmcGrupo.recuperarPorNombre(nuevoGrupo.getNombre());
+				for (Grupo g : gruposExistentes) {
+				    if (g.getNombre().equalsIgnoreCase(nuevoGrupo.getNombre())) {
+				        existe = true;
+				        break;
+				    }
+				}
+				
+				if (existe) {
+				    
+				    String errorResponse = "{\"status\":\"error\", \"mensaje\":\"El nombre del grupo ya esta en uso\"}";
+				    byte[] bytesError = errorResponse.getBytes("UTF-8");
+				    
+				    exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
+				    exchange.sendResponseHeaders(400, bytesError.length); // 400 = Petición incorrecta
+				    
+				    OutputStream os = exchange.getResponseBody();
+				    os.write(bytesError);
+				    os.close();
+				    return; 
+				}
+				
 				//el primer parametro es la foto de perfil
 				insertarNuevo(null, nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion());
 
@@ -189,7 +212,7 @@ public class AbmcGrupo {
             if(keyResultSet!=null){keyResultSet.close();}
             if(pstmt!=null){pstmt.close();}
 
-		    conn.close();
+		    
 		    
 		    // mostrar objeto
 		    System.out.println("Nuev Grupo");
@@ -235,7 +258,6 @@ public class AbmcGrupo {
             if(rs!=null){rs.close();}
             if(stmt!=null){stmt.close();}
 
-		    conn.close();
 		    
 		    // mostrar objeto
 		    System.out.println("Buscar por nombre");

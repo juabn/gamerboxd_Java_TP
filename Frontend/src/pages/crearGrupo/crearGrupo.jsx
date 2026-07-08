@@ -33,10 +33,12 @@ export default function CrearGrupo(){
 	      });
 
 	      if (response.ok) {
-	        alert('grupo insertado');
-	        setFormData({ nombre: '', descripcion: '' }); // Resetea el form
+	        setFormData({ nombre: '', descripcion: '' });
+			alert('bien'); 
 	      } else {
-	        alert('Error en el servidor al intentar crear el grupo.');
+			const errorData = await response.json();
+			console.log(errorData);
+			alert(errorData.mensaje);
 	      }
 	    } catch (error) {
 	      console.error('Fallo en la comunicación con el backend', error);
