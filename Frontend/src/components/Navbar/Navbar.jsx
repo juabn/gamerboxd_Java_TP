@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
-
+import avatar from '../../assets/avatar.svg';
 
 
 
@@ -34,9 +34,16 @@ export default function Navbar({autenticado}) {
 			</div> 
 			<div className="divlogin">
 			{autenticado ? (
-			          <button className="btnlogin" onClick={handleLogout} >
-			            Cerrar Sesion
-			          </button>
+				<div className='usuariologeado'>
+				  <button className="btnlogin" onClick={handleLogout}>
+				    Cerrar Sesion
+				  </button>
+				  
+				  
+				  <div className="avatar-perfil" onClick={() => console.log("Ir al perfil")}>
+				    <img src={avatar} alt="Perfil" className="avatar-img" />
+				  </div>
+				</div>
 			        ) : (
 			          <Link to="/login">
 			            <button className="btnlogin">Login</button>

@@ -39,6 +39,33 @@ nav{
 	
 }
 
+.avatar-perfil {
+  width: 40px;          
+  height: 40px;
+  cursor: pointer;      
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;   
+  object-fit: cover;    
+  border: 2px solid white; 
+  transition: transform 0.2s;
+}
+
+
+
+
+.usuariologeado {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el botón y el texto al centro */
+  gap: 10px;           /* Deja un espacio de 10px entre el botón y el texto */
+}
+
 .divlogin{
 	display:flex;
 	padding:0;
