@@ -14,7 +14,7 @@ import banner3 from '../../assets/juego3.jpg';
 import banner4 from '../../assets/juego4.jpg';
 import banner5 from '../../assets/juego5.jpg';
 import ReviewLandCard from '../../components/reviewLandCard/reviewLandCard';
-
+import FooterC from '../../components/Footer/Footer';
 export default function LandingPage() {
 	
 
@@ -58,7 +58,6 @@ export default function LandingPage() {
                       <Link to='/login'>
                           <button className="botonLogin">Pruebalo ahora</button>
                       </Link>
-
                   </div>
                   <div className="cFilter">
                       <Carrousel imagenes={imagenesCarrousel} className="cAnim" />
@@ -97,9 +96,7 @@ export default function LandingPage() {
 			      ))}
 			    </swiper-container>
 			  </div>
-			  <footer className="footerLanding">
-			  
-			  </footer>
+			  <FooterC/>
           </section>
 		  
   );

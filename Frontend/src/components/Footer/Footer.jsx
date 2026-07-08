@@ -3,15 +3,17 @@ import './Footer.css';
 import { Link } from 'react-router-dom';
 
 
-export default function Navbar() {
+export default function Footer() {
 	
 
 
   return (
-		<nav>
-		<div className="foot-group">
+	<footer className="footer">
+				  
 			<div className="foot-logo">Gamerboxd</div>
-			<div className="foot-"
+			<div className="foot-secciones">
+			<div className="foot-seccion">
+			<h2 className="foot-title">Navegacion</h2>
 			<ul className="foot-links">
 				<li>
 				<Link to="/">Inicio</Link>
@@ -20,18 +22,29 @@ export default function Navbar() {
 					<Link to="/">Juegos</Link>
 				</li>
 				<li>
-					<Link to="/">Administracion</Link>
+					<Link to="/">Comunidad</Link>
 				</li>
-				<li>
-					<Link to="/">Sobre nosotros</Link>
-				</li>
+
 			</ul>
-			</div> 
-			<div className="divlogin">
-			<Link to="/login">
-				<button className="btnlogin">Login</button>
-			</Link>
 			</div>
-		</nav>
+			
+				<div className="foot-seccion">
+				<h2 className="foot-title">Proyecto</h2>
+						<ul className="foot-links">
+							<li>
+							<a href="https://github.com/utnfrrojava" target="_blank">Materia</a>
+							</li>
+							<li>
+								<a href="https://github.com/juabn/gamerboxd_Java_TP" target="_blank">GitHub</a>
+							</li>
+							<li>
+								<Link to="/">Sobre Nosotros</Link>
+							</li>
+						</ul>
+			</div> 
+			</div>
+			
+			
+	</footer>
   );
 }

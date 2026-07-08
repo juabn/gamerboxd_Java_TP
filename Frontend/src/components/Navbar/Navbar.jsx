@@ -25,10 +25,7 @@ export default function Navbar({autenticado}) {
 					<Link to="Juegos">Juegos</Link>
 				</li>
 				<li>
-					<Link to="/">Administracion</Link>
-				</li>
-				<li>
-					<Link to="/">Sobre nosotros</Link>
+					<Link to="/">Comunidad</Link>
 				</li>
 			</ul>
 			</div> 

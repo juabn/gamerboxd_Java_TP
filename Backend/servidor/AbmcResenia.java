@@ -61,7 +61,6 @@ public class AbmcResenia {
                 p.setMail(rs.getString("mail_usuario"));
                 p.setNombre_usuario(rs.getString("nombre_usuario")); 
                 r.setUsuario(p);
-
                 resenias.add(r);
 
                
@@ -71,7 +70,7 @@ public class AbmcResenia {
             if(rs!=null){rs.close();}
             if(stmt!=null){stmt.close();}
 
-		    conn.close();
+		    
 		    
 		    // mostrar info
 		    System.out.println("Listado Completo");
