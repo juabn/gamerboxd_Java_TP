@@ -66,32 +66,41 @@ function Juegos(){
 			juegosExistente.unshift(listaJuegos[i].name)
 			juegosnorepetidos.unshift(listaJuegos[i])
 		
-	}else{
-		
-		console.log("asd")
 	}
 	}
+	
+	const [busqueda, setBusqueda] = useState('');
+
+	const manejarCambioBusqueda = (event) => {
+	    setBusqueda(event.target.value);
+
+	};
+	
+
+	
 	
 	
 	var array_filtro = [];
 
-	for (let i = 0; i < listaJuegos.length; i++){
-		
-		
-		if(listaJuegos[i].developers.includes(companiaelegida)){
-			
-			array_filtro.unshift(listaJuegos[i])
-		}
-		
-		if(companiaelegida == "Todos"){
-			
-			array_filtro = listaJuegos;
-			
-		}
-		
-		
-		
+	for (let i = 0; i < listaJuegos.length; i++) {
+	  const juego = listaJuegos[i];
+
+	  
+	  const cumpleCompania = (companiaelegida === "Todos") || 
+	                         (juego.developers && juego.developers.includes(companiaelegida));
+
+	 
+	  const nombreJuego = juego.name ? juego.name.toLowerCase() : "";
+	  const cumpleInput = (busqueda.trim() === "") || 
+	                      (nombreJuego.includes(busqueda.toLowerCase()));
+
+	  // El juego entra a la lista soloo si cumple ambas cosas a la vez
+	  if (cumpleCompania && cumpleInput) {
+	    array_filtro.push(juego);
+	  }
 	}
+	
+	
 
 
 	
@@ -99,17 +108,21 @@ function Juegos(){
 	return(
 		<div>
 		<div>
-		<p className="titulo"> Elige tu juego bla bla bla </p>
+		<p className="titulo"> ¡Elige tu juego a reseñar! </p>
 		</div>
 		
 		<div className="filtros">
-		<Select
+		<h3 className='texto'>Buscar juego</h3>
+		<input onChange={manejarCambioBusqueda} />
 		
-		defaultValue={{ value: 1, label: 'Todos' }}
-		options = {listaEmpresas}
-		onChange={manejarCambioOpcion}
-		
-		 />
+		<div className="select">
+		<h3 className='texto'>Filtrar por compañia</h3>
+		    <Select
+		      defaultValue={{ value: 1, label: 'Todos' }}
+		      options={listaEmpresas}
+		      onChange={manejarCambioOpcion}
+		    />
+		  </div>
 		<div className="catalogo-juegos">
 		{array_filtro.map((juego) => (
 		          <GameCard 

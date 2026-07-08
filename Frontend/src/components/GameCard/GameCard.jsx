@@ -3,10 +3,14 @@ import './GameCard.css';
 
 function GameCard({ titulo, imagen }) {
 	
+	const manejarClick = () => {
+	    console.log(titulo);
+	  };
+	
   return (
     <div className="card-juego">
      
-      <img src={imagen} alt={titulo} className="card-img" />
+      <img onClick={manejarClick} src={imagen} alt={titulo} className="card-img" />
       <div className="card-info">
         <h3 className="card-titulo">{titulo}</h3>
       </div>
