@@ -96,7 +96,9 @@ export default function LandingPage() {
 			      ))}
 			    </swiper-container>
 			  </div>
-			  <FooterC/>
+			  <section className="footer">
+			  	<FooterC/>
+			  </section>
           </section>
 		  
   );

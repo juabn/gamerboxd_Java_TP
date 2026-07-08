@@ -30,7 +30,7 @@ function App (){
 
 	return(
 		<>
-		<Navbar autenticado={isAuth} />
+		<Navbar autenticado={isAuth} className="nav"/>
 		
 		<Routes>
 		<Route path = "/" element = {<LandingPage/>}/>

@@ -8,6 +8,16 @@ export default function CrearGrupo(){
 	    nombre: '',
 	    descripcion: ''
 	  });
+	  
+	  const [fotoPreview, setFotoPreview] = useState(null);
+	  
+	  const handleFileChange = (e) => {
+	      const file = e.target.files[0];
+	      if (file) {
+	        
+	        setFotoPreview(URL.createObjectURL(file));
+	      }
+	    };
 
 	  const handleChange = (e) => {
 	    const { name, value } = e.target;
@@ -52,17 +62,28 @@ export default function CrearGrupo(){
 		      <h2 className="form-title">Creacion de grupo</h2>
 		      
 		      <form onSubmit={handleSubmit} className="gaming-form">
-		        <div className="input-group">
-		          <label htmlFor="foto">Foto del Grupo</label>
-		          <input 
-		            type="file" 
-		            id="foto" 
-		            name="foto" 
-		            accept="image/png, image/jpeg" 
-		            onChange={handleChange} 
-		            className="file-input"
-		          />
-		        </div>
+			  	<div className="avatar-upload-container">
+			            <label htmlFor="foto" className="avatar-preview-circle">
+			              {fotoPreview ? (
+			                <img src={fotoPreview} className="avatar-image" />
+			              ) : (
+			                <div className="avatar-placeholder">
+			                  <svg viewBox="0 0 24 24" fill="currentColor">
+			                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+			                  </svg>
+			                </div>
+			              )}
+			            </label>
+			            <input 
+			              type="file" 
+			              id="foto" 
+			              name="foto" 
+			              accept="image/png, image/jpeg, image/webp" 
+			              onChange={handleFileChange} 
+			              className="hidden-file-input"
+			            />
+			            <span className="avatar-hint">Agregar foto</span>
+			          </div>
 	
 		        <div className="input-group">
 		          <label htmlFor="nombre">Nombre</label>
@@ -78,12 +99,12 @@ export default function CrearGrupo(){
 		        </div>
 	
 		        <div className="input-group">
-		          <label htmlFor="descripcion">Descripción</label>
+		          <label htmlFor="descripcion" >Descripción</label>
 		          <textarea 
 		            id="descripcion" 
 		            name="descripcion" 
 		            rows="5" 
-		            placeholder="¿Qué tipo de juegos reseñan?..." 
+		            placeholder="habla sobre tu grupo" 
 		            value={formData.descripcion}
 		            onChange={handleChange} 
 		            required 
@@ -93,7 +114,10 @@ export default function CrearGrupo(){
 		        <button type="submit" className="submit-btn">Crear Grupo</button>
 		      </form>
 		    </div>
-			<FooterC/>
+		
+			<section className="footer">
+				<FooterC/>
+			</section>
 		</section>
 		
 		
