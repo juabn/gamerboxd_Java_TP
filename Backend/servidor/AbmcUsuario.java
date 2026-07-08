@@ -32,6 +32,64 @@ public class AbmcUsuario {
 	
 	
 	
+	public static class obtencionfotousuario implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			Persona perr = new Persona();
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	 InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+					Persona per = gson.fromJson(body, Persona.class);
+					perr = Data_persona.buscar_solo_persona_pormail("ss@gmail.com");
+					System.out.println(perr.getFoto_perfil());
+					
+					
+		    	
+		    	
+		    }
+		    catch(Error e ) {
+		    	
+		    	respuesta = "todinho mal";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    
+		    Gson gson = new Gson();
+		    String jsonRespuesta = gson.toJson(perr);
+		    exchange.sendResponseHeaders(200, jsonRespuesta.getBytes().length);	
+		    OutputStream os = exchange.getResponseBody();
+           os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+           os.close();
+		
+		    
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 	
 	
 	

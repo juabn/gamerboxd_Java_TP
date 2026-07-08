@@ -1,15 +1,41 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import avatar from '../../assets/avatar.svg';
+import { useNavigate } from "react-router";
+import { useState} from 'react';
 
 
 
 export default function Navbar({autenticado}) {
 	
+	const navigate = useNavigate();
+	
 	const handleLogout = () => {
 	    localStorage.removeItem('token');
 	    window.location.href = '/login'; // Recarga y limpia la sesión
 	  };
+	  
+	  
+	  
+	  const [imagen, setimagen] = useState("")
+	  	  
+	  	  let mail = localStorage.getItem('usuario');
+	  	  
+	  	  fetch('http://localhost:8081/fotousuario', {
+	  	  		
+	  	  		method: 'POST', 
+	  	  		  headers: {
+	  	  		    'Content-Type': 'application/json' 
+	  	  		  },
+	  	  		  body: JSON.stringify({mail: mail}) 
+	  	  		})
+	  	  		
+	  	  		.then(response => response.text())
+	  	  		.then(data => {
+	  	  		    setimagen(data)
+	  	  		   
+	  	  		})
+	  	  		.catch(error => console.error('Error:', error));
 	
 
 
@@ -41,7 +67,7 @@ export default function Navbar({autenticado}) {
 				  
 				  
 				  <div className="avatar-perfil" onClick={() => console.log("Ir al perfil")}>
-				    <img src={avatar} alt="Perfil" className="avatar-img" />
+				    <img src={imagen} onClick={() => navigate('/Modificarperfil')} alt="Perfil" className="avatar-img" />
 				  </div>
 				</div>
 			        ) : (

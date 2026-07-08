@@ -11,6 +11,7 @@ import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
 
 import servidor.AbmcUsuario.cambiarpassword;
+import servidor.AbmcUsuario.obtencionfotousuario;
 
 
 import servidor.Juegos.listajuegos;
@@ -36,6 +37,7 @@ public class ServerHTTP {
 		server.createContext("/allresenias", new obtenerResenias());
 		server.createContext("/listajuegos", new listajuegos());
 		server.createContext("/listaempresas", new listaempresas());
+		server.createContext("/fotousuario", new obtencionfotousuario());
 		server.start();
 		System.out.println("Server corriendo");
 		}

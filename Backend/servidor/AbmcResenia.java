@@ -71,7 +71,7 @@ public class AbmcResenia {
             if(rs!=null){rs.close();}
             if(stmt!=null){stmt.close();}
 
-		    conn.close();
+		    
 		    
 		    // mostrar info
 		    System.out.println("Listado Completo");

@@ -2,12 +2,15 @@
 
 package data;
 import java.sql.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.security.SecureRandom;
 import java.util.Base64;
 import servidor.GestionMail;
 import java.util.Random;
+
+import entities.Persona;
 
 
 import java.sql.*;
@@ -20,6 +23,7 @@ public class Data_persona {
 
 
     }
+	
 	
 	
 	
@@ -146,7 +150,44 @@ public class Data_persona {
 	}
 		
 
-
+	public static Persona buscar_solo_persona_pormail(String mail) {
+		
+		Persona per = new Persona();
+		
+		
+		
+try {
+		
+		Connection conn = Conexion.getInstancia().getConn();
+	    
+	    String query = "select * from persona where mail = ?";
+	    PreparedStatement ps = conn.prepareStatement(query);
+	    ps.setString(1, mail);
+	    ResultSet rs = ps.executeQuery();
+	    
+	    if (rs.next()) {
+	    	
+	    	
+	    	per.setFoto_perfil(rs.getString("foto_perfil"));
+	    	per.setNombre_usuario(rs.getString("nombre"));
+	
+		}
+	    
+	        
+	   
+	    
+	}
+catch(SQLException ex){
+	
+	
+	System.out.println("SQLException: " + ex.getMessage());
+    System.out.println("SQLState: " + ex.getSQLState());
+    System.out.println("VendorError: " + ex.getErrorCode());
+}
+		
+return per;
+		
+	}
 	
 	
 	public static Boolean buscar_persona(String mail, String contrasenia) {
