@@ -86,9 +86,9 @@ export default function LandingPage() {
 			            titulo={resenia.titulo} 
 			            descripcion={resenia.descripcion} 
 			            puntaje={resenia.puntaje}
-			            nombreJuego="Stardew Valley" 
-			            nombreUsuario="Gamer123"
-			            fotoJuego={banner3} 
+			            nombreJuego={resenia.juego.name} 
+			            nombreUsuario={resenia.usuario.nombre_usuario}
+			            fotoJuego={resenia.juego.background_image} 
 			          />
 			        </swiper-slide>
 			      ))}

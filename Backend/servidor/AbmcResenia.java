@@ -36,7 +36,7 @@ public class AbmcResenia {
 				     "FROM resenia r " +
 				     "INNER JOIN juego j ON r.id_juego = j.idjuego " +
 				     "INNER JOIN persona p ON r.mail_usuario = p.mail";
-            ResultSet rs= stmt.executeQuery("sql");
+            ResultSet rs= stmt.executeQuery(sql);
 
             // mapear de resultset a objeto
             while(rs.next()) {
@@ -64,7 +64,7 @@ public class AbmcResenia {
 
                 resenias.add(r);
 
-                resenias.add(r);
+               
 
             }
             //cerrar recursos
