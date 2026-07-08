@@ -1,7 +1,11 @@
 package servidor;
 
 
+
 import servidor.AbmcUsuario.login;
+
+
+
 
 
 import servidor.AbmcUsuario.registro;
@@ -11,6 +15,10 @@ import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
 
 import servidor.AbmcUsuario.cambiarpassword;
+
+
+import servidor.Juegos.listajuegos;
+import servidor.Empresas.listaempresas;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,6 +37,8 @@ public class ServerHTTP {
 		server.createContext("/recuperarpassword", new recuperarpersona());
 		server.createContext("/verificartoken", new verificartoken());
 		server.createContext("/cambiarpassword", new cambiarpassword());
+		server.createContext("/listajuegos", new listajuegos());
+		server.createContext("/listaempresas", new listaempresas());
 		server.start();
 		System.out.println("Server corriendo");
 		}

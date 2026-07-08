@@ -1,0 +1,68 @@
+.titulo{
+	
+	text-align: center;
+	color:white;
+	font-size:8vh;
+	
+}
+
+.filtros {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+	
+}
+
+.filtros > input:focus {
+  outline: none;
+  border-color: #2684ff;
+  box-shadow: 0 0 0 1px #2684ff;
+}
+
+
+.filtros > input {
+  width: 100%;
+  max-width: 300px;
+  height: 38px;
+  padding: 0 10px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.selector {
+	
+	margin-right:5vh;
+}
+
+.catalogo-juegos{
+	display: flex;
+  flex-wrap: wrap; 
+  gap: 20px;       
+  padding: 20px;
+  justify-content: center; 
+	
+	
+	
+}
+
+
+.texto{
+	
+	
+	color: white;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.select {
+	width: 100%;
+  max-width: 300px; 
+  margin-bottom: 20px; 
+ 
+  
+  
+  
+}

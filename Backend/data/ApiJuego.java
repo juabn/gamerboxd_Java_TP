@@ -1,3 +1,5 @@
+
+/*
 package data;
 
 
@@ -19,7 +21,7 @@ import entities.Compania;
 
 public class ApiJuego {
 	private static final String API_KEY = "018d48659af84265982427914211cf95";
-    private static final String URL_RAWG = "https://api.rawg.io/api/games?key=" + API_KEY + "&page_size=5";
+    private static final String URL_RAWG = "https://api.rawg.io/api/games?key=" + API_KEY + "&page_size=40";
     private String obtenerDescripcionRAWG(int id_Juego) {
         try {
             String urlDetalle = "https://api.rawg.io/api/games/" + id_Juego + "?key=018d48659af84265982427914211cf95";
@@ -55,7 +57,7 @@ public class ApiJuego {
                     JsonObject devObj = element.getAsJsonObject();
                     Compania c = new Compania();
                     c.setNombre(devObj.get("name").getAsString());
-                    c.setId(devObj.get("id").getAsInt());
+                   
                     listaDevs.add(c);
                 }
                 j.setCompanias(listaDevs);
@@ -108,5 +110,5 @@ public class ApiJuego {
     }
 
 
-
+*/
 

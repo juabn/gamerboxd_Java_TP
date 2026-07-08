@@ -1,0 +1,36 @@
+.textoprueba{
+	
+color:white;
+	
+}
+
+/* GameCard.css */
+.card-juego {
+  width: 280px;    
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden; /* Clave para que la imagen respete los bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+.card-juego:hover {
+  transform: translateY(-5px); /* Efecto visual al pasar el mouse */
+}
+
+.card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover; /* Recorta la imagen de RAWG para que no se deforme */
+}
+
+.card-info {
+  padding: 15px;
+  color: white;
+}
+
+.card-titulo {
+  margin: 0;
+  font-size: 1.1rem;
+  font-family: sans-serif;
+}
