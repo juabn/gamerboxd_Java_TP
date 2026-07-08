@@ -7,7 +7,7 @@ register();
 
 
 import Carrousel from '../../components/carrousel/Carrousel';
-import Navbar from '../../components/Navbar/Navbar'
+
 import banner1 from '../../assets/juego1.jpg';
 import banner2 from '../../assets/juego2.jpg';
 import banner3 from '../../assets/juego3.jpg';
@@ -51,7 +51,7 @@ export default function LandingPage() {
 	  }, []);
   return (
 	  <section className="body">
-	  	<Navbar class="nav"></Navbar>
+	  	
               <div className="headerContainer">
                   <div className='headerDiv'>
                       <h1 className='headerDivTitle'>Reseña tus juegos favoritos</h1>

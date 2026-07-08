@@ -9,6 +9,8 @@ import Recuperarpassword from './pages/RecuperarPassword/RecuperarPassword'
 import IngresarToken from './pages/IngresoToken/ingresoToken'
 import Navbar from './components/Navbar/Navbar';
 import LandingPage  from './pages/landingPage/landingPage'
+import Juegos from './pages/Juegos/Juegos'
+
 import './styles.css'
 
 import IngresoNuevacontrasenia from './pages/IngresoNuevaContrasenia/IngresoNuevacontrasenia'
@@ -36,6 +38,7 @@ function App (){
 		<Route path = "/registro" element = {<Registro/>} />
 		<Route path = "/recuperarpassword" element = {<Recuperarpassword/>} />
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />
+		<Route path = "/Juegos" element = {<Juegos/>} />
 		
 		</Routes>
 		

@@ -51,7 +51,7 @@ public class AbmcResenia {
                 r.setMail_usuario(rs.getString("mail_usuario"));
                 
                 Juego j = new Juego();
-                j.setId_juego(rs.getInt("id_juego"));
+                j.setId_juego(rs.getString("id_juego"));
                 j.setTitulo(rs.getString("nombre_juego")); 
                 j.setImagen(rs.getString("foto_juego"));   
                 r.setJuego(j);

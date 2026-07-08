@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 public class Juego {
 	@SerializedName("id")
-	private int id_juego;
+	private String id_juego;
 	@SerializedName("name")
 	private String titulo;
 	@SerializedName("background_image")
@@ -20,7 +20,7 @@ public class Juego {
 	@SerializedName("platforms")
 	private ArrayList<Plataforma> plataformas;
 	@SerializedName("developers")
-	private ArrayList<Compania> companias;
+	private String companias;
 	
 	
 	/*public static class DeveloperEntry {
@@ -30,10 +30,10 @@ public class Juego {
 	
 	
 
-	public int getId_juego() {
+	public String getId_juego() {
 		return id_juego;
 	}
-	public void setId_juego(int id_juego) {
+	public void setId_juego(String id_juego) {
 		this.id_juego = id_juego;
 	}
 	public String getTitulo() {
@@ -69,10 +69,14 @@ public class Juego {
 		this.precio = precio;
 	}
 	
-	public ArrayList<Compania> getCompanias(){return companias;}
 	
-	public void setCompanias(ArrayList<Compania> companias) {this.companias = companias;}
 
+	public String getCompanias() {
+		return companias;
+	}
+	public void setCompanias(String companias) {
+		this.companias = companias;
+	}
 	public double getPuntaje_promedio() {
 		return puntaje_promedio;
 	}
@@ -89,15 +93,9 @@ public class Juego {
 	    return plataformas.stream().map(p-> String.valueOf(p.getNombre())).collect(Collectors.joining(", "));
 	}
 	
-	public String getCompaniasTexto() {
-	    if (this.companias == null){return "N/A";}
-
-	    return this.companias.stream().map(p -> String.valueOf(p.getNombre())).collect(java.util.stream.Collectors.joining(", "));
-	}
 	
-	public String getInfoJuego() {
-		return  "ID: "+ this.id_juego + "\n titulo: " + this.titulo + "\n descrpicion: "+this.descripcion+" \n plataformas: "+ getPlataformasTexto()+"\n developers: "+getCompaniasTexto();
-	}
+	
+
 	
 
 	
