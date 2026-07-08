@@ -1,5 +1,7 @@
 package servidor;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +9,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.google.gson.Gson;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import data.Conexion;
 import entities.Grupo;
@@ -108,6 +115,45 @@ public class AbmcGrupo {
 		    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		return g;
+	}
+	
+	public static class creargrupo implements HttpHandler {
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+			exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "POST, OPTIONS");
+			exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+
+			// preflight por el post
+			if ("OPTIONS".equals(exchange.getRequestMethod())) {
+				exchange.sendResponseHeaders(204, -1);
+				return;
+			}
+
+			if ("POST".equals(exchange.getRequestMethod())) {
+				InputStream is = exchange.getRequestBody();
+				String body = new String(is.readAllBytes(), "UTF-8");
+				
+				Gson gson = new Gson();
+				Grupo nuevoGrupo = gson.fromJson(body, Grupo.class);
+				//el primer parametro es la foto de perfil
+				insertarNuevo(null, nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion());
+
+				String jsonResponse = "{\"status\":\"ok\", \"mensaje\":\"Grupo insertado correctamente\"}";
+				byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
+
+				exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
+				exchange.sendResponseHeaders(200, bytesResponse.length);
+				
+				OutputStream os = exchange.getResponseBody();
+				os.write(bytesResponse);
+				os.close();
+				
+			} else {
+				
+				exchange.sendResponseHeaders(405, -1);
+			}
+		}
 	}
 	
 	public static void insertarNuevo(String foto_perfil,String nombre,  String descripcion) {

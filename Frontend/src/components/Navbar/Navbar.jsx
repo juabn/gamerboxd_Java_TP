@@ -25,7 +25,7 @@ export default function Navbar({autenticado}) {
 					<Link to="Juegos">Juegos</Link>
 				</li>
 				<li>
-					<Link to="/">Comunidad</Link>
+					<Link to="/CrearGrupo">Comunidad</Link>
 				</li>
 			</ul>
 			</div> 

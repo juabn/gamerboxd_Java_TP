@@ -10,6 +10,7 @@ import IngresarToken from './pages/IngresoToken/ingresoToken'
 import Navbar from './components/Navbar/Navbar';
 import LandingPage  from './pages/landingPage/landingPage'
 import Juegos from './pages/Juegos/Juegos'
+import CrearGrupo from './pages/crearGrupo/crearGrupo'
 
 import './styles.css'
 
@@ -39,6 +40,7 @@ function App (){
 		<Route path = "/recuperarpassword" element = {<Recuperarpassword/>} />
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />
 		<Route path = "/Juegos" element = {<Juegos/>} />
+		<Route path = "/CrearGrupo" element = {<CrearGrupo/>}/>
 		
 		</Routes>
 		
