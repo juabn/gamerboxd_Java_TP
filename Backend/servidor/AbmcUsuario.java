@@ -31,11 +31,77 @@ public class AbmcUsuario {
 	}
 	
 	
+	public static class actualizardatosusuario implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			int codigoestado;
+			
+			
+
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	 InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+					Persona per = gson.fromJson(body, Persona.class);
+					System.out.println();
+
+					respuesta = Data_persona.actualizarImagenYnombre(per.getMail(), per.getFoto_perfil(), per.getNombre_usuario());
+					System.out.println(respuesta);
+					codigoestado = 200;
+					
+					
+					
+		    	
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	System.out.println(e);
+		    	respuesta = "todinho mal";
+		    	codigoestado = 401;
+		    	
+		    	
+		    }
+		    
+		 
+		    Gson gson = new Gson();
+		    String jsonRespuesta = gson.toJson(respuesta);
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
+		    OutputStream os = exchange.getResponseBody();
+           os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+           os.close();
+		
+		    
+		
+		}
+		
+		
+		
+		
+		
+		
+	}
+	
 	
 	public static class obtencionfotousuario implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			String respuesta = "aaa no seee";
+			int codigoestado;
 			Persona perr = new Persona();
 			
 			controlCors(exchange);
@@ -57,6 +123,7 @@ public class AbmcUsuario {
 					Persona per = gson.fromJson(body, Persona.class);
 					perr = Data_persona.buscar_solo_persona_pormail("ss@gmail.com");
 					System.out.println(perr.getFoto_perfil());
+					codigoestado = 200;
 					
 					
 		    	
@@ -65,14 +132,14 @@ public class AbmcUsuario {
 		    catch(Error e ) {
 		    	
 		    	respuesta = "todinho mal";
-		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	codigoestado = 401;
 		    	
 		    	
 		    }
 		    
 		    Gson gson = new Gson();
 		    String jsonRespuesta = gson.toJson(perr);
-		    exchange.sendResponseHeaders(200, jsonRespuesta.getBytes().length);	
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
 		    OutputStream os = exchange.getResponseBody();
            os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
            os.close();

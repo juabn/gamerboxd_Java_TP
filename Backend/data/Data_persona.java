@@ -27,6 +27,74 @@ public class Data_persona {
 	
 	
 	
+	public static String actualizarImagenYnombre(String mail, String nuevaimagen, String nuevonombre) {
+		
+		String Respuesta = "hola";
+		
+		
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			
+			
+			if(nuevaimagen.equals("") && !nuevonombre.equals("")) {
+				String query = "update persona set nombre = ? where mail = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				 ps.setString(1, nuevonombre);
+				 ps.setString(2, mail);
+				 Respuesta = "ok";
+				 ps.executeUpdate();
+				
+			}
+			
+			if(nuevonombre.equals("") && !nuevaimagen.equals("")) {
+				String query = "update persona set foto_perfil = ? where mail = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, nuevaimagen);
+				ps.setString(2, mail);
+				Respuesta = "ok";
+				ps.executeUpdate();
+				
+			}
+			
+			if(!nuevonombre.equals("") && !nuevaimagen.equals("")) {
+				String query = "UPDATE persona SET foto_perfil = ?, nombre = ? WHERE mail = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, nuevaimagen);
+				ps.setString(2, nuevonombre);
+				ps.setString(3, mail);
+				Respuesta = "ok";
+				ps.executeUpdate();
+				
+			}
+
+
+		   
+		    
+		}
+		
+		catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		
+		
+		
+		
+		
+		return Respuesta;
+	}
+	
+	
+	
+	
+	
+	
 
 	
 	

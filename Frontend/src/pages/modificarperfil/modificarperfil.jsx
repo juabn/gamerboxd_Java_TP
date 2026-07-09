@@ -8,12 +8,63 @@ import './modificarperfil.css'
 function Modificarperfil(){		
 	
 	
+	
+	const [estadofoto, setestadofoto] = useState(false)
+	
+	const [nuevonombre, setnuevonombre] = useState("")
+	
+	const insertarnombre = (e) => {
+		
+		setnuevonombre(e.target.value)
+		console.log(e.target.value)
+		
+		
+	}
+	
+	const enviar = (e) => {
+		
+		e.preventDefault();
+		
+		console.log(mail)	
+		console.log(imagen)
+		console.log(nuevonombre)	
+		
+		
+		fetch('http://localhost:8081/actualizardatosperfil', {
+			
+			method: 'POST', 
+			headers: {
+			'Content-Type': 'application/json' },
+			body: JSON.stringify({mail: mail, foto_perfil: imagen, nombre_usuario: nuevonombre}) 
+			
+			
+		})
+		
+		.then(response => response.json())
+		.then(data => {
+			
+			console.log('Respuesta de exito:', data);
+		
+			if (data == "ok") {
+			        alert("Actualizacion de perfil correcta");
+			    } else {
+			        alert("Hubo un problema al actualizar: " + data.status);
+			    }
+		})
+		.catch(error => {
+			
+			console.error('Error:', error);
+			alert("Error en la base de datos, intenta mas tarde");
+		
+	});
+	}
+	
 	const [imagen, setimagen] = useState("")
 	const [nombreoriginal, setnombreoriginal] = useState("")
 	
 	let mail = localStorage.getItem('usuario');
 	
-	console.log(localStorage.getItem('usuario'))
+	
 	
 	useEffect(() => {
 	
@@ -30,7 +81,7 @@ function Modificarperfil(){
 		.then(data => {
 			
 			setimagen(data.foto_perfil)
-			console.log(data.nombre_usuario)
+			
 			setnombreoriginal(data.nombre_usuario)
 		    
 		   
@@ -42,8 +93,7 @@ function Modificarperfil(){
 		}, []);
 		
 	
-	
-	const [nombre, setnombre] = useState("");
+
 		
 		const navigate = useNavigate();
 		
@@ -57,11 +107,7 @@ function Modificarperfil(){
 		
 
 				
-		const insertarnombre = (e) => {
-								
-			setnombre(e.target.value);
-		
-			}
+
 			
 			
 			
@@ -71,6 +117,8 @@ function Modificarperfil(){
 			reader.readAsDataURL(e.target.files[0])
 			reader.onload = () => {
 			setimagen(reader.result )
+			setestadofoto(true);
+			
 			
 			}
 		}
@@ -82,7 +130,7 @@ function Modificarperfil(){
 			
 			<div className="contendorprincipal">
 			
-			<form className='contendorprincipal'>
+			<form onSubmit={enviar} className='contendorprincipal'>
 			<p className='text'>Actualizar imagen</p>
 			
 			<input type = "file" 
@@ -95,13 +143,13 @@ function Modificarperfil(){
 			<p className='text'>Cambiar nombre</p>			
 			<input 
 			placeholder="Ingrese nuevo nombre"
-			onChange={insertarnombre} 
-			value={nombre}
-			required
+			value={nuevonombre}
+			onChange={insertarnombre}
+			
 				/>			
 			
-			<button type="submit">Confirmar cambios  </button>
-			<button onClick={volver}> Volver </button>
+			<button type="submit" disabled={!estadofoto && nuevonombre == ""} >Confirmar cambios  </button>
+			<button type="button" onClick={volver}> Volver </button>
 			
 			
 			

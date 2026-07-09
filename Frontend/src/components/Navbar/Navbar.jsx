@@ -17,6 +17,9 @@ export default function Navbar({autenticado}) {
 	  
 	  
 	  
+	  
+	  
+	  
 	  const [imagen, setimagen] = useState("")
 	  	  
 	  	  let mail = localStorage.getItem('usuario');
@@ -30,9 +33,9 @@ export default function Navbar({autenticado}) {
 	  	  		  body: JSON.stringify({mail: mail}) 
 	  	  		})
 	  	  		
-	  	  		.then(response => response.text())
+	  	  		.then(response => response.json())
 	  	  		.then(data => {
-	  	  		    setimagen(data)
+	  	  		    setimagen(data.foto_perfil)
 	  	  		   
 	  	  		})
 	  	  		.catch(error => console.error('Error:', error));
