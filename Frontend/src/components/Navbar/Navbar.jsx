@@ -17,20 +17,22 @@ export default function Navbar({autenticado}) {
 	  
 	  
 	  
-	  
+	  let tokenActual = localStorage.getItem('token');
 	  
 	  
 	  const [imagen, setimagen] = useState("")
 	  	  
-	  	  let mail = localStorage.getItem('usuario');
+	  	
 	  	  
 	  	  fetch('http://localhost:8081/fotousuario', {
+			
 	  	  		
 	  	  		method: 'POST', 
 	  	  		  headers: {
-	  	  		    'Content-Type': 'application/json' 
+	  	  		    'Content-Type': 'application/json' ,
+					'Authorization': 'Bearer ' + tokenActual
 	  	  		  },
-	  	  		  body: JSON.stringify({mail: mail}) 
+	  	  		  body: JSON.stringify({}) 
 	  	  		})
 	  	  		
 	  	  		.then(response => response.json())

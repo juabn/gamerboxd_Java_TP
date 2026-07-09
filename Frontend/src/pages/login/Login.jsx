@@ -54,7 +54,6 @@ function Login({ setAuth }){
 		localStorage.setItem('token', data.token);
 		alert("Usuario correcto")
 		setAuth(true);
-		localStorage.setItem('usuario', nombre);
 		navigate('/');
 		}
 		

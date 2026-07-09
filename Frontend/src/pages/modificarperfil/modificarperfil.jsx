@@ -9,6 +9,7 @@ function Modificarperfil(){
 	
 	
 	
+	
 	const [estadofoto, setestadofoto] = useState(false)
 	
 	const [nuevonombre, setnuevonombre] = useState("")
@@ -22,20 +23,22 @@ function Modificarperfil(){
 	}
 	
 	const enviar = (e) => {
+		let token = localStorage.getItem('token');
 		
 		e.preventDefault();
 		
-		console.log(mail)	
 		console.log(imagen)
 		console.log(nuevonombre)	
 		
+		console.log("Token a enviar:", token);
 		
 		fetch('http://localhost:8081/actualizardatosperfil', {
 			
 			method: 'POST', 
 			headers: {
-			'Content-Type': 'application/json' },
-			body: JSON.stringify({mail: mail, foto_perfil: imagen, nombre_usuario: nuevonombre}) 
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token },
+			body: JSON.stringify({foto_perfil: imagen, nombre_usuario: nuevonombre}) 
 			
 			
 		})
@@ -62,19 +65,22 @@ function Modificarperfil(){
 	const [imagen, setimagen] = useState("")
 	const [nombreoriginal, setnombreoriginal] = useState("")
 	
-	let mail = localStorage.getItem('usuario');
+	
 	
 	
 	
 	useEffect(() => {
+		let tokenActual = localStorage.getItem('token');
+		
 	
 	fetch('http://localhost:8081/fotousuario', {
 		
 		method: 'POST', 
 		  headers: {
-		    'Content-Type': 'application/json' 
+		    'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + tokenActual
 		  },
-		  body: JSON.stringify({mail: mail}) 
+		  body: JSON.stringify({}) 
 		})
 		
 		.then(response => response.json())
@@ -130,10 +136,10 @@ function Modificarperfil(){
 			
 			<div className="contendorprincipal">
 			
-			<form onSubmit={enviar} className='contendorprincipal'>
+			<form onSubmit={enviar} className='form'>
 			<p className='text'>Actualizar imagen</p>
 			
-			<input type = "file" 
+			<input className='file-input' type = "file" 
 						accept="image/*"
 						onChange={insertarimagen}	
 						/>
@@ -141,14 +147,14 @@ function Modificarperfil(){
 						/>
 			<p className='text'>{nombreoriginal}</p>	
 			<p className='text'>Cambiar nombre</p>			
-			<input 
+			<input  className='input'
 			placeholder="Ingrese nuevo nombre"
 			value={nuevonombre}
 			onChange={insertarnombre}
 			
 				/>			
 			
-			<button type="submit" disabled={!estadofoto && nuevonombre == ""} >Confirmar cambios  </button>
+			<button className='submit-btn' type="submit" disabled={!estadofoto && nuevonombre == ""} >Confirmar cambios  </button>
 			<button type="button" onClick={volver}> Volver </button>
 			
 			

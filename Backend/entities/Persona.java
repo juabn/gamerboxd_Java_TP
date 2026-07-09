@@ -5,9 +5,19 @@ public class Persona {
 	private String nombre_usuario;
 	private String contrasenia;
 	private String mail;
+	private String rol;
 	private String foto_perfil;
 	private String token;
 	
+	
+	
+	
+	public String getRol() {
+		return rol;
+	}
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
 	public int getId() {
 		return id;
 	}

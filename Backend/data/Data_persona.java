@@ -3,6 +3,7 @@
 package data;
 import java.sql.*;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.security.SecureRandom;
@@ -238,6 +239,7 @@ try {
 	    	
 	    	per.setFoto_perfil(rs.getString("foto_perfil"));
 	    	per.setNombre_usuario(rs.getString("nombre"));
+	    	per.setRol(rs.getString("rol"));
 	
 		}
 	    

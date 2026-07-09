@@ -12,6 +12,10 @@ import java.security.Key;
 import javax.crypto.SecretKey;
 
 public class GeneracionWebToken {
+	
+	
+	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
+	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
 
 	public static void main(String[] args) {
 		
@@ -46,26 +50,19 @@ public static void probando(){
 
 
 
-public static String enviotoken() {
+public static String enviotoken(String mail, String rol) {
 	
-	SecretKey key = Jwts.SIG.HS256.key().build();
-	
-	byte[] content = "Hello World".getBytes(StandardCharsets.UTF_8);
+
 	
 	String jws = Jwts.builder()
 	
 	.header()
-		.keyId("IdEJEMPLO")
+		.keyId("id1")
 		.and()
 	
-		.subject("Santi")
-		
-		// (3) JSON Claims, or
-	    //.content(aByteArray, "text/plain")        //     any byte[] content, with media type
-
-	    .signWith(key)                       // (4) if signing, or
-	    //.encryptWith(key, keyAlg, encryptionAlg)  //     if encrypting
-
+		.subject(mail)
+		.claim("rol", rol)
+	    .signWith(KEY)                     
 	    .compact();  
 	
 	return(jws);
