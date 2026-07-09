@@ -29,7 +29,7 @@ Los usuarios pueden crear grupos de reseñadores y solicitar unirse a otros grup
 | ABMC                          | Personas, Usuario, Juego, Compañia, Grupo, Administrador, Propuesta          |
 | CU "Complejo" (nivel resumen) | Realizar reseña         |
 | Listado complejo              | Listar juegos por compañia         |
-| Nivel de acceso               | Vistante, Usuario        |
+| Nivel de acceso               | Administrador, Usuario        |
 
 
 
