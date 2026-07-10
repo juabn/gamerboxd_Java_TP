@@ -17,7 +17,7 @@ Los usuarios pueden crear grupos de reseñadores y solicitar unirse a otros grup
 
 | Requerimiento    | Detalles |
 |------------------|----------|
-| ABMC Simple      | Persona,  Compañia        |
+| ABMC Simple      | Usuario,  Compañia        |
 | ABMC Dependiente | Juego         |
 | CU NO-ABMC       | Moderación de reseña         |
 | Listado simple   | Listado de juegos         |
