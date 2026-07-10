@@ -106,7 +106,7 @@ function Juegos(){
 	
 	
 	return(
-		<div>
+		<div className='juegosbody'>
 		<div>
 		<p className="titulo"> ¡Elige tu juego a reseñar! </p>
 		</div>
