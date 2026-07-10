@@ -32,13 +32,7 @@ export default function CrearGrupo(){
 	  
 	  const [fotoPreview, setFotoPreview] = useState(null);
 	  
-	  const handleFileChange = (e) => {
-	      const file = e.target.files[0];
-	      if (file) {
-	        
-	        setFotoPreview(URL.createObjectURL(file));
-	      }
-	    };
+
 
 	  const handleChange = (e) => {
 	    const { name, value } = e.target;
@@ -46,6 +40,7 @@ export default function CrearGrupo(){
 	      ...formData,
 	      [name]: value
 	    });
+		
 	  };
 
 	  const handleSubmit = async (e) => {
@@ -67,6 +62,7 @@ export default function CrearGrupo(){
 	      if (response.ok) {
 	        setFormData({ nombre: '', descripcion: '' });
 			alert('bien'); 
+			setFotoPreview(null)
 	      } else {
 			const errorData = await response.json();
 			console.log(errorData);
