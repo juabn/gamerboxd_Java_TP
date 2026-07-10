@@ -10,7 +10,7 @@ import IngresarToken from './pages/IngresoToken/ingresoToken'
 import Navbar from './components/Navbar/Navbar';
 import LandingPage  from './pages/landingPage/landingPage'
 import Juegos from './pages/Juegos/Juegos'
-
+import VerificarToken from './components/verificacionToken/verificacionToken'
 import Modificarperfil from './pages/modificarperfil/modificarperfil'
 
 import CrearGrupo from './pages/crearGrupo/crearGrupo'
@@ -47,7 +47,13 @@ function App (){
 
 		<Route path = "/Modificarperfil" element = {<Modificarperfil/>} />
 
-		<Route path = "/CrearGrupo" element = {<CrearGrupo/>}/>
+		<Route 
+		          path="/CrearGrupo" 
+		          element={
+		            <VerificarToken>
+		              <CrearGrupo />
+		            </VerificarToken>
+		          }/>
 
 		
 		</Routes>
