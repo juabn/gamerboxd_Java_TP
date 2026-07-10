@@ -149,6 +149,7 @@ public class AbmcCompania {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 			String mensaje = "funcionando";
+			Boolean Existe_empresa = false;
 			
 			
 			controlCors(exchange);
@@ -192,15 +193,28 @@ public class AbmcCompania {
 			Gson gson = new Gson();
 			Compania com = gson.fromJson(body, Compania.class);	
 			
+			Existe_empresa = DataCompania.validarempresaexistente(com.getNombre());
+		
 			
-			
-			DataCompania.crearcompania(com.getNombre());
-			System.out.println(com.getNombre());
-			
-			exchange.sendResponseHeaders(200, mensaje.getBytes().length);
-			OutputStream os = exchange.getResponseBody();
-            os.write(mensaje.getBytes()); 
-            os.close();
+			if (!Existe_empresa) {
+				
+				DataCompania.crearcompania(com.getNombre());
+				
+				
+				exchange.sendResponseHeaders(200, mensaje.getBytes().length);
+				OutputStream os = exchange.getResponseBody();
+	            os.write(mensaje.getBytes()); 
+	            os.close();
+			}else {
+				
+				mensaje = "Empresa duplicada";
+				exchange.sendResponseHeaders(409, mensaje.getBytes().length);
+				OutputStream os = exchange.getResponseBody();
+	            os.write(mensaje.getBytes()); 
+	            os.close();
+	           System.out.println("Empresa repetida");
+				
+			}
 			
 			}catch(SQLException e) {
 				

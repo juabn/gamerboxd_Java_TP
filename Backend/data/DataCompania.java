@@ -94,6 +94,8 @@ public class DataCompania {
 		}
 		
 		
+	
+		
 		
 		
 		
@@ -101,6 +103,40 @@ public class DataCompania {
 		return Respuesta;
 }
 
+	
+
+	public static Boolean validarempresaexistente(String nombre) {
+		
+		Boolean Respuesta = false;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();  
+			
+			String nombremin = nombre.replace(" ", "").toLowerCase();
+		    
+			String query = "SELECT 1 FROM compania WHERE LOWER(REPLACE(nombre, ' ', '')) = ?";
+			PreparedStatement Resultado = conn.prepareStatement(query);
+			Resultado.setString(1, nombremin);
+			ResultSet rs = Resultado.executeQuery();
+			
+			
+			if (rs.next()) {		
+				Respuesta = true;
+			}
+		    
+		}catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+
+		}
+	
+	return Respuesta;
+}
+	
 	
 	
 public static String  crearcompania(String nombre) throws SQLException{

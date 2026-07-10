@@ -33,11 +33,16 @@ function AdministrarCompanias(){
 		
 	})
 	.then(response => {
-	        // Evaluamos directamente el código de estado HTTP que mandó Java
+	        
 	        if (response.status === 200) {
 	            alert("Creación de empresa correcta");
-	            setnombrecompania(""); // Limpia el input
-	        } else {
+	            setnombrecompania(""); 
+	        } 
+			else if (response.status === 409) {
+				            alert("Empresa repetida");
+				            setnombrecompania(""); 
+	        }
+			else {
 	            alert("Hubo un problema al crear la empresa. Código HTTP: " + response.status);
 	        }
 	    })
