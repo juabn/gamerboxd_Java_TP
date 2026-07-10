@@ -1,12 +1,27 @@
 package servidor;
 import entities.Compania;
+import entities.Persona;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+
+import com.google.gson.Gson;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
 import data.Conexion;
+import data.DataCompania;
+import data.Data_persona;
 
 public class AbmcCompania {
 	//ABMC Compania USOS
@@ -14,6 +29,82 @@ public class AbmcCompania {
 	//LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
 	//Compania compania = AbmcCompania.recuperarPorId(10);
 	//AbmcCompania.insertarNuevo("Warner Bros");
+	
+	
+	//metodo para controlar cors
+		public static void controlCors(HttpExchange exchange) {
+			
+			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
+		    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+		    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+		}
+	
+	
+	public static class bajalogicacompania implements HttpHandler  {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			String respuesta = "aaa no seee";
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	 InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+					Compania per = gson.fromJson(body, Compania.class);
+					
+					DataCompania.dardebaja(per.getId());
+					
+			    	respuesta = "todo bem";
+			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+
+		    	
+		    }
+		    catch(Error e ) {
+		    	
+		    	respuesta = "Error";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+	}
+	
+	public static String actualizarnombrecompania() {
+		
+		String respuesta = "";
+		
+		return respuesta;
+	}
+	
+	public static String crearcompania() {
+		
+		
+		String respuesta = "";
+		
+		return respuesta;
+	}
+	
+	
+	
 	
 	
 	public static LinkedList<Compania> recuperarTodos() {

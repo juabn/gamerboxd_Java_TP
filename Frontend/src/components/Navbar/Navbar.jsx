@@ -119,7 +119,7 @@ export default function Navbar({autenticado}) {
 						{/*opciones exclusivas para admins logeados*/}
 						{autenticado && rol === "administrador" && (
 							<>
-								<li><Link to="/cargar compania">Cargar compania</Link></li>
+								<li><Link to="/AdministrarCompanias">Cargar compania</Link></li>
 								<li><Link to="/cargarjuegos">Cargar juegos</Link></li>
 							</>
 						)}

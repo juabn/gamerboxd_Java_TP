@@ -1,0 +1,38 @@
+
+
+
+.ContenedorPrincipalCompanias{
+	
+	
+	background-color: var(--color1);
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:space-between;
+	
+	
+	
+}
+
+
+.textop {
+	
+	padding-top: 200px;
+	color: white;
+	
+}
+
+
+.contenedorsecundariocompania{
+	display: flex;
+	flex-direction: column;
+	
+	
+	
+}
+
+.empresa{
+	
+	color: white;
+	
+}

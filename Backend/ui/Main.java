@@ -2,6 +2,7 @@ package ui;
 import servidor.AbmcCompania;
 
 
+
 import servidor.AbmcGrupo;
 import servidor.AbmcPlataforma;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import data.DataCompania;
 
 
 import data.ApiPlataforma;
@@ -34,8 +36,7 @@ public class Main {
 		
 		String valor;
 		
-		valor = GeneracionWebToken.enviotoken("santiagomalet", "sdss");
-		System.out.println(valor);
+		valor = data.DataCompania.dardebaja(4);
 		
 		
 	}
