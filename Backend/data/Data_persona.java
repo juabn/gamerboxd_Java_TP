@@ -97,7 +97,7 @@ public class Data_persona {
 	
 	
 
-	
+	//verifica token que envio po mail
 	
 	public static Boolean veriToken(String token, String mail) {
 		

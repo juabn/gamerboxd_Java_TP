@@ -262,8 +262,70 @@ public class AbmcUsuario {
 		
 	
 	
+	public static class verificarjwt implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			String respuesta = "";
+			int codigoestado;
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    
+	    	    String rol = claims.get("rol", String.class);
+
+					respuesta = rol;
+					codigoestado = 200;
+					
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	System.out.println(e);
+		    	respuesta = "Error o token invalido";
+		    	codigoestado = 401;
+		    	
+		    	
+		    }
+		    
+		    Gson gson = new Gson();
+		    String jsonRespuesta = gson.toJson(respuesta);
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
+		    OutputStream os = exchange.getResponseBody();
+           os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+           os.close();
+		
+		
+		}
+	}
 	
 	
+	
+	//verificar token mail
 	public static class verificartoken implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {

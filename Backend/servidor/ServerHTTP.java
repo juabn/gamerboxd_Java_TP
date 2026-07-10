@@ -20,6 +20,8 @@ import servidor.Empresas.listaempresas;
 import servidor.AbmcGrupo.creargrupo;
 import servidor.AbmcUsuario.actualizardatosusuario;
 
+import servidor.AbmcUsuario.verificarjwt;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
@@ -41,6 +43,7 @@ public class ServerHTTP {
 		server.createContext("/listajuegos", new listajuegos());
 		server.createContext("/listaempresas", new listaempresas());
 		server.createContext("/actualizardatosperfil", new actualizardatosusuario());
+		server.createContext("/verificarjwt", new verificarjwt());
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 
