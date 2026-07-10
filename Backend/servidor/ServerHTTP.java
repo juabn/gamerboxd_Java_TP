@@ -5,11 +5,17 @@ package servidor;
 import servidor.AbmcUsuario.login;
 
 
+
 import servidor.AbmcUsuario.registro;
 
 import servidor.AbmcUsuario.recuperarpersona;
 
 import servidor.AbmcUsuario.verificartoken;
+
+import servidor.AbmcCompania.actualizarnombrecompania;
+import servidor.AbmcCompania.bajalogicacompania;
+import servidor.AbmcCompania.crearcompania;
+
 
 import servidor.AbmcUsuario.cambiarpassword;
 import servidor.AbmcUsuario.obtencionfotousuario;
@@ -44,6 +50,9 @@ public class ServerHTTP {
 		server.createContext("/listaempresas", new listaempresas());
 		server.createContext("/actualizardatosperfil", new actualizardatosusuario());
 		server.createContext("/verificarjwt", new verificarjwt());
+		server.createContext("/Actualizarnombrecompania", new actualizarnombrecompania());
+		server.createContext("/bajalogicacompania", new bajalogicacompania());
+		server.createContext("/crearcompania", new crearcompania());
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 

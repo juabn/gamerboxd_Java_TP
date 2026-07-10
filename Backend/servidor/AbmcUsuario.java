@@ -583,15 +583,10 @@ public class AbmcUsuario {
 			try {
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-			System.out.println(body);
+			
 			
 			Gson gson = new Gson();
 			Persona per = gson.fromJson(body, Persona.class);	
-			
-			System.out.println(per.getNombre_usuario());
-			System.out.println(per.getContrasena());
-			System.out.println(per.getMail());
-			System.out.println(per.getFoto_perfil());
 			
 			
 			
