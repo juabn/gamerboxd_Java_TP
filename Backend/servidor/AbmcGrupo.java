@@ -220,7 +220,10 @@ public class AbmcGrupo {
 				
 				
 				//el primer parametro es la foto de perfil
-				insertarNuevo(null, nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion(), personas, mail, u);
+
+				insertarNuevo(nuevoGrupo.getFoto_perfil(), nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion(), personas, mail, u);
+
+
 				String jsonResponse = "{\"status\":\"ok\", \"mensaje\":\"Grupo insertado correctamente\"}";
 				byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
 				exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");

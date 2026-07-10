@@ -11,15 +11,30 @@ export default function CrearGrupo(){
 	    descripcion: ''
 	  });
 	  
+	  const [imagen, setimagen] = useState("")
+	  
+	  
+	  const insertarimagen = (e) => {
+		
+		
+		const file = e.target.files[0];
+		    
+		    if (file) {
+		        
+		        setFotoPreview(URL.createObjectURL(file));
+		       
+		        let reader = new FileReader();
+		        reader.readAsDataURL(file);
+		        reader.onload = () => {
+		            setimagen(reader.result);
+		        };
+		    }
+	  }
+
+	  
 	  const [fotoPreview, setFotoPreview] = useState(null);
 	  
-	  const handleFileChange = (e) => {
-	      const file = e.target.files[0];
-	      if (file) {
-	        
-	        setFotoPreview(URL.createObjectURL(file));
-	      }
-	    };
+
 
 	  const handleChange = (e) => {
 	    const { name, value } = e.target;
@@ -27,6 +42,7 @@ export default function CrearGrupo(){
 	      ...formData,
 	      [name]: value
 	    });
+		
 	  };
 
 	  const handleSubmit = async (e) => {
@@ -42,13 +58,15 @@ export default function CrearGrupo(){
 	        body: JSON.stringify({
 	          nombre: formData.nombre,
 	          descripcion: formData.descripcion,
-			  
+			  foto_perfil: imagen
+
 	        }),
 	      });
 
 	      if (response.ok) {
 	        setFormData({ nombre: '', descripcion: '' });
 			alert('bien'); 
+			setFotoPreview(null)
 	      } else {
 			const errorData = await response.json();
 			console.log(errorData);
@@ -84,7 +102,7 @@ export default function CrearGrupo(){
 			              id="foto" 
 			              name="foto" 
 			              accept="image/png, image/jpeg, image/webp" 
-			              onChange={handleFileChange} 
+			              onChange={insertarimagen} 
 			              className="hidden-file-input"
 			            />
 			            <span className="avatar-hint">Agregar foto</span>
