@@ -75,7 +75,7 @@ export default function Navbar({autenticado}) {
 				</li>
 			</ul>
 			</div> 
-			<div className="divlogin">
+			<div>
 			{autenticado ? (
 				<div className='usuariologeado'>
 				  <button className="btnlogin" onClick={handleLogout}>

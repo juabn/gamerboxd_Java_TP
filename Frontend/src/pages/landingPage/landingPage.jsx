@@ -8,17 +8,26 @@ register();
 
 import Carrousel from '../../components/carrousel/Carrousel';
 
-import banner1 from '../../assets/juego1.jpg';
-import banner2 from '../../assets/juego2.jpg';
-import banner3 from '../../assets/juego3.jpg';
-import banner4 from '../../assets/juego4.jpg';
-import banner5 from '../../assets/juego5.jpg';
 import ReviewLandCard from '../../components/reviewLandCard/reviewLandCard';
 import FooterC from '../../components/Footer/Footer';
 export default function LandingPage() {
-	
 
-	const imagenesCarrousel = [banner1,banner2,banner3,banner4,banner5];
+	const [juegosImagenes, setJuegosImagenes] = useState([]);
+
+	useEffect(() => {
+		    fetch('http://localhost:8081/listajuegos') 
+		      .then(respuesta => respuesta.json())
+		      .then(datos => {
+					const imagenes = datos.map(juego => juego.background_image)
+					setJuegosImagenes(imagenes);
+
+				})
+		      .catch(error => console.error("err:", error));
+		      
+		    
+		  }, []);
+	
+	
 	
 	const [resenas, setResenas] = useState([]);
 
@@ -40,9 +49,9 @@ export default function LandingPage() {
 						
 					
 				const resenasMezcladas = resenasJuegosUnicos.sort(()=> 0.5 - Math.random());
-				const top5Aleatorias = resenasMezcladas.slice(0, 5);
+				const aleatorias = resenasMezcladas.slice(0, 5);
 				
-				setResenas(top5Aleatorias);
+				setResenas(aleatorias);
 				
 			})
 	      .catch(error => console.error("Error conexion:", error));
@@ -50,7 +59,7 @@ export default function LandingPage() {
 	    
 	  }, []);
   return (
-	  <section className="body">
+	  <section className="landingBody">
 	  	
               <div className="headerContainer">
                   <div className='headerDiv'>
@@ -60,7 +69,7 @@ export default function LandingPage() {
                       </Link>
                   </div>
                   <div className="cFilter">
-                      <Carrousel imagenes={imagenesCarrousel} className="cAnim" />
+                      <Carrousel imagenes={juegosImagenes} className="cAnim" />
                   </div>
               </div>
 			  <h1 className="highlighterReviewsTitle">
@@ -102,4 +111,5 @@ export default function LandingPage() {
           </section>
 		  
   );
+
 }

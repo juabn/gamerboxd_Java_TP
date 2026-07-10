@@ -51,13 +51,13 @@ export default function CrearGrupo(){
 			alert(errorData.mensaje);
 	      }
 	    } catch (error) {
-	      console.error('Fallo en la comunicación con el backend', error);
+	      console.error('fcallo', error);
 	    }
 	  };
 		
 	  
 	  return (
-		<section className="body">
+		<section className="crearGrupoBody">
 		    <div className="form-container">
 		      <h2 className="form-title">Creacion de grupo</h2>
 		      

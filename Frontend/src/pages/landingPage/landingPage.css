@@ -6,17 +6,19 @@
 	flex-direction: column;
 	justify-content:center;
 	align-items:center;
-	
+	z-index:1;
+	position:relative;
 	height:100%;
 }
 
 
 .headerContainer{
-	height: 70vh; 
+	height: 100vh; 
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
   position:relative;
+  width:100%;
   
 }
 
@@ -30,13 +32,15 @@
   background: linear-gradient(to bottom, transparent 0%, var(--color1) 100%);
 }
 
+
+
 .cFilter{
 	position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: 0;
   
 }
 
@@ -59,6 +63,8 @@
 	color: black;
 	
 }
+
+
 
 .botonLogin{
 	font: inherit;
@@ -107,7 +113,9 @@
 	display:flex;
 	justify-content:center;
 	padding-top:10rem;
-	background-color:var(--color1)
+	background-color:var(--color1);
+	position:relative;
+	z-index:9;
 }
 
 swiper-container {
@@ -127,4 +135,6 @@ swiper-container::part(bullet-active) {
   background-color: #ffffff; 
 }
 
-
+.landingBody{
+	padding-top:0;
+}

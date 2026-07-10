@@ -147,10 +147,10 @@
 .avatar-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Para que la imagen no se deforme */
+  object-fit: cover; 
 }
 
-/* Ícono gris del usuario vacío */
+
 .avatar-placeholder {
   color: rgba(255, 255, 255, 0.2);
   display: flex;
@@ -163,7 +163,7 @@
   height: 60px;
 }
 
-/* Texto de ayuda debajo del círculo */
+
 .avatar-hint {
   font-size: 0.9rem;
   color: #a0a0b0;
