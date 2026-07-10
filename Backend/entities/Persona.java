@@ -1,29 +1,46 @@
 package entities;
 
 public class Persona {
-	private int id;
 	private String nombre_usuario;
 	private String contrasenia;
 	private String mail;
 	private String rol;
 	private String foto_perfil;
 	private String token;
+	private Integer idgrupo;
+	private String rolgrupo;
 	
 	
 	
 	
+	
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
+	}
+	
+	
+	public Integer getIdgrupo() {
+		return idgrupo;
+	}
+	public void setIdgrupo(Integer idgrupo) {
+		this.idgrupo = idgrupo;
+	}
+	public String getRolgrupo() {
+		return rolgrupo;
+	}
+	public void setRolgrupo(String rolgrupo) {
+		this.rolgrupo = rolgrupo;
+	}
 	public String getRol() {
 		return rol;
 	}
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getNombre_usuario() {
 		return nombre_usuario;
 	}

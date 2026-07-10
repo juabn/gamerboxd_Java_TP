@@ -1,7 +1,10 @@
 package servidor;
+import data.Data_persona;
+
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +12,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import javax.crypto.SecretKey;
+
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.google.gson.Gson;
@@ -16,11 +22,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import data.Conexion;
+import data.Data_persona;
 import entities.Grupo;
+import entities.Persona;
 import entities.Plataforma;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 public class AbmcGrupo {
-	
+	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
+	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
 	//ABMC Grupo uso
 	
 	//AbmcGrupo.insertarNuevo("foto2.jpg", "IGN", "Grupo reconocitdo internacionalmente ");
@@ -123,12 +135,43 @@ public class AbmcGrupo {
 			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
 			exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "POST, OPTIONS");
 			exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+			
+			
 
 			// preflight por el post
 			if ("OPTIONS".equals(exchange.getRequestMethod())) {
 				exchange.sendResponseHeaders(204, -1);
 				return;
 			}
+			String respuesta = "aaa no seee";
+			int codigoestado;
+			String mail = "";
+			try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	String token = authHeader.substring(7);
+		    	System.out.println("TOKEN EXTRAÍDO PARA REVISAR: [" + token + "]");
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+
+	    	    
+	    	    mail = claims.getSubject();
+		    	
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	System.out.println(e);
+		    	respuesta = "Error";
+		    	codigoestado = 401;
+		    	
+		    	
+		    }
 
 			if ("POST".equals(exchange.getRequestMethod())) {
 				InputStream is = exchange.getRequestBody();
@@ -159,15 +202,29 @@ public class AbmcGrupo {
 				    return; 
 				}
 				
+				
+				Persona u = Data_persona.buscar_solo_persona_pormail(mail);
+				Grupo gPersona = Data_persona.obtener_grupo_persona(u);
+				System.out.println("grupo: "+gPersona);
+				if (gPersona != null) { 
+				    String errorResponse = "{\"status\":\"error\", \"mensaje\":\"Ya pertenecés a un grupo. \"}";
+				    byte[] bytesError = errorResponse.getBytes("UTF-8");
+				    exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
+				    exchange.sendResponseHeaders(409, bytesError.length);
+				    try (OutputStream os = exchange.getResponseBody()) { os.write(bytesError); }
+				    return;
+				}
+				ArrayList<Persona> personas = new ArrayList<>();
+				personas.add(u);
+				nuevoGrupo.setIntegrantes(personas);
+				
+				
 				//el primer parametro es la foto de perfil
-				insertarNuevo(null, nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion());
-
+				insertarNuevo(null, nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion(), personas, mail, u);
 				String jsonResponse = "{\"status\":\"ok\", \"mensaje\":\"Grupo insertado correctamente\"}";
 				byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
-
 				exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
 				exchange.sendResponseHeaders(200, bytesResponse.length);
-				
 				OutputStream os = exchange.getResponseBody();
 				os.write(bytesResponse);
 				os.close();
@@ -179,43 +236,65 @@ public class AbmcGrupo {
 		}
 	}
 	
-	public static void insertarNuevo(String foto_perfil,String nombre,  String descripcion) {
+	public static void insertarNuevo(String foto_perfil,String nombre,  String descripcion, ArrayList<Persona> integrantes, String mail, Persona u) {
 		Grupo grupo= new Grupo();
-		
+		int id = -1;
+		// esta re contra al pedo esto pero bueno lo dejo asi porque yafue :v
 		grupo.setNombre(nombre);
 		grupo.setFoto_perfil(foto_perfil);
 		grupo.setDescripcion(descripcion);
-		
+		grupo.setIntegrantes(integrantes);
+		u.setIdgrupo(grupo.getId());
+		u.setRolgrupo("admin");
+		System.out.println(grupo);
 		try {
 			Connection conn = Conexion.getInstancia().getConn();
 			// definir la query
-            PreparedStatement pstmt = conn.prepareStatement(
+            PreparedStatement pstmtGrupo = conn.prepareStatement(
             		"insert into grupo(foto_perfil,nombre,descripcion) values (?,?,?)"
             		,PreparedStatement.RETURN_GENERATED_KEYS
             		);
             
             
-            pstmt.setString(1, grupo.getFoto_perfil());
-            pstmt.setString(2, grupo.getNombre());
-            pstmt.setString(3, grupo.getDescripcion());
-            pstmt.executeUpdate();
+            pstmtGrupo.setString(1, grupo.getFoto_perfil());
+            pstmtGrupo.setString(2, grupo.getNombre());
+            pstmtGrupo.setString(3, grupo.getDescripcion());
+            pstmtGrupo.executeUpdate();
             
-            ResultSet keyResultSet=pstmt.getGeneratedKeys();
-
+            ResultSet keyResultSet=pstmtGrupo.getGeneratedKeys();
+            
             if(keyResultSet!=null && keyResultSet.next()) {
-                    int id=keyResultSet.getInt(1);
-                    System.out.println("ID: "+id);
+                    id=keyResultSet.getInt(1);
+                    
                     grupo.setId(id);
             }
-
+           
+            
+            if(id!=-1) {
+            	
+            	PreparedStatement pstmtUsuario = conn.prepareCall("UPDATE persona SET idgrupo = ?, rolgrupo = ? WHERE mail = ?");
+            	
+            	pstmtUsuario.setInt(1,id);
+            	pstmtUsuario.setString(2,"admin");
+            	pstmtUsuario.setString(3,mail);
+            	
+            	
+            	pstmtUsuario.executeUpdate();
+            	
+            	
+            	
+            }
+            
+            
 
             if(keyResultSet!=null){keyResultSet.close();}
-            if(pstmt!=null){pstmt.close();}
+
+            
 
 		    
 		    
 		    // mostrar objeto
-		    System.out.println("Nuev Grupo");
+		    System.out.println("lo creo");
 		    System.out.println(grupo);
 		    System.out.println();System.out.println();
 

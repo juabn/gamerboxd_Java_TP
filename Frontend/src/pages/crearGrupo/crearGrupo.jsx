@@ -4,6 +4,8 @@ import '../../styles.css'
 import FooterC from '../../components/Footer/Footer'
 
 export default function CrearGrupo(){
+	const token = localStorage.getItem('token');
+	
 	const [formData, setFormData] = useState({
 	    nombre: '',
 	    descripcion: ''
@@ -35,10 +37,12 @@ export default function CrearGrupo(){
 	        method: 'POST',
 	        headers: {
 	          'Content-Type': 'application/json',
+			  'Authorization': token ? `Bearer ${token}` : ''
 	        },
 	        body: JSON.stringify({
 	          nombre: formData.nombre,
-	          descripcion: formData.descripcion
+	          descripcion: formData.descripcion,
+			  
 	        }),
 	      });
 

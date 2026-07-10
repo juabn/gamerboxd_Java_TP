@@ -11,6 +11,7 @@ import java.util.Base64;
 import servidor.GestionMail;
 import java.util.Random;
 
+import entities.Grupo;
 import entities.Persona;
 
 
@@ -240,6 +241,8 @@ try {
 	    	per.setFoto_perfil(rs.getString("foto_perfil"));
 	    	per.setNombre_usuario(rs.getString("nombre"));
 	    	per.setRol(rs.getString("rol"));
+	    	per.setIdgrupo(rs.getInt("idgrupo"));
+	    	per.setRolgrupo(rs.getString("rolgrupo"));
 	
 		}
 	    
@@ -260,7 +263,7 @@ return per;
 	}
 	
 	
-	public static Boolean buscar_persona(String mail, String contrasenia) {
+public static Boolean buscar_persona(String mail, String contrasenia) {
 		
 		Boolean resultado = false;
 		
@@ -274,11 +277,7 @@ try {
 	    ResultSet rs = ps.executeQuery();
 	    
 	    if (rs.next()) {
-	    	
 	    	resultado = BCrypt.checkpw(contrasenia,rs.getString("contrasenia"));
-	    	
-	    	
-			
 		}
 	    
 	        
@@ -370,6 +369,41 @@ catch(SQLException ex){
 		
 		
 	}
+	
+	public static Grupo obtener_grupo_persona(Persona p) {
+	    // Si la persona no tiene grupo asignado, no hay nada que buscar
+	    if (p.getIdgrupo() == null) {
+	        return null;
+	    }
+
+	    String query = "select * from grupo where idgrupo = ?";
+
+	    try (Connection conn = Conexion.getInstancia().getConn();
+	         PreparedStatement ps = conn.prepareStatement(query)) {
+
+	        ps.setInt(1, p.getIdgrupo());
+
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                Grupo grupo = new Grupo();
+	                grupo.setId(rs.getInt("idgrupo"));
+	                grupo.setNombre(rs.getString("nombre"));
+	                grupo.setDescripcion(rs.getString("descripcion"));
+	                grupo.setFoto_perfil(rs.getString("foto_perfil"));
+	                // agregá acá el resto de los campos que tenga tu tabla grupo
+	                return grupo;
+	            }
+	        }
+
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        System.out.println("SQLState: " + ex.getSQLState());
+	        System.out.println("VendorError: " + ex.getErrorCode());
+	    }
+
+	    return null; // no se encontró el grupo (o hubo error)
+	}
+	
 	
 	private static void obtener_todos() {
 			

@@ -1,10 +1,17 @@
 package entities;
 
- public class Grupo {
+import java.util.ArrayList;
+
+public class Grupo {
 	 private int id;
 	 private String foto_perfil;
 	 private String nombre;
 	 private String descripcion;
+	 private ArrayList<Persona> integrantes;
+	 
+	public ArrayList<Persona> getIntegrantes() {return integrantes;}
+		
+	public void setIntegrantes(ArrayList<Persona> integrantes) {this.integrantes = integrantes;}
 	 
 	 
 	 public int getId() {

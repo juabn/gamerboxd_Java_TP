@@ -4,7 +4,7 @@ class Administrador extends Persona {
 	
 	private int id;
 	private String nombre_usario;
-	private int contrasenia;
+	private String contrasenia;
 	private String mail;
 	private String foto_perfil;
 	
@@ -21,10 +21,10 @@ class Administrador extends Persona {
 	public void setNombre_usario(String nombre_usario) {
 		this.nombre_usario = nombre_usario;
 	}
-	public int getContrasenia() {
+	public String getContrasenia() {
 		return contrasenia;
 	}
-	public void setContrasenia(int contrasenia) {
+	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
 	public String getMail() {
