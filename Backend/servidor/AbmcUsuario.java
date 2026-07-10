@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
+import javax.crypto.SecretKey;
+
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -17,10 +19,16 @@ import data.Data_persona;
 import servidor.GestionMail;
 
 import entities.Persona;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 public class AbmcUsuario {
 	
+	//clave secreta de JWT
 	
+	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
+	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
 
 	//metodo para controlar cors
 	public static void controlCors(HttpExchange exchange) {
@@ -32,10 +40,97 @@ public class AbmcUsuario {
 	
 	
 	
-	public static class obtencionfotousuario implements HttpHandler {
+	//Actualiza imagen y nombre de un usuario dado su mail
+	public static class actualizardatosusuario implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			String respuesta = "aaa no seee";
+			int codigoestado;
+			
+			
+
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+
+	    	    
+	    	    String mail = claims.getSubject();
+	    	    
+	    	    
+		    	
+		    	 InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+					Persona per = gson.fromJson(body, Persona.class);
+					
+
+					respuesta = Data_persona.actualizarImagenYnombre(mail, per.getFoto_perfil(), per.getNombre_usuario());
+					System.out.println(respuesta);
+					codigoestado = 200;
+					
+					
+					
+		    	
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	System.out.println(e);
+		    	respuesta = "Error";
+		    	codigoestado = 401;
+		    	
+		    	
+		    }
+		    
+		 
+		    Gson gson = new Gson();
+		    String jsonRespuesta = gson.toJson(respuesta);
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
+		    OutputStream os = exchange.getResponseBody();
+           os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+           os.close();
+		
+		    
+		
+		}
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	//Devuelve foto de usuario a partir de su mail
+	
+	public static class obtencionfotousuario implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			int codigoestado;
 			Persona perr = new Persona();
 			
 			controlCors(exchange);
@@ -50,29 +145,44 @@ public class AbmcUsuario {
 		    
 		    try {
 		    	
-		    	 InputStream is = exchange.getRequestBody();
-				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-				    is.close();
-				    Gson gson = new Gson();
-					Persona per = gson.fromJson(body, Persona.class);
-					perr = Data_persona.buscar_solo_persona_pormail("ss@gmail.com");
-					System.out.println(perr.getFoto_perfil());
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+
+	    	    
+	    	    String mail = claims.getSubject();
+	    	    
+	    	    
+	    	   //mail llegar por JWT
+
+					
+					perr = Data_persona.buscar_solo_persona_pormail(mail);
+					codigoestado = 200;
 					
 					
 		    	
 		    	
 		    }
-		    catch(Error e ) {
+		    catch(Exception e ) {
 		    	
-		    	respuesta = "todinho mal";
-		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	codigoestado = 401;
+		    	System.out.println(e);
 		    	
 		    	
 		    }
 		    
 		    Gson gson = new Gson();
 		    String jsonRespuesta = gson.toJson(perr);
-		    exchange.sendResponseHeaders(200, jsonRespuesta.getBytes().length);	
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
 		    OutputStream os = exchange.getResponseBody();
            os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
            os.close();
@@ -133,7 +243,7 @@ public class AbmcUsuario {
 		    }
 		    catch(Error e ) {
 		    	
-		    	respuesta = "todinho mal";
+		    	respuesta = "Error";
 		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
 		    	
 		    	
@@ -152,8 +262,70 @@ public class AbmcUsuario {
 		
 	
 	
+	public static class verificarjwt implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			String respuesta = "";
+			int codigoestado;
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    
+	    	    String rol = claims.get("rol", String.class);
+
+					respuesta = rol;
+					codigoestado = 200;
+					
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	System.out.println(e);
+		    	respuesta = "Error o token invalido";
+		    	codigoestado = 401;
+		    	
+		    	
+		    }
+		    
+		    Gson gson = new Gson();
+		    String jsonRespuesta = gson.toJson(respuesta);
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
+		    OutputStream os = exchange.getResponseBody();
+           os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+           os.close();
+		
+		
+		}
+	}
 	
 	
+	
+	//verificar token mail
 	public static class verificartoken implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
@@ -349,17 +521,20 @@ public class AbmcUsuario {
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 			is.close();
 			
+			Persona per_login = gson.fromJson(body, Persona.class);
 			
-			Persona per = gson.fromJson(body, Persona.class);	
-			System.out.println(per.getMail());
-			System.out.println(per.getContrasena());
+			Persona per = Data_persona.buscar_solo_persona_pormail(per_login.getMail());
 			
 			
-			Boolean resultado = Data_persona.buscar_persona(per.getMail(),per.getContrasena() );
+		
+
+			
+			
+			Boolean resultado = Data_persona.buscar_persona(per_login.getMail(),per_login.getContrasena() );
 			if (resultado) {
 				System.out.println("Usuario existe y la contrasenia es correcta");
 				respuesta = "Usuario existee";
-				token = GeneracionWebToken.enviotoken();
+				token = GeneracionWebToken.enviotoken(per_login.getMail(), per.getRol());
 				res.setResponse(respuesta);
 				res.setToken(token);
 				jsonResultado = gson.toJson(res);

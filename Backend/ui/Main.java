@@ -20,6 +20,8 @@ import entities.Compania;
 import entities.Grupo;
 import entities.Juego;
 
+import servidor.GeneracionWebToken;
+
 import servidor.AbmcResenia;
 
 import servidor.Juegos;
@@ -29,25 +31,11 @@ import servidor.Juegos;
 public class Main {
 
 	public static void main(String[] args) {
-
-			
 		
-		/*
-		ApiJuego apiJuego = new ApiJuego();
-		ArrayList<Juego> listaDeJuegos = apiJuego.obtenerJuegosRAWG();
+		String valor;
 		
-		Collections.sort(listaDeJuegos, (j1, j2) -> j1.getTitulo().compareToIgnoreCase(j2.getTitulo()));
-		
-		for (Juego j : listaDeJuegos) {
-	        System.out.println(j.getImagen());
-	    }
-
-
-		
-		
-
-		
-	*/
+		valor = GeneracionWebToken.enviotoken("santiagomalet", "sdss");
+		System.out.println(valor);
 		
 		
 	}

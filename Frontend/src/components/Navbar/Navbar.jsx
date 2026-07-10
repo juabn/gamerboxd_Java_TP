@@ -17,22 +17,42 @@ export default function Navbar({autenticado}) {
 	  
 	  
 	  
+	  let tokenActual = localStorage.getItem('token');
+	  
+	  
+	  fetch('http://localhost:8081/verificarjwt',{
+		method: 'POST', 
+			  	  		  headers: {
+			  	  		    'Content-Type': 'application/json' ,
+							'Authorization': 'Bearer ' + tokenActual
+			  	  		  },
+			  	  		  body: JSON.stringify({}) 
+	  })
+	  .then(response => response.json())
+	  .then(data => {
+	    console.log(data)
+	  	  	  		   
+  	  		})
+	.catch(error => console.error('Error:', error));
+	  
 	  const [imagen, setimagen] = useState("")
 	  	  
-	  	  let mail = localStorage.getItem('usuario');
+	  	
 	  	  
 	  	  fetch('http://localhost:8081/fotousuario', {
+			
 	  	  		
 	  	  		method: 'POST', 
 	  	  		  headers: {
-	  	  		    'Content-Type': 'application/json' 
+	  	  		    'Content-Type': 'application/json' ,
+					'Authorization': 'Bearer ' + tokenActual
 	  	  		  },
-	  	  		  body: JSON.stringify({mail: mail}) 
+	  	  		  body: JSON.stringify({}) 
 	  	  		})
 	  	  		
-	  	  		.then(response => response.text())
+	  	  		.then(response => response.json())
 	  	  		.then(data => {
-	  	  		    setimagen(data)
+	  	  		    setimagen(data.foto_perfil)
 	  	  		   
 	  	  		})
 	  	  		.catch(error => console.error('Error:', error));
