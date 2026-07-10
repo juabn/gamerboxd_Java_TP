@@ -102,6 +102,7 @@ export default function Navbar({autenticado}) {
 	}
 
   return (
+
 	<nav>
 				<div className="nav-group">
 					<div className="logo">Gamerboxd</div>
@@ -125,9 +126,10 @@ export default function Navbar({autenticado}) {
 					</ul>
 				</div> 
 
-				<div className="divlogin">
+				<div className="divloginnavbar">
 					{renderPanelDerecho()}
 				</div>
 			</nav>
+
   );
 }

@@ -12,11 +12,14 @@
   width: 100%;
   height: 100%; 
   filter: blur(10px);
+
 }
 
 .carrousel-container{
 	background-color: black;
 	color: black;
+	position:relative;
+	z-index:5;
 }
 
 .carrusel-img.fade-in {
