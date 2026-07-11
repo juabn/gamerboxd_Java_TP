@@ -13,7 +13,55 @@ function AdministrarCompanias(){
 	};
 	
 	
-	const enviarcompania = (e) => {
+	const modificarcompania = (e) => {
+		
+		let token = localStorage.getItem('token');
+				
+		e.preventDefault();
+				
+		fetch('http://localhost:8081/existeempresa',{
+				
+				
+			method: 'POST', 
+			headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token },
+			body: JSON.stringify({name: nombrecompania})
+			
+
+				
+			})
+			.then(response => {
+	        
+	        if (response.status === 200) {
+	            alert("Bien");
+	            setnombrecompania(""); 
+	        } 
+			else if (response.status === 404) {
+	            alert("No existe empresa");
+	            setnombrecompania(""); 
+	        }
+			else if (response.status === 401) {
+	            alert("Error en la bd");
+	            setnombrecompania(""); 
+	        }
+			else if (response.status === 402) {
+	            alert("Error en el token");
+	            setnombrecompania(""); 
+	        }
+			else {
+	            alert("Error en la bd intente mas tarde" );
+	        }
+	    })
+	    .catch(error => alert('Error en la conexion con la base de datos, pruebe mas tarde', error));
+	};
+		
+		
+	
+	
+	
+	
+	const crearcompania = (e) => {
 		
 		
 		let token = localStorage.getItem('token');
@@ -60,7 +108,7 @@ function AdministrarCompanias(){
 		
 		
 		<p className='textop'> Agregar compania</p>
-		<form onSubmit={enviarcompania}  className='contenedorsecundariocompania'>
+		<form onSubmit={crearcompania}  className='contenedorsecundariocompania'>
 		<input 
 		type = "text"
 		value={nombrecompania}
@@ -70,9 +118,7 @@ function AdministrarCompanias(){
 		<p className='empresa'> {nombrecompania} </p>
 		<button type="submit"
 		> Agregar</button>
-		<p className='empresa'> Aca iria un select</p>
-		<button type="button"> Borrar </button>
-		<button type="button"> Modificar </button>
+		<button type="button" onClick={modificarcompania}> Modificar </button>
 		</form>
 		</div>
 	)
