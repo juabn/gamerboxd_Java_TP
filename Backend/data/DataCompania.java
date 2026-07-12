@@ -223,7 +223,7 @@ public static Boolean validarempresaexistentenorepetida(String nombre, int id) {
 			
 			String nombremin = nombre.replace(" ", "").toLowerCase();
 		    
-			String query = "SELECT 1 FROM compania WHERE LOWER(REPLACE(nombre, ' ', '')) = ? AND idcompaia != ?";
+			String query = "SELECT 1 FROM compania WHERE LOWER(REPLACE(nombre, ' ', '')) = ? AND idcompania != ?";
 			PreparedStatement Resultado = conn.prepareStatement(query);
 			Resultado.setString(1, nombremin);
 			Resultado.setInt(2, id);
