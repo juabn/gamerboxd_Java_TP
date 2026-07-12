@@ -12,7 +12,7 @@ import LandingPage  from './pages/landingPage/landingPage'
 import Juegos from './pages/Juegos/Juegos'
 import VerificarToken from './components/verificacionToken/verificacionToken'
 import Modificarperfil from './pages/modificarperfil/modificarperfil'
-
+import JuegoResenias from './pages/Juego/Juego'
 import CrearGrupo from './pages/crearGrupo/crearGrupo'
 
 
@@ -44,6 +44,7 @@ function App (){
 		<Route path = "/recuperarpassword" element = {<Recuperarpassword/>} />
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />
 		<Route path = "/Juegos" element = {<Juegos/>} />
+		<Route path = "/juego/:id" element = {<JuegoResenias/>}/>
 
 		<Route path = "/Modificarperfil" element = {<Modificarperfil/>} />
 

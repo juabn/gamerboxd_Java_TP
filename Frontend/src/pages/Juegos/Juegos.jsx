@@ -1,7 +1,8 @@
 import './Juegos.css'
 import Select from 'react-select'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Link } from 'react';
+
 import GameCard from '../../components/GameCard/GameCard'
 
 function Juegos(){
@@ -125,11 +126,12 @@ function Juegos(){
 		  </div>
 		<div className="catalogo-juegos">
 		{array_filtro.map((juego) => (
-		          <GameCard 
-		            key={juego.id}         
+			<Link to={`/juego/${juego.id}`}>
+		          <GameCard         
 		            titulo={juego.name}   
 		            imagen={juego.background_image}   
 		          />
+			</Link>
 		        ))}
 		      </div>
 

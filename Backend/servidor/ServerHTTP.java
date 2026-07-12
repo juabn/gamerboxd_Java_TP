@@ -13,8 +13,7 @@ import servidor.AbmcUsuario.verificartoken;
 
 import servidor.AbmcUsuario.cambiarpassword;
 import servidor.AbmcUsuario.obtencionfotousuario;
-
-
+import servidor.Juegos.juegoid;
 import servidor.Juegos.listajuegos;
 import servidor.Empresas.listaempresas;
 import servidor.AbmcGrupo.creargrupo;
@@ -44,6 +43,8 @@ public class ServerHTTP {
 		server.createContext("/listaempresas", new listaempresas());
 		server.createContext("/actualizardatosperfil", new actualizardatosusuario());
 		server.createContext("/verificarjwt", new verificarjwt());
+		server.createContext("/juego/", new juegoid());
+		
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 
