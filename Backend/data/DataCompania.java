@@ -28,6 +28,75 @@ public class DataCompania {
 	}
 	
 	
+	
+	
+	public static String actualizarcompania(String mail, String estado, int id) {
+		
+		String Respuesta;
+		
+		if(mail.equals("")) {
+			
+			try {
+				
+				Connection conn = Conexion.getInstancia().getConn();
+			    
+			    
+			    String query = "update compania set estado = ? where idcompania = ?";
+			    PreparedStatement ps = conn.prepareStatement(query);   
+			    ps.setString(1, estado);
+			    ps.setInt(2, id);
+			    ps.executeUpdate();
+				
+			    Respuesta = "exito";
+		   
+			    
+			}catch(SQLException ex){
+		
+		
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		    Respuesta = "error en la bd";
+			}
+			
+			
+		}
+		
+		else {
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+		    
+		    
+		    String query = "update compania set estado = ?, nombre = ? where idcompania = ?";
+		    PreparedStatement ps = conn.prepareStatement(query);   
+		    ps.setString(1, estado);
+		    ps.setString(2, mail);
+		    ps.setInt(3, id);
+		    ps.executeUpdate();
+			
+		    Respuesta = "exito";
+	   
+		    
+		}catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+	    Respuesta = "error en la bd";
+		}
+		
+		
+		
+		}
+		
+		
+		return Respuesta;
+		
+		
+	}
+	
 	public static Compania recuperarPorMail(String mail) {		
 		Compania c = null;
 

@@ -16,7 +16,8 @@ function Modificarcompanias(){
 	
 	const cambiarnombre = (e) => {
 		
-		setnombreempresa(e.target.value)
+		setnuevonombre(e.target.value)
+		console.log(e.target.value)
 			
 	}
 	
@@ -25,19 +26,31 @@ function Modificarcompanias(){
 		
 		e.preventDefault();
 		
-		if (nombreempresa == ""){
-			alert("No se permiten nombres vacios")
+		const nombreoriginalnormalizado = nombreEmpresaOriginal.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
+		const nuevonombre = nuevonombreempresa.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
+		
+		
+	
+				
+		
+		if(nombreoriginalnormalizado == nuevonombre){
+			
+			alert("El nombre elegido es el mismo que ya posee la empresa")
+			
 		}
+		
+		
 		
 		else{
 			
-			fetch('asdadad', {
+			fetch('http://localhost:8081/actualizardatosdeempresa', {
 				
 			method: "POST",
 			body: JSON.stringify(
 				{
-					name:nombreempresa,
-					estado:estado
+					name:nuevonombreempresa,
+					estado:estado,
+					id:id
 				}),
 				headers: {
 			"Content-type": "application/json",	
@@ -81,15 +94,20 @@ function Modificarcompanias(){
 	
 	const nombreEmpresaOriginal = location.state?.nombre || "";
 	
-	console.log(nombreEmpresaOriginal)
+	
 	
 	//nombreempresa y estado hay que enviarlo de vuelta en el fetch para guardar los cambios
 	
 	
-	const [nombreempresa, setnombreempresa] = useState("");
+	const [nuevonombreempresa,setnuevonombre] = useState("");
+		
 	
 	const [estado, setestado] = useState("");
 	
+	const [id, setid] = useState("");
+	
+	
+	const [nombreempresa, setnombreempresa] = useState("");
 	
 	
 	const dardebaja = () => {
@@ -136,6 +154,8 @@ function Modificarcompanias(){
 					console.log(data);
 					setestado(data.estado);
 					setnombreempresa(data.name)
+					setid(data.id)
+					
 		        });
 		    } 
 		    else if (response.status === 402) {
@@ -162,7 +182,7 @@ function Modificarcompanias(){
 		<p className='textoempresa'>{estado} </p>
 		<p className='textoempresa'> ingrese nuevo nombre </p>
 		<input onChange={cambiarnombre}/>
-		<button type = "button"> Aceptar </button>
+		
 		
 		
 		

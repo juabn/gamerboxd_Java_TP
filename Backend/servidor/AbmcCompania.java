@@ -47,7 +47,129 @@ public class AbmcCompania {
 		    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
 		}
 		
+	
 		
+		
+	public static class actualizardatosdeempresa implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			
+			Boolean existe;
+			Compania com = new Compania();
+			Compania comRespuesta = new Compania();
+			
+			String respuesta = "aaa no seee";
+			
+			
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+			}catch(Exception e ) {
+		    	
+				respuesta = "Error token";
+		    	exchange.sendResponseHeaders(402, respuesta.getBytes().length);
+		    	
+			}
+		    
+		    try {
+		    	
+		    	 	InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+				    com = gson.fromJson(body, Compania.class);
+				    
+				    if(com.getNombre().equals("")) {
+				    	
+				    	existe = false;
+				    } else {
+				    	
+				    	existe = DataCompania.validarempresaexistente(com.getNombre());
+				    }
+				    
+				    if(existe) {
+				    	
+					respuesta = "empresa repetida";
+						
+					respuesta = gson.toJson(comRespuesta);
+						
+			    	exchange.sendResponseHeaders(409, respuesta.getBytes().length);
+				    }
+				    else if (!existe) {
+				    	
+				    	try {
+				    	
+				    	System.out.println(com.getId());
+				    	
+				    	respuesta = DataCompania.actualizarcompania(com.getNombre(), com.getEstado(), com.getId());
+						
+						respuesta = gson.toJson(comRespuesta);
+							
+				    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+				    	}catch(Exception e){
+				    		
+				    		respuesta = "mal";
+							
+							respuesta = gson.toJson(comRespuesta);
+								
+					    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+				    		
+				    		
+				    	}
+				    	
+				    	
+				    }
+
+
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	respuesta = "Error en la bd";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+		
+		
+		
+		
+		
+		
+	}
 		
 		
 		

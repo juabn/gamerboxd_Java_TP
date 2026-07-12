@@ -8,6 +8,7 @@ import servidor.AbmcUsuario.login;
 
 
 
+
 import servidor.AbmcUsuario.registro;
 
 import servidor.AbmcUsuario.recuperarpersona;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
 import servidor.AbmcResenia.obtenerResenias;
+import servidor.AbmcCompania.actualizardatosdeempresa;;
 
 public class ServerHTTP {
 
@@ -59,6 +61,8 @@ public class ServerHTTP {
 		server.createContext("/crearcompania", new crearcompania());
 		server.createContext("/existeempresa", new existeempresa());
 		server.createContext("/devolverempresa", new devolverempresa());
+		server.createContext("/actualizardatosdeempresa", new actualizardatosdeempresa());
+		
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 
