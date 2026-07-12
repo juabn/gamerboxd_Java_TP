@@ -104,13 +104,10 @@ public class AbmcCompania {
 				    Gson gson = new Gson();
 				    com = gson.fromJson(body, Compania.class);
 				    
-				    if(com.getNombre().equals("")) {
+				   
 				    	
-				    	existe = false;
-				    } else {
-				    	
-				    	existe = DataCompania.validarempresaexistente(com.getNombre());
-				    }
+				    existe = DataCompania.validarempresaexistentenorepetida(com.getNombre(), com.getId());
+				    
 				    
 				    if(existe) {
 				    	
