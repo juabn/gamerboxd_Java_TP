@@ -13,6 +13,7 @@ import Juegos from './pages/Juegos/Juegos'
 import VerificarToken from './components/verificacionToken/verificacionToken'
 import Modificarperfil from './pages/modificarperfil/modificarperfil'
 import AdministrarCompanias from './pages/AdministrarCompanias/companias'
+import Modificarcompanias from './pages/AdministrarCompanias/modificarcompanias'
 
 import CrearGrupo from './pages/crearGrupo/crearGrupo'
 
@@ -46,6 +47,7 @@ function App (){
 		<Route path = "/ingresarnuevapassword" element = {<IngresoNuevacontrasenia/>} />
 		<Route path = "/Juegos" element = {<Juegos/>} />
 		<Route path = "/AdministrarCompanias" element = {<AdministrarCompanias/>} />
+		<Route path = "/Modificarcompanias" element = {<Modificarcompanias/>} />
 
 		<Route path = "/Modificarperfil" element = {<Modificarperfil/>} />
 

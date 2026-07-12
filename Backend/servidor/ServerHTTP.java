@@ -7,6 +7,7 @@ import servidor.AbmcUsuario.login;
 
 
 
+
 import servidor.AbmcUsuario.registro;
 
 import servidor.AbmcUsuario.recuperarpersona;
@@ -17,6 +18,7 @@ import servidor.AbmcCompania.actualizarnombrecompania;
 import servidor.AbmcCompania.bajalogicacompania;
 import servidor.AbmcCompania.crearcompania;
 import servidor.AbmcCompania.existeempresa;
+import servidor.AbmcCompania.devolverempresa;
 
 
 import servidor.AbmcUsuario.cambiarpassword;
@@ -56,6 +58,7 @@ public class ServerHTTP {
 		server.createContext("/bajalogicacompania", new bajalogicacompania());
 		server.createContext("/crearcompania", new crearcompania());
 		server.createContext("/existeempresa", new existeempresa());
+		server.createContext("/devolverempresa", new devolverempresa());
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 

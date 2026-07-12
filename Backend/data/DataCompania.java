@@ -28,6 +28,47 @@ public class DataCompania {
 	}
 	
 	
+	public static Compania recuperarPorMail(String mail) {		
+		Compania c = null;
+
+		try {
+			// crear una conexión
+			Connection conn = Conexion.getInstancia().getConn();
+
+			// definir la query
+            PreparedStatement stmt = conn.prepareStatement("select * from compania where nombre=?");
+            
+            // setear el/los parámetros
+            stmt.setString(1, mail);
+
+            
+
+            // ejecutar query y obtener resultados
+            ResultSet rs= stmt.executeQuery();
+
+            // mapear de resultset a objeto
+            if(rs.next()) {
+        		c=new Compania();
+                c.setId(rs.getInt("idcompania"));
+                c.setNombre(rs.getString("nombre"));
+                c.setEstado(rs.getString("estado"));
+            }
+            //cerrar recursos
+            if(rs!=null){rs.close();}
+            if(stmt!=null){stmt.close();}
+
+		    
+		    
+
+		} catch (SQLException ex) {
+		    // Manejo de errores
+		    System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		return c;
+	}
+	
 	
 	
 	public static String dardebaja(int id) {

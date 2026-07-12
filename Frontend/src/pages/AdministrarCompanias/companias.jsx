@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 
 import './companias.css'
 
 function AdministrarCompanias(){
+	
+	const navigate = useNavigate();
 	
 	
 	const [nombrecompania, setnombrecompania] = useState("");
@@ -36,6 +39,7 @@ function AdministrarCompanias(){
 	        if (response.status === 200) {
 	            alert("Bien");
 	            setnombrecompania(""); 
+				navigate("/Modificarcompanias", {state:{nombre: nombrecompania}});
 	        } 
 			else if (response.status === 404) {
 	            alert("No existe empresa");
@@ -119,6 +123,7 @@ function AdministrarCompanias(){
 		<button type="submit"
 		> Agregar</button>
 		<button type="button" onClick={modificarcompania}> Modificar </button>
+		<button> Volver</button>
 		</form>
 		</div>
 	)

@@ -7,9 +7,18 @@ public class Compania {
 	private int id;
 	@SerializedName("name")
 	private String nombre;
+	private String estado;
 
 	
 	
+	
+	
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 	public int getId() {
 		return id;
 	}
