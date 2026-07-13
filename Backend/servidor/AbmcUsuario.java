@@ -40,6 +40,85 @@ public class AbmcUsuario {
 	
 	
 	
+	
+	public static class dardebaja implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			boolean respuestadb; 
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+		        
+		        
+		        
+
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    String mail = claims.getSubject();
+	    	    
+	  
+				respuestadb = Data_persona.dardebaja(mail);
+				
+				if(respuestadb) {
+					
+					respuesta = "todo bem";
+			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+		
+				}
+				
+				else {
+					
+					respuesta = "error";
+			    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+			    	
+					
+				}
+				
+		    	
+		    
+		    }
+		    catch(Error e){
+		    	
+		    	respuesta = "error";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    }
+		    
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+		
+		
+	}
+	
+	
+	
 	//Actualiza imagen y nombre de un usuario dado su mail
 	public static class actualizardatosusuario implements HttpHandler {
 		
@@ -323,6 +402,9 @@ public class AbmcUsuario {
 		}
 	}
 	
+	
+	
+
 	
 	
 	//verificar token mail

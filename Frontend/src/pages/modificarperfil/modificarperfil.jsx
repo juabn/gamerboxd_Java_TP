@@ -22,6 +22,50 @@ function Modificarperfil(){
 		
 	}
 	
+	
+	const handleLogout = () => {
+	    localStorage.removeItem('token');
+	    window.location.href = '/login'; 
+	  };
+	  
+	
+	
+	const dardebaja = (e) => {
+		
+		let token = localStorage.getItem('token');
+		
+		e.preventDefault();
+		
+		fetch('http://localhost:8081/dardebaja',{
+			
+			method: 'POST', 
+			headers: {
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + token },
+			body: JSON.stringify({}) 
+				
+		})
+		
+		.then(response => {
+			
+			if(response.status=== 200){
+				
+				alert("Usuario dado de baja correctamente");
+				
+				
+			}
+			
+			else if (response.status === 401){
+				
+				alert("Error en la bd, intente nuevamente mas tarde");
+			}
+			
+			
+			
+		}).catch(() => {alert("Error inesperado, intente nuevamente mas tarde")})
+		
+	}
+	
 	const enviar = (e) => {
 		let token = localStorage.getItem('token');
 		
@@ -155,6 +199,7 @@ function Modificarperfil(){
 				/>			
 			
 			<button className='submit-btn' type="submit" disabled={!estadofoto && nuevonombre == ""} >Confirmar cambios  </button>
+			<button type = "button" onClick={dardebaja}> Dar de baja </button>
 			<button type="button" onClick={volver}> Volver </button>
 			
 			
