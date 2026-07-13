@@ -119,7 +119,7 @@ function AdministrarCompanias(){
 		onChange={manejarnombrecompania}
 		required
 		/>
-		<p className='empresa'> {nombrecompania} </p>
+		
 		<button type="submit"
 		> Agregar</button>
 		<button type="button" onClick={modificarcompania}> Modificar </button>
