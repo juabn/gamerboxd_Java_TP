@@ -36,6 +36,7 @@ function CreacionAdmin(){
 			if(response.status=== 200){
 				
 				alert("Usuario creado como administrador correctamente");
+				setmail("")
 			}
 			
 			else if (response.status === 405){
