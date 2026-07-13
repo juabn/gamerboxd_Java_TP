@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
-import './modificarperfil.css '
+import './modificarperfil.css'
 
 
 

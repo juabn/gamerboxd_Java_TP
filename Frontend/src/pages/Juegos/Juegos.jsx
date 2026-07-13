@@ -1,7 +1,8 @@
 import './Juegos.css'
 import Select from 'react-select'
 
-import { useState, useEffect, Link } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 
 import GameCard from '../../components/GameCard/GameCard'
 
@@ -107,38 +108,39 @@ function Juegos(){
 	
 	
 	return(
+		<section>
 		<div className='juegosbody'>
-		<div>
-		<p className="titulo"> ¡Elige tu juego a reseñar! </p>
-		</div>
+			<div>
+			<p className="titulo"> ¡Elige tu juego a reseñar! </p>
+			</div>
+			
+			<div className="filtros">
+			<h3 className='texto'>Buscar juego</h3>
+			<input onChange={manejarCambioBusqueda} />
+			
+			<div className="select">
+			<h3 className='texto'>Filtrar por compañia</h3>
+			    <Select
+			      defaultValue={{ value: 1, label: 'Todos' }}
+			      options={listaEmpresas}
+			      onChange={manejarCambioOpcion}
+			    />
+			  </div>
+			<div className="catalogo-juegos">
+			{array_filtro.map((juego) => (
+				<Link key={juego.id} to={`/juego/${juego.id}`}>
+			          <GameCard         
+			            titulo={juego.name}   
+			            imagen={juego.background_image}   
+			          />
+				</Link>
+			        ))}
+			      </div>
+	
+			</div>
 		
-		<div className="filtros">
-		<h3 className='texto'>Buscar juego</h3>
-		<input onChange={manejarCambioBusqueda} />
-		
-		<div className="select">
-		<h3 className='texto'>Filtrar por compañia</h3>
-		    <Select
-		      defaultValue={{ value: 1, label: 'Todos' }}
-		      options={listaEmpresas}
-		      onChange={manejarCambioOpcion}
-		    />
-		  </div>
-		<div className="catalogo-juegos">
-		{array_filtro.map((juego) => (
-			<Link to={`/juego/${juego.id}`}>
-		          <GameCard         
-		            titulo={juego.name}   
-		            imagen={juego.background_image}   
-		          />
-			</Link>
-		        ))}
-		      </div>
-
 		</div>
-		
-		</div>
-
+		</section>
 		
 	)	
 }
