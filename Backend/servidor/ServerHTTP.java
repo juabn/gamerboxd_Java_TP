@@ -3,6 +3,7 @@ package servidor;
 
 
 import servidor.AbmcUsuario.login;
+
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
@@ -27,6 +28,7 @@ import com.sun.net.httpserver.HttpServer;
 import servidor.AbmcResenia.obtenerResenias;
 import servidor.AbmcCompania.actualizardatosdeempresa;
 import servidor.AbmcUsuario.dardebaja;
+import servidor.AbmcUsuario.convertirenadmin;
 
 public class ServerHTTP {
 
@@ -61,6 +63,8 @@ public class ServerHTTP {
 		server.createContext("/fotousuario", new obtencionfotousuario());
 
 		server.createContext("/creargrupo", new creargrupo());
+		
+		server.createContext("/convertirenadmin", new convertirenadmin());
 
 		server.start();
 		System.out.println("Server corriendo");

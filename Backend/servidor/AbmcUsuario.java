@@ -41,6 +41,104 @@ public class AbmcUsuario {
 	
 	
 	
+	public static class convertirenadmin implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			boolean exito; 
+			Persona per_completa;
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+		        
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+
+		    	InputStream is = exchange.getRequestBody();
+			    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			    is.close();
+			    Gson gson = new Gson();
+				Persona per = gson.fromJson(body, Persona.class);
+				
+				
+				
+
+	    	    
+	    	    per_completa = Data_persona.buscar_solo_persona_pormail(per.getMail());
+	    	    
+				if (per_completa.getNombre_usuario() == null) {
+					
+					respuesta = "Usuario no existe o credenciales incorrectas";
+					exchange.sendResponseHeaders(405, respuesta.getBytes().length);
+		            return; 
+		        }
+				
+				if(per_completa.getEstado().equals("inactivo")) {
+					
+					respuesta = "Usuario no existe o credenciales incorrectas";
+					exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		            return; 
+					
+				}
+				
+				if(per_completa.getRol().equals("administrador")) {
+					
+					respuesta = "Este usuario ya es administrador";
+					exchange.sendResponseHeaders(402, respuesta.getBytes().length);
+		            return; 
+					
+				}
+				else {
+					
+					exito = Data_persona.convertirenadmin(per.getMail());
+				
+					if(exito) {
+						
+						respuesta = "Exito";
+						exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+						
+					}
+					else {
+						
+						respuesta = "Error en la bd";
+						exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+					}
+
+				}
+	    	    
+	    	    
+		    }catch(Error e) {
+		    	
+		    
+		    
+		    	}
+		    }
+		
+		
+		
+	}
+	
+	
 	public static class dardebaja implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {

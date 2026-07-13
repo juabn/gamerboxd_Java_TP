@@ -28,6 +28,47 @@ public class Data_persona {
     }
 	
 	
+	public static boolean convertirenadmin(String mail) {
+		
+		boolean respuesta = false;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			
+			
+				String query = "update persona set rol = ? where LOWER(REPLACE(mail, ' ', '')) = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				
+				 ps.setString(1, "administrador");
+				 String mailNormalizado = mail.replace(" ", "").toLowerCase();
+				 ps.setString(2, mailNormalizado);
+				 respuesta = true;
+				 ps.executeUpdate();
+				
+		    
+		}
+		
+		catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		
+		
+		
+		
+		
+		return respuesta;
+		
+		
+		
+		
+	}
+	
 	
 	public static boolean dardebaja (String mail) {
 		
