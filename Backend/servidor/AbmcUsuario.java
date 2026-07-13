@@ -40,6 +40,85 @@ public class AbmcUsuario {
 	
 	
 	
+	
+	public static class dardebaja implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			boolean respuestadb; 
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+		        
+		        
+		        
+
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    String mail = claims.getSubject();
+	    	    
+	  
+				respuestadb = Data_persona.dardebaja(mail);
+				
+				if(respuestadb) {
+					
+					respuesta = "todo bem";
+			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+		
+				}
+				
+				else {
+					
+					respuesta = "error";
+			    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+			    	
+					
+				}
+				
+		    	
+		    
+		    }
+		    catch(Error e){
+		    	
+		    	respuesta = "error";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    }
+		    
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+		
+		
+	}
+	
+	
+	
 	//Actualiza imagen y nombre de un usuario dado su mail
 	public static class actualizardatosusuario implements HttpHandler {
 		
@@ -325,6 +404,9 @@ public class AbmcUsuario {
 	
 	
 	
+
+	
+	
 	//verificar token mail
 	public static class verificartoken implements HttpHandler {
 		
@@ -583,15 +665,10 @@ public class AbmcUsuario {
 			try {
 			InputStream is = exchange.getRequestBody();
 			String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-			System.out.println(body);
+			
 			
 			Gson gson = new Gson();
 			Persona per = gson.fromJson(body, Persona.class);	
-			
-			System.out.println(per.getNombre_usuario());
-			System.out.println(per.getContrasena());
-			System.out.println(per.getMail());
-			System.out.println(per.getFoto_perfil());
 			
 			
 			

@@ -7,11 +7,12 @@ public class Compania {
 	private int id;
 	@SerializedName("name")
 	private String nombre;
-	
+
 	private String estado;
 
 	
 	
+
 	public String getEstado() {
 		return estado;
 	}

@@ -4,6 +4,7 @@ package data;
 import java.sql.*;
 
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.security.SecureRandom;
@@ -27,6 +28,45 @@ public class Data_persona {
     }
 	
 	
+	
+	public static boolean dardebaja (String mail) {
+		
+		Boolean respuesta = false;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			
+			
+				String query = "update persona set estado = ? where mail = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				 ps.setString(1, "inactivo");
+				 ps.setString(2, mail);
+				respuesta = true;
+				 ps.executeUpdate();
+				
+		    
+		}
+		
+		catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		
+		
+		
+		
+		
+		return respuesta;
+		
+		
+		
+		
+	}
 	
 	
 	public static String actualizarImagenYnombre(String mail, String nuevaimagen, String nuevonombre) {
