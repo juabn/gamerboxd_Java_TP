@@ -165,53 +165,161 @@ public class AbmcResenia {
         }
 	}
 
+	public static class obtenerReseniasPorJuego implements HttpHandler {
+	    @Override
+	    public void handle(HttpExchange exchange) throws IOException {
+	        
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+	        
+	        
+	        if ("OPTIONS".equals(exchange.getRequestMethod())) {
+	            exchange.sendResponseHeaders(204, -1);
+	            return;
+	        }
+
+	        if ("GET".equals(exchange.getRequestMethod())) {
+	            String query = exchange.getRequestURI().getQuery();
+	            int idJuego = -1;
+
+	            if (query.contains("id=")) {
+	                try {
+	                    String[] parametros = query.split("&");
+	                    for (String param : parametros) {
+	                        if (param.startsWith("id=")) {
+	                            idJuego = Integer.parseInt(param.split("=")[1]);
+	                            break;
+	                        }
+	                    }
+	                } catch (NumberFormatException e) {
+	                    System.out.println("Error: El ID pasado no es un número válido.");
+	                }
+	            }
+
+	            if (idJuego != -1) {
+	                
+	                List<Resenia> listaResenias = recuperarPorIdJuego(idJuego);
+	                
+	                Gson gson = new Gson();
+	                String jsonResponse = gson.toJson(listaResenias);
+	                
+	                byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
+	                exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
+	                exchange.sendResponseHeaders(200, bytesResponse.length);
+	                
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(bytesResponse);
+	                os.close();
+	            } else {
+	                String error = "Falta el parametro 'id' en la URL";
+	                byte[] bytesError = error.getBytes("UTF-8");
+	                exchange.sendResponseHeaders(400, bytesError.length);
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(bytesError);
+	                os.close();
+	            }
+	            
+	        } else {
+	            
+	            exchange.sendResponseHeaders(405, -1);
+	        }
+	    }
+	}
+	
 	public static List<Resenia> recuperarPorIdJuego(int id) {
+
 		LinkedList<Resenia> lista = new LinkedList<>();
 
+
+
 		try {
+
 			// crear una conexión
+	
 			Connection conn = Conexion.getInstancia().getConn();
-
+	
+	
+	
 			// definir la query
+	
 			PreparedStatement stmt = conn.prepareStatement("select * from resenia where id_juego=?");
-
+	
+	
+	
 			// setear el/los parámetros
+	
 			stmt.setInt(1, id);
-
+	
+	
+	
 			// ejecutar query y obtener resultados
+	
 			ResultSet rs = stmt.executeQuery();
-
+	
+	
+	
 			// mapear cada fila del resultset a un objeto y agregarlo a la lista
+	
 			while (rs.next()) {
+	
 				Resenia r = new Resenia();
+		
 				r.setId_juego(rs.getInt("id_juego"));
+		
 				r.setFecha(rs.getString("fecha"));
+		
 				r.setHora(rs.getString("hora"));
+		
 				r.setTitulo(rs.getString("titulo"));
+		
 				r.setDescripcion(rs.getString("descripcion"));
+		
 				r.setPuntaje(rs.getFloat("puntaje"));
+		
 				r.setMail_usuario(rs.getString("mail_usuario"));
+		
 				lista.add(r);
+	
 			}
+	
+		
+		
+				// cerrar recursos
+		
+				if (rs != null) { rs.close(); }
+		
+				if (stmt != null) { stmt.close(); }
+		
+				
+		
+		
+		
+				// mostrar objetos
+		
+				System.out.println("Buscar por id juego");
+		
+				System.out.println();
+		
+				System.out.println();
+	
+	
+	
+			} catch (SQLException ex) {
+	
+				// Manejo de errores
+		
+				System.out.println("SQLException: " + ex.getMessage());
+		
+				System.out.println("SQLState: " + ex.getSQLState());
+		
+				System.out.println("VendorError: " + ex.getErrorCode());
+		
+			}
+	
+			return lista;
 
-			// cerrar recursos
-			if (rs != null) { rs.close(); }
-			if (stmt != null) { stmt.close(); }
-			conn.close();
-
-			// mostrar objetos
-			System.out.println("Buscar por id juego");
-			System.out.println();
-			System.out.println();
-
-		} catch (SQLException ex) {
-			// Manejo de errores
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
 		}
-		return lista;
-	}
 	
 	public static List<Resenia> recuperarPorMailUsuario(String mail_usuario) {
 		LinkedList<Resenia> lista = new LinkedList<>();
