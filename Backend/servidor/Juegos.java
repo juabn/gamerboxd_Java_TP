@@ -137,13 +137,15 @@ public static class listajuegos implements HttpHandler {
 				
 				Connection conn = Conexion.getInstancia().getConn();
 	
-				String query = "SELECT juego.idjuego, juego.titulo, juego.imagen, juego.descripcion, "
-			            + "GROUP_CONCAT(compania.nombre SEPARATOR ', ') AS todas_las_companias " 
-			            + "FROM juego "
-			            + "INNER JOIN juego_compania ON juego_compania.idjuego = juego.idjuego "
-			            + "INNER JOIN compania ON juego_compania.id_comp = compania.idcompania "
-			            + "GROUP BY juego.idjuego, juego.titulo, juego.imagen, juego.descripcion";
+				String query = "SELECT juego.idjuego, juego.titulo, juego.imagen, juego.descripcion, \r\n"
+						+ "       GROUP_CONCAT(compania.nombre SEPARATOR ', ') AS todas_las_companias \r\n"
+						+ "FROM juego \r\n"
+						+ "INNER JOIN juego_compania ON juego_compania.idjuego = juego.idjuego \r\n"
+						+ "INNER JOIN compania ON juego_compania.id_comp = compania.idcompania \r\n"
+						+ "WHERE LOWER(compania.estado) != ? \r\n"
+						+ "GROUP BY juego.idjuego, juego.titulo, juego.imagen, juego.descripcion;";
 				PreparedStatement Resultado = conn.prepareStatement(query);
+				Resultado.setString(1, "inactivo");
 				ResultSet rs = Resultado.executeQuery();
 				
 				

@@ -29,10 +29,10 @@ function Modificarcompanias(){
 	}
 	
 	const dardebaja = () => {
-		if(estado === "Activo"){
+		if(estado === "activo"){
 			setestado("inactivo");
 		} else if(estado === "inactivo"){
-			setestado("Activo");
+			setestado("activo");
 		}
 	}
 	

@@ -46,8 +46,9 @@ public static class listaempresas implements HttpHandler {
 				
 				Connection conn = Conexion.getInstancia().getConn();
 	
-				String query = "select * from compania";
+				String query = "select * from compania where estado <> ?";
 				PreparedStatement Resultado = conn.prepareStatement(query);
+				Resultado.setString(1, "inactivo");
 				ResultSet rs = Resultado.executeQuery();
 				
 				
