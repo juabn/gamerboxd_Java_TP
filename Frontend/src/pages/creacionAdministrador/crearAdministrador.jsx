@@ -4,10 +4,10 @@ function CreacionAdmin(){
 	
 	return(
 	
-		<div className="div_principal">
-		<div className="div_principal">
-	<p> Creacion de administrador</p>
-	<p>Ingrese nombre del usuario </p>
+		<div className="div_principal_creardmin">
+		
+	<p className='textocrearadmin'> Creacion de administrador</p>
+	<p className='textocrearadmin'>Ingrese nombre del usuario </p>
 	<input
 	
 	placeholder='Ingrese mail'
@@ -16,7 +16,7 @@ function CreacionAdmin(){
 	 
 	 <button> adas </button>
 	
-	</div>
+
 	</div>
 	)
 }

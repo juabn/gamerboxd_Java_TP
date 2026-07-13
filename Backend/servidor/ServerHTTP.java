@@ -3,13 +3,6 @@ package servidor;
 
 
 import servidor.AbmcUsuario.login;
-
-
-
-
-
-
-
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;

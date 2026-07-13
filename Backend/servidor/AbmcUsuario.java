@@ -607,9 +607,25 @@ public class AbmcUsuario {
 			
 			Persona per = Data_persona.buscar_solo_persona_pormail(per_login.getMail());
 			
+			if (per.getNombre_usuario() == null) {
+				
+				respuesta = "Usuario no existe o credenciales incorrectas";
+				exchange.sendResponseHeaders(401, jsonResultado.getBytes().length);
+	            return; 
+	        }
 			
+			if(per.getEstado().equals("inactivo")) {
+				
+				respuesta = "Usuario no existe o credenciales incorrectas";
+				res.setResponse(respuesta);
+				res.setToken(token);
+				jsonResultado = gson.toJson(res);
+				exchange.sendResponseHeaders(401, jsonResultado.getBytes().length);
+				return;
+						
+			}
 		
-
+			else {
 			
 			
 			Boolean resultado = Data_persona.buscar_persona(per_login.getMail(),per_login.getContrasena() );
@@ -634,7 +650,7 @@ public class AbmcUsuario {
 				exchange.sendResponseHeaders(401, jsonResultado.getBytes().length);
 			}
 			
-
+			}
             
             OutputStream os = exchange.getResponseBody();
             os.write(jsonResultado.getBytes(StandardCharsets.UTF_8));

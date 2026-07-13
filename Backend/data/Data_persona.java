@@ -283,6 +283,8 @@ try {
 	    	per.setRol(rs.getString("rol"));
 	    	per.setIdgrupo(rs.getInt("idgrupo"));
 	    	per.setRolgrupo(rs.getString("rolgrupo"));
+	    	per.setEstado(rs.getString("estado"));
+	 
 	
 		}
 	    

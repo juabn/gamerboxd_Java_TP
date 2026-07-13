@@ -121,6 +121,7 @@ export default function Navbar({autenticado}) {
 							<>
 								<li><Link to="/AdministrarCompanias">Cargar compania</Link></li>
 								<li><Link to="/cargarjuegos">Cargar juegos</Link></li>
+								<li><Link to="/CreacionAdmin">Crear administrador</Link></li>
 							</>
 						)}
 					</ul>

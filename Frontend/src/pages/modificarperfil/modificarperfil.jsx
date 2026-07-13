@@ -51,6 +51,7 @@ function Modificarperfil(){
 			if(response.status=== 200){
 				
 				alert("Usuario dado de baja correctamente");
+				handleLogout();
 				
 				
 			}
