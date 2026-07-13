@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 function JuegoResenia(){
 	
-	const token = localStorage.getItem('token');
+	
 	const { id } = useParams(); 
 	const [juego, setJuego] = useState(null);
 	const [resenias, setResenias] = useState([]);
@@ -15,6 +15,7 @@ function JuegoResenia(){
 			
 	      .then(res => res.json())
 	      .then(data => setJuego(data))
+		  
 	      .catch(err => console.error(err));
 	  }, [id]);
 	  
@@ -28,6 +29,7 @@ function JuegoResenia(){
 					})*/	
 		  .then(res => res.json())
 		  .then(data => setResenias(data))
+		  .then(data => console.log(data))
 		  .catch(err => console.error(err));
 		},[id]);
 	  
