@@ -107,7 +107,7 @@ public class AbmcPropuesta {
 				if(exito) {
 					respuesta = "Propuesta cargada con exito";
 			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
-			    	return;
+			    	
 					
 				}else {
 					
