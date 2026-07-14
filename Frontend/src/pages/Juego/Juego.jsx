@@ -29,11 +29,11 @@ function JuegoResenia(){
 					})*/	
 		  .then(res => res.json())
 		  .then(data => setResenias(data))
-		  .then(data => console.log(data))
+		  .then(data => console.log(data.p))
 		  .catch(err => console.error(err));
 		},[id]);
 	  
-	  console.log(juego);
+	  console.log(resenias);
 	  
 	  if (!juego) return <p>Cargando...</p>;
 
@@ -62,10 +62,10 @@ function JuegoResenia(){
 		        <div key={index} className="review-card">
 					<div className="reviewUserInfo">
 					<img 
-				          src={`https://ui-avatars.com/api/?name=${r.mail_usuario}&background=random&color=fff`} 
+				          src={r.usuario.foto_perfil || `https://i.pravatar.cc/150?img=3`} 
 				          className="user-avatar" 
 				        />
-				  <strong>{r.mail_usuario}</strong>
+				  <strong>{r.usuario.nombre_usuario}</strong>
 				</div>
 	            <p>{r.descripcion}</p>
 	            <span>Puntaje: {r.puntaje}/5</span>

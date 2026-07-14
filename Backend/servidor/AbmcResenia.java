@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import data.Conexion;
+import data.Data_persona;
 import entities.Juego;
 import entities.Persona;
 import entities.Resenia;
@@ -264,6 +265,10 @@ public class AbmcResenia {
 			while (rs.next()) {
 	
 				Resenia r = new Resenia();
+				
+				Persona p = new Persona();
+				
+				
 		
 				r.setId_juego(rs.getInt("id_juego"));
 		
@@ -278,6 +283,10 @@ public class AbmcResenia {
 				r.setPuntaje(rs.getFloat("puntaje"));
 		
 				r.setMail_usuario(rs.getString("mail_usuario"));
+				
+				p = Data_persona.buscar_solo_persona_pormail(r.getMail_usuario());
+				
+				r.setUsuario(p);
 		
 				lista.add(r);
 	
