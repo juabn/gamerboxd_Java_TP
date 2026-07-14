@@ -1,12 +1,45 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class Propuesta {
 	private int id_propuesta;
 	private String nombrejuego;
 	private String descripcionjuego;
-	private String companiajuego;
+	private ArrayList<Compania> companiasJuego;
 	private String estado;
+	private String foto;
+	private String mail_usuario;
 	
+	
+	
+	
+	
+	
+	public ArrayList<Compania> getCompaniasJuego() {
+		return companiasJuego;
+	}
+
+	public void setCompaniasJuego(ArrayList<Compania> companiasJuego) {
+		this.companiasJuego = companiasJuego;
+	}
+
+	public String getMail_usuario() {
+		return mail_usuario;
+	}
+
+	public void setMail_usuario(String mail_usuario) {
+		this.mail_usuario = mail_usuario;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
 	public int getIdPropuesta() {
 		return id_propuesta;
 	}
@@ -31,13 +64,7 @@ public class Propuesta {
 		this.descripcionjuego = descripcionjuego;
 	}
 
-	public String getCompaniajuego() {
-		return companiajuego;
-	}
 
-	public void setCompaniajuego(String companiajuego) {
-		this.companiajuego = companiajuego;
-	}
 
 	public String getEstado() {
 		return estado;

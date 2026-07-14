@@ -1,6 +1,7 @@
 package servidor;
 import entities.Compania;
 
+
 import entities.Persona;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
