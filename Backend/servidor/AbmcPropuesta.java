@@ -91,7 +91,16 @@ public class AbmcPropuesta {
 			Propuesta pro = gson.fromJson(body, Propuesta.class);
 			
 			
+			System.out.println(pro.getDescripcionjuego());
+			System.out.println(pro.getNombreJuego());
+			System.out.println(pro.getFoto());
+			System.out.println(mail);
+			System.out.println(pro.getCompaniasJuego());
+			
+			
 			exito =  DataJuego.buscarjuego(pro.getNombreJuego());
+			
+			System.out.println(exito);
 			
 			if(exito) {
 				

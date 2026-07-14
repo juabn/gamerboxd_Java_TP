@@ -4,6 +4,7 @@ package servidor;
 
 import servidor.AbmcUsuario.login;
 
+
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
@@ -29,6 +30,7 @@ import servidor.AbmcResenia.obtenerResenias;
 import servidor.AbmcCompania.actualizardatosdeempresa;
 import servidor.AbmcUsuario.dardebaja;
 import servidor.AbmcUsuario.convertirenadmin;
+import servidor.AbmcPropuesta.crearPropuesta;
 
 public class ServerHTTP {
 
@@ -65,6 +67,8 @@ public class ServerHTTP {
 		server.createContext("/creargrupo", new creargrupo());
 		
 		server.createContext("/convertirenadmin", new convertirenadmin());
+		server.createContext("/crearPropuesta", new crearPropuesta());
+		
 
 		server.start();
 		System.out.println("Server corriendo");

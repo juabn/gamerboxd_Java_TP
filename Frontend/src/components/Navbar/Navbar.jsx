@@ -120,7 +120,7 @@ export default function Navbar({autenticado}) {
 						{autenticado && rol === "administrador" && (
 							<>
 								<li><Link to="/AdministrarCompanias">Cargar compania</Link></li>
-								<li><Link to="/cargarjuegos">Cargar juegos</Link></li>
+								<li><Link to="/CrearJuegos">Cargar juegos</Link></li>
 								<li><Link to="/CreacionAdmin">Crear administrador</Link></li>
 							</>
 						)}

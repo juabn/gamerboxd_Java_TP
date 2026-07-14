@@ -13,6 +13,7 @@ import Juegos from './pages/Juegos/Juegos'
 import VerificarToken from './components/verificacionToken/verificacionToken'
 import Modificarperfil from './pages/modificarperfil/modificarperfil'
 import CreacionAdmin from './pages/creacionAdministrador/crearAdministrador'
+import CrearJuegos from './pages/CrearJuegos/CrearJuegos'
 
 import JuegoResenias from './pages/Juego/Juego'
 
@@ -61,7 +62,10 @@ function App (){
 		<Route path = "/Modificarperfil" element = {<Modificarperfil/>} />
 		
 		<Route path = "/CreacionAdmin" element = {<CreacionAdmin/>} />
-
+		
+		<Route path = "/CrearJuegos" element = {<CrearJuegos/>} />
+		
+		
 		<Route 
 		          path="/CrearGrupo" 
 		          element={

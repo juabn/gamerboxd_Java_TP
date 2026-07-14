@@ -11,22 +11,29 @@ public class DataPropuesta {
 	public static boolean insertarpropuesta (String nombrejuego, String descripcion, String mailusuario, ArrayList<Compania> companias, String foto) {
 		
 		boolean respuesta = false;
+		Connection conn = null;
+		PreparedStatement ps1 = null;
+	    PreparedStatement ps2 = null;
+	    ResultSet rs = null;
 		
 		
 		
 		try {
 
-		Connection conn = Conexion.getInstancia().getConn();
+		conn = Conexion.getInstancia().getConn();
+		
+		conn.setAutoCommit(false);
 		
 		String query1 = "insert into propuesta (nombrejuego, imagen, descripcionjuego, mail_usuario) values (?,?,?,?)";
-		PreparedStatement ps1 = conn.prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
-		ps1.setString(1, nombrejuego);
+		ps1 = conn.prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
+		String nombremin = nombrejuego.replace(" ", "").toLowerCase();
+		ps1.setString(1, nombremin);
 		ps1.setString(2, descripcion);
 		ps1.setString(3, descripcion);
 		ps1.setString(4, mailusuario);
 		ps1.executeUpdate();
 		
-		ResultSet rs = ps1.getGeneratedKeys();
+		 rs = ps1.getGeneratedKeys();
 		int idPropuestaGenerado = 0;
 		
 		if (rs.next()) {
@@ -35,8 +42,8 @@ public class DataPropuesta {
 		
 		try {
 			
-			String query2 = "insert into juego_compania (id_comp, id_propuesta,) values (?,?)";
-			PreparedStatement ps2 = conn.prepareStatement(query2);
+			String query2 = "insert into compania_propuesta (id_comp, id_propuesta) values (?,?)";
+			ps2 = conn.prepareStatement(query2);
 			
 			ps2.setInt(2, idPropuestaGenerado);
 			
@@ -47,12 +54,22 @@ public class DataPropuesta {
 				
 			}
 			
+			conn.commit();
+            respuesta = true;
+			
+			
 			respuesta = true;
 			
 			
 		}catch(SQLException e) {
 			
+			System.out.println(e);
+			if (conn != null) {
+                conn.rollback();
+            }
+            
 			respuesta = false;
+			
 			
 			
 		}
@@ -61,13 +78,25 @@ public class DataPropuesta {
 		
 		catch(SQLException e) {
 			
+			
 			respuesta = false;
 			
+			
 		}
+		finally {
+	        
+	        try {
+	            if (conn != null) conn.setAutoCommit(true);
+	            if (rs != null) rs.close();
+	            if (ps1 != null) ps1.close();
+	            if (ps2 != null) ps2.close();
+	        } catch (SQLException ex) {
+	            System.out.println("Error al cerrar recursos: " + ex.getMessage());
+	        }
 		
 		
 		
-		
+		}
 		return respuesta;
 		
 		
@@ -80,5 +109,5 @@ public class DataPropuesta {
 	
 	
 	
-
+	
 }

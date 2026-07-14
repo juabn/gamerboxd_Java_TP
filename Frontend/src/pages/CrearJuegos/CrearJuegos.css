@@ -1,0 +1,18 @@
+.divprincipalcreajuego{
+	
+	
+background-color: var(--color1);
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:space-between;
+	padding-top: 200px;
+}
+
+
+.textocreajuegos{
+	
+	
+	color: white;
+	
+}
