@@ -1,6 +1,6 @@
 import './Juego.css'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 function JuegoResenia(){
 	
@@ -8,7 +8,14 @@ function JuegoResenia(){
 	const { id } = useParams(); 
 	const [juego, setJuego] = useState(null);
 	const [resenias, setResenias] = useState([]);
-	 
+	const [usuarioLogueado, setUsuarioLogueado] = useState(()=>{
+		const token = localStorage.getItem('token');
+		return token ? token : null
+	});
+	
+	
+	
+	
 	useEffect(() => {
 	    
 	    fetch(`http://localhost:8081/juego/${id}`)
@@ -29,11 +36,45 @@ function JuegoResenia(){
 					})*/	
 		  .then(res => res.json())
 		  .then(data => setResenias(data))
-		  .then(data => console.log(data.p))
 		  .catch(err => console.error(err));
 		},[id]);
+		
+		
+
 	  
-	  console.log(resenias);
+	  const manejarEnvioResenia = (e) => {
+	          e.preventDefault();
+			  const formData = new FormData(e.target);
+			  const token = localStorage.getItem('token');
+			  const datosResenia = {
+			  		id_juego: id,
+			  		titulo: formData.get('titulo'),
+			  		puntaje:parseFloat(formData.get('puntaje')),
+			  		descripcion:formData.get('descripcion')
+			  	}
+			  	fetch('http://localhost:8081/nuevaResenia', {
+			  	        method: 'POST',
+			  	        headers: {
+			  	            'Content-Type': 'application/json',
+			  	            'Authorization': `Bearer ${token}` 
+			  	        },
+			  	        body: JSON.stringify(datosResenia)
+			  	    }) 		.then(res => {
+			  		        if (!res.ok) {
+			  		            return res.text().then(text => { throw new Error(text) });
+			  		        }
+			  		        return res.text();
+			  		    })
+			  		    .then(mensaje => {
+			  		        alert("resenia publicada");
+			  				console.log(mensaje);
+			  		        event.target.reset(); 
+			  		    })
+			  		    .catch(err => {
+			  		        alert("error: " + err.message); 
+			  		    });
+	          
+	      };
 	  
 	  if (!juego) return <p>Cargando...</p>;
 
@@ -58,6 +99,40 @@ function JuegoResenia(){
 		  
 	      <section className="reviews-section">
 	        <h2>Reseñas de usuarios</h2>
+			<div className="seccion-nueva-resenia">
+			                <hr />
+			                
+
+			                {usuarioLogueado ? (
+			                    
+			                    <form onSubmit={manejarEnvioResenia} className="formulario-resenia">
+			                        <div>
+			                            <label>Titulo:</label>
+			                            <input type="text" name="titulo" required />
+			                        </div>
+			                        
+			                        <div>
+			                            <label>Puntaje (1-5):</label>
+			                            <input type="number" name="puntaje" min="1" max="5" required />
+			                        </div>
+
+			                        <div>
+			                            <label>Dinos por que:</label>
+			                            <textarea name="descripcion" required></textarea>
+			                        </div>
+
+			                        <button type="submit">Enviar</button>
+			                    </form>
+			                ) : (
+			                    
+			                    <div className="mensaje-login-requerido">
+			                        <p>Necesitas loguearte para reseniar</p>
+			                        <Link to="/login" className="btn-login">
+			                            Login
+			                        </Link>
+			                    </div>
+			                )}
+			            </div>
 	        {resenias.map((r,index) => (
 		        <div key={index} className="review-card">
 					<div className="reviewUserInfo">

@@ -11,19 +11,28 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.crypto.SecretKey;
+
 import data.Conexion;
 import data.Data_persona;
 import entities.Juego;
 import entities.Persona;
 import entities.Resenia;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 public class AbmcResenia {
+	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
+	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
 	
 	public static LinkedList<Resenia> recuperarTodos() {
 		LinkedList<Resenia> resenias = new LinkedList<>();
@@ -152,7 +161,6 @@ public class AbmcResenia {
             pstmt.executeUpdate();
 
             if (pstmt != null) { pstmt.close(); }
-            conn.close();
 
             System.out.println("Nueva Resenia");
             System.out.println(resenia);
@@ -165,7 +173,85 @@ public class AbmcResenia {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
 	}
+	
+	public static class nuevaResenia implements HttpHandler{
+		@Override
+		public void handle(HttpExchange exchange) throws IOException {
+			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+	        
+	        if ("OPTIONS".equals(exchange.getRequestMethod())) {
+	            exchange.sendResponseHeaders(204, -1);
+	            return;
+	        }
+	        
+	        String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+	    	
+	    	String token = authHeader.substring(7);
+	    	
+    	    
+    	    Claims claims = Jwts.parser()
+    	    		.verifyWith(KEY) 
+    	            .build()
+    	            .parseSignedClaims(token)
+    	            .getPayload();
 
+    	    
+    	    String mail = claims.getSubject();
+    	    System.out.println(mail);
+    	    Gson gson = new Gson();
+    	    InputStream is = exchange.getRequestBody();
+    	    String jsonBody = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+	        Resenia nuevaResenia = gson.fromJson(jsonBody, Resenia.class);
+	        nuevaResenia.setMail_usuario(mail);
+	        
+	        if (existeResenia(nuevaResenia.getId_juego(), mail)) {
+	            
+	            String error = "ya escribiste una reseña para este juego.";
+	            exchange.sendResponseHeaders(400, error.getBytes().length);
+	            OutputStream os = exchange.getResponseBody();
+	            os.write(error.getBytes());
+	            os.close();
+	        } else {
+	            
+	            insertarNuevo(nuevaResenia.getId_juego(),nuevaResenia.getMail_usuario(),nuevaResenia.getTitulo(),nuevaResenia.getDescripcion(),nuevaResenia.getPuntaje());
+	            String exito = "reseña guardada correctamente";
+	            exchange.sendResponseHeaders(200, exito.getBytes().length);
+	            OutputStream os = exchange.getResponseBody();
+	            os.write(exito.getBytes());
+	            os.close();
+	        }
+		}
+	}
+	
+	public static boolean existeResenia(int idJuego, String mailUsuario) {
+		boolean existe = false;
+
+		
+		try {
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rs = null;
+			conn = Conexion.getInstancia().getConn();
+			String sql = "SELECT COUNT(*) AS total FROM resenia WHERE id_juego = ? AND mail_usuario = ?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, idJuego);
+			stmt.setString(2, mailUsuario);
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				if(rs.getInt("total")>0) {
+					existe=true;
+				}
+			} 
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+		return existe;
+	}
+
+	
 	public static class obtenerReseniasPorJuego implements HttpHandler {
 	    @Override
 	    public void handle(HttpExchange exchange) throws IOException {

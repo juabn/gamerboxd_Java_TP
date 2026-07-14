@@ -45,7 +45,7 @@ public class ServerHTTP {
 		server.createContext("/verificarjwt", new verificarjwt());
 		server.createContext("/juego/", new juegoid());
 		server.createContext("/reseniasPorJuego", new AbmcResenia.obtenerReseniasPorJuego());
-		
+		server.createContext("/nuevaResenia", new AbmcResenia.nuevaResenia());
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 
