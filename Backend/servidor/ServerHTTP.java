@@ -10,7 +10,7 @@ import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 
 import servidor.AbmcUsuario.verificartoken;
-
+import servidor.AbmcUsuario;
 import servidor.AbmcUsuario.cambiarpassword;
 import servidor.AbmcUsuario.obtencionfotousuario;
 import servidor.Juegos.juegoid;
@@ -46,6 +46,7 @@ public class ServerHTTP {
 		server.createContext("/juego/", new juegoid());
 		server.createContext("/reseniasPorJuego", new AbmcResenia.obtenerReseniasPorJuego());
 		server.createContext("/nuevaResenia", new AbmcResenia.nuevaResenia());
+		server.createContext("/obtenerUsuarioToken", new AbmcUsuario.obtenerUsuarioToken());
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 

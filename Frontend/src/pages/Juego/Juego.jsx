@@ -12,9 +12,33 @@ function JuegoResenia(){
 		const token = localStorage.getItem('token');
 		return token ? token : null
 	});
+	const [reseniaPropia, setReseniaPropia] = useState(null);
 	
 	
+
 	
+	const obtenerUsuario = async () => {
+	  const token = localStorage.getItem('token'); 
+
+	  try {
+	    const response = await fetch('http://localhost:8081/obtenerUsuarioToken', {
+	      method: 'GET',
+	      headers: {
+	        'Content-Type': 'application/json',
+	        'Authorization': `Bearer ${token}`
+	      }
+	    });
+
+	    if (!response.ok) {
+	      throw new Error('error al obtener usuario');
+	    }
+
+	    const usuario = await response.json();
+	    return usuario;
+	  } catch (error) {
+	    console.error('Error:', error);
+	  }
+	};
 	
 	useEffect(() => {
 	    
@@ -39,9 +63,9 @@ function JuegoResenia(){
 		  .catch(err => console.error(err));
 		},[id]);
 		
+	
 		
-
-	  
+		
 	  const manejarEnvioResenia = (e) => {
 	          e.preventDefault();
 			  const formData = new FormData(e.target);
