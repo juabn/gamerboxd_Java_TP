@@ -8,11 +8,11 @@ function JuegoResenia(){
 	const { id } = useParams(); 
 	const [juego, setJuego] = useState(null);
 	const [resenias, setResenias] = useState([]);
+	const [usuario, setUsuario] = useState(null);
 	const [usuarioLogueado, setUsuarioLogueado] = useState(()=>{
 		const token = localStorage.getItem('token');
 		return token ? token : null
 	});
-	const [reseniaPropia, setReseniaPropia] = useState(null);
 	
 	
 
@@ -63,7 +63,22 @@ function JuegoResenia(){
 		  .catch(err => console.error(err));
 		},[id]);
 		
-	
+		useEffect(() => {
+		  	if (usuarioLogueado) {
+		  		obtenerUsuario().then(data => setUsuario(data));
+		  	}
+		  }, [usuarioLogueado]);
+		  
+		  useEffect(() => {
+		    	if (usuario && resenias.length > 0) {
+		    		const propia = resenias.find(
+		    			r => r.usuario?.mail_usuario === usuario.mail_usuario
+		    		);
+		    		setReseniaPropia(propia || null);
+		    	} else {
+		    		setReseniaPropia(null);
+		    	}
+		    }, [usuario, resenias]);
 		
 		
 	  const manejarEnvioResenia = (e) => {
@@ -99,79 +114,138 @@ function JuegoResenia(){
 			  		    });
 	          
 	      };
+		  
+		  const manejarEdicionResenia = (e) => {
+		  		e.preventDefault();
+		  		const formData = new FormData(e.target);
+		  		const token = localStorage.getItem('token');
+		  		const datosResenia = {
+		  			id_resenia: reseniaPropia.id_resenia,
+		  			id_juego: id,
+		  			titulo: formData.get('titulo'),
+		  			puntaje: parseFloat(formData.get('puntaje')),
+		  			descripcion: formData.get('descripcion')
+		  		}
+		  		fetch('http://localhost:8081/editarResenia', {
+		  			method: 'PUT',
+		  			headers: {
+		  				'Content-Type': 'application/json',
+		  				'Authorization': `Bearer ${token}`
+		  			},
+		  			body: JSON.stringify(datosResenia)
+		  		})
+		  			.then(res => {
+		  				if (!res.ok) {
+		  					return res.text().then(text => { throw new Error(text) });
+		  				}
+		  				return res.text();
+		  			})
+		  			.then(mensaje => {
+		  				alert("reseña actualizada");
+		  				console.log(mensaje);
+		  				// refrescamos resenias para reflejar los cambios
+		  				fetch(`http://localhost:8081/reseniasPorJuego?id=${id}`)
+		  					.then(res => res.json())
+		  					.then(data => setResenias(data));
+		  			})
+		  			.catch(err => {
+		  				alert("error: " + err.message);
+		  			});
+		  };
+
+		  if (!juego) return <p>Cargando...</p>;
 	  
 	  if (!juego) return <p>Cargando...</p>;
 
 	  
 
 	  return (
-	    <div className="detalle-juego-container">
-	      <header className="game-header">
-		  	<div className="gameInfo">
-				<div className="gameInfo1">
-			        <h1>{juego.name}</h1>
-			        <p>{juego.description_raw}</p>
+		<div className="detalle-juego-container">
+		      <header className="game-header">
+			  	<div className="gameInfo">
+					<div className="gameInfo1">
+				        <h1>{juego.name}</h1>
+				        <p>{juego.description_raw}</p>
+					</div>
+			        <span>Desarrolladores: {juego.developers}</span>
 				</div>
-		        <span>Desarrolladores: {juego.developers}</span>
-			</div>
-			<div className="game-pic">
-				<img src={juego.background_image}/>
-			</div>
-		
-		
-	      </header>
-		  
-	      <section className="reviews-section">
-	        <h2>Reseñas de usuarios</h2>
-			<div className="seccion-nueva-resenia">
-			                <hr />
-			                
-
-			                {usuarioLogueado ? (
-			                    
-			                    <form onSubmit={manejarEnvioResenia} className="formulario-resenia">
-			                        <div>
-			                            <label>Titulo:</label>
-			                            <input type="text" name="titulo" required />
-			                        </div>
-			                        
-			                        <div>
-			                            <label>Puntaje (1-5):</label>
-			                            <input type="number" name="puntaje" min="1" max="5" required />
-			                        </div>
-
-			                        <div>
-			                            <label>Dinos por que:</label>
-			                            <textarea name="descripcion" required></textarea>
-			                        </div>
-
-			                        <button type="submit">Enviar</button>
-			                    </form>
-			                ) : (
-			                    
-			                    <div className="mensaje-login-requerido">
-			                        <p>Necesitas loguearte para reseniar</p>
-			                        <Link to="/login" className="btn-login">
-			                            Login
-			                        </Link>
-			                    </div>
-			                )}
-			            </div>
-	        {resenias.map((r,index) => (
-		        <div key={index} className="review-card">
-					<div className="reviewUserInfo">
-					<img 
-				          src={r.usuario.foto_perfil || `https://i.pravatar.cc/150?img=3`} 
-				          className="user-avatar" 
-				        />
-				  <strong>{r.usuario.nombre_usuario}</strong>
+				<div className="game-pic">
+					<img src={juego.background_image}/>
 				</div>
-	            <p>{r.descripcion}</p>
-	            <span>Puntaje: {r.puntaje}/5</span>
-	          </div>
-	        ))}
-	      </section>
-	    </div>
+		      </header>
+
+		      <section className="reviews-section">
+		        <h2>Reseñas de usuarios</h2>
+				<div className="seccion-nueva-resenia">
+				                <hr />
+
+				                {!usuarioLogueado && (
+				                    <div className="mensaje-login-requerido">
+				                        <p>Necesitas loguearte para reseniar</p>
+				                        <Link to="/login" className="btn-login">
+				                            Login
+				                        </Link>
+				                    </div>
+				                )}
+
+				                {usuarioLogueado && reseniaPropia && (
+				                    <form onSubmit={manejarEdicionResenia} className="formulario-resenia">
+				                        <h3>Editar tu reseña</h3>
+				                        <div>
+				                            <label>Titulo:</label>
+				                            <input type="text" name="titulo" defaultValue={reseniaPropia.titulo} required />
+				                        </div>
+
+				                        <div>
+				                            <label>Puntaje (1-5):</label>
+				                            <input type="number" name="puntaje" min="1" max="5" defaultValue={reseniaPropia.puntaje} required />
+				                        </div>
+
+				                        <div>
+				                            <label>Dinos por que:</label>
+				                            <textarea name="descripcion" defaultValue={reseniaPropia.descripcion} required></textarea>
+				                        </div>
+
+				                        <button type="submit">Guardar cambios</button>
+				                    </form>
+				                )}
+
+				                {usuarioLogueado && !reseniaPropia && (
+				                    <form onSubmit={manejarEnvioResenia} className="formulario-resenia">
+				                        <div>
+				                            <label>Titulo:</label>
+				                            <input type="text" name="titulo" required />
+				                        </div>
+
+				                        <div>
+				                            <label>Puntaje (1-5):</label>
+				                            <input type="number" name="puntaje" min="1" max="5" required />
+				                        </div>
+
+				                        <div>
+				                            <label>Dinos por que:</label>
+				                            <textarea name="descripcion" required></textarea>
+				                        </div>
+
+				                        <button type="submit">Enviar</button>
+				                    </form>
+				                )}
+				            </div>
+		        {resenias.map((r,index) => (
+			        <div key={index} className="review-card">
+						<div className="reviewUserInfo">
+						<img 
+					          src={r.usuario.foto_perfil || `https://i.pravatar.cc/150?img=3`} 
+					          className="user-avatar" 
+					        />
+					  <strong>{r.usuario.nombre_usuario}</strong>
+					</div>
+		            <p>{r.descripcion}</p>
+		            <span>Puntaje: {r.puntaje}/5</span>
+		          </div>
+		        ))}
+		      </section>
+		    </div>
 	  );
 }
 

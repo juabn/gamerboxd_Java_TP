@@ -570,20 +570,24 @@ public class AbmcUsuario {
 
 	public static class obtenerUsuarioToken implements HttpHandler {
 	
+		
+		
 		public void handle(HttpExchange exchange) throws IOException {
+			
+			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
+			 exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+			 exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
 			
 			int codigoestado;
 			Persona perr = new Persona();
 			
-			controlCors(exchange);
 			
-		    if (exchange.getRequestMethod().equals("OPTIONS")) {
-	
-		        exchange.sendResponseHeaders(204, -1);
-		        exchange.close();
-	
-		        return;
-		    }
+			
+			if (exchange.getRequestMethod().equals("OPTIONS")) {
+			    exchange.sendResponseHeaders(204, -1);
+			    exchange.close();
+			    return;
+			}
 		    
 		    try {
 		    	
@@ -605,8 +609,6 @@ public class AbmcUsuario {
 					perr = Data_persona.buscar_solo_persona_pormail(mail);
 					codigoestado = 200;
 					
-					
-		    	
 		    	
 		    }
 		    catch(Exception e ) {
@@ -624,9 +626,7 @@ public class AbmcUsuario {
 		    OutputStream os = exchange.getResponseBody();
 	       os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
 	       os.close();
-		
-		    
-		
+
 		}
 	
 }
