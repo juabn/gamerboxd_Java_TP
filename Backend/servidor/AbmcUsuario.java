@@ -603,6 +603,7 @@ public class AbmcUsuario {
 	    	    String mail = claims.getSubject();
 				
 					perr = Data_persona.buscar_solo_persona_pormail(mail);
+					System.out.println(perr);
 					codigoestado = 200;
 					
 		    	
