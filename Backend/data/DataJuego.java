@@ -30,12 +30,10 @@ public static boolean buscarjuego(String nombreJuego) {
 			ResultSet rs = Resultado.executeQuery();
 			
 			if (rs.next()) {	
-				System.out.println("okpa");
+				
 				resultado = true;
 			}
-			
-			
-			
+				
 			
 		}catch(SQLException ex) {
 			

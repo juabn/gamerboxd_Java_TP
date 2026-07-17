@@ -1,11 +1,55 @@
 import './CrearJuegos.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Select from 'react-select'
 
 function CrearJuegos(){
 	
 	const [nombrejuego, setnombrejuegop] = useState("");
 	const [descripcion, setdescripcion] = useState("");
 	const [imagen, setimagen] = useState("");
+	
+	const [listaEmpresas, setListaEmpresas] = useState([])
+	const [companiasElegidas, setCompaniasElegidas] = useState([]);
+
+	
+	//lista de empresas solo para probar
+	const listacompanias = [
+	    { id: 4, name: "Rockstar Games", estado: "Activo" },
+	    { id: 10, name: "Nintendo", estado: "Activo" }
+	];
+
+	
+	
+	useEffect(() => {
+			
+		  fetch('http://localhost:8081/listaempresas')
+		  
+		    .then((Response) => Response.json())
+		    .then((dataa) => {
+			  const nuevoarray = dataa.map(empresa => ({
+			  	
+			  	value: empresa.id,
+			  	label: empresa.name
+			  		
+			  }));
+			  
+			  const opcionPorDefecto = { value: '', label: 'Todos' };
+			  setListaEmpresas( [opcionPorDefecto, ...nuevoarray]);
+			  
+		      
+		    })
+		    .catch((error) => console.error("Error cargando empresas:", error));
+		}, []);
+		
+		
+		const manejarCambioOpcion = (opcionesSeleccionadas) => {
+		    
+		    setCompaniasElegidas(opcionesSeleccionadas || []);
+		    
+		    
+		    console.log(opcionesSeleccionadas)
+		}
+	
 	
 	const manejarnombrejuego = (e) => {
 			
@@ -33,53 +77,41 @@ function CrearJuegos(){
 		
 
 	
-	//lista de empresas solo para probar
-	const listacompanias = [
-	    { id: 4, name: "Rockstar Games", estado: "Activo" },
-	    { id: 10, name: "Nintendo", estado: "Activo" }
-	];
-	
-	
-	const enviar = (e) => {
-		
-		
 
-		let token = localStorage.getItem('token');
-				
-		e.preventDefault();
-		
-		fetch('http://localhost:8081/crearPropuesta', {
-			
-			
-						
-		method: 'POST', 
-		headers: {
-		'Content-Type': 'application/json',
-		'Authorization': 'Bearer ' + token },
-		body: JSON.stringify({
-			nombrejuego: nombrejuego, 
-			descripcionjuego: descripcion,
-			foto: imagen,
-			companiasJuego: listacompanias})
-		
-			
-		})
-		.then(response => {
-			        
+	
+		const enviar = (e) => {
+		    let token = localStorage.getItem('token');
+		    e.preventDefault();
+		    
+		    fetch('http://localhost:8081/crearPropuesta', {
+		        method: 'POST', 
+		        headers: {
+		            'Content-Type': 'application/json',
+		            'Authorization': 'Bearer ' + token 
+		        },
+		        body: JSON.stringify({
+		            nombrejuego: nombrejuego, 
+		            descripcionjuego: descripcion,
+		            foto: imagen,
+		            companiasJuego: companiasElegidas.map(empresa => ({
+		                id: empresa.value,
+		                name: empresa.label
+		            })) 
+		        }) 
+		    }) 
+		    .then(response => {
 		        if (response.status === 200) {
 		            alert("Solicitud enviada correctamente");
 		        } 
-				else if (response.status === 402) {
-		            alert("Esta juego ya existe");
-					        
+		        else if (response.status === 402) {
+		            alert("Este juego ya existe");
 		        }
-				else {
+		        else {
 		            alert("Hubo un problema al crear la empresa: " + response.status);
 		        }
 		    })
-			    .catch(error => console.error('Error en el fetch:', error));
-		
-	}
+		    .catch(error => console.error('Error en el fetch:', error));
+		}
 	
 	
 	
@@ -115,6 +147,12 @@ function CrearJuegos(){
 		<img className='imagen' style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }} src = {imagen} //lo pongo asi porque en el css no aplica los cambios no se qeu onda
 		/>
 		
+		<Select
+		isMulti
+		  
+		  options={listaEmpresas}
+		  onChange={manejarCambioOpcion}
+		/>
 		
 		
 		
