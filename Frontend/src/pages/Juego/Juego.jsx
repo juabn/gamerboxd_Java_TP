@@ -13,6 +13,7 @@ function JuegoResenia(){
 		const token = localStorage.getItem('token');
 		return token ? token : null
 	});
+	const [reseniaPropia, setReseniaPropia] = useState(null);
 	
 	
 
@@ -143,7 +144,7 @@ function JuegoResenia(){
 		  			.then(mensaje => {
 		  				alert("reseña actualizada");
 		  				console.log(mensaje);
-		  				// refrescamos resenias para reflejar los cambios
+		  				
 		  				fetch(`http://localhost:8081/reseniasPorJuego?id=${id}`)
 		  					.then(res => res.json())
 		  					.then(data => setResenias(data));
@@ -155,7 +156,7 @@ function JuegoResenia(){
 
 		  if (!juego) return <p>Cargando...</p>;
 	  
-	  if (!juego) return <p>Cargando...</p>;
+	  
 
 	  
 

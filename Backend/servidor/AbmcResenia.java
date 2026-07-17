@@ -27,14 +27,23 @@ import com.sun.net.httpserver.HttpHandler;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class AbmcResenia {
 	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
 	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
+	public static void controlCors(HttpExchange exchange) {
+		
+		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
+	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE, OPTIONS");
+	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+	}
 	
 	public static LinkedList<Resenia> recuperarTodos() {
+
+		
 		LinkedList<Resenia> resenias = new LinkedList<>();
 		try {
 			// crear una conexión
@@ -101,6 +110,117 @@ public class AbmcResenia {
 		return resenias;
 		
 	}
+	
+	public static boolean actualizar(Resenia r) {
+
+	    String sql = "UPDATE resenia SET titulo = ?, descripcion = ?, puntaje = ? " +
+	                 "WHERE id_juego = ? AND mail_usuario = ?";
+
+	    try (Connection conn = Conexion.getInstancia().getConn();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setString(1, r.getTitulo());
+	        stmt.setString(2, r.getDescripcion());
+	        stmt.setFloat(3, r.getPuntaje());
+	        stmt.setInt(4, r.getId_juego());
+	        stmt.setString(5, r.getMail_usuario());
+
+	        int filasAfectadas = stmt.executeUpdate();
+
+	        return filasAfectadas > 0;
+
+	    } catch (SQLException e) {
+	        System.out.println(e);
+	        return false;
+	    }
+	}
+	
+	public static class editarResenia implements HttpHandler{
+		@Override
+		public void handle(HttpExchange exchange) throws IOException{
+			 int codigoestado;
+			 String mensaje = "";
+			controlCors(exchange);
+			if (exchange.getRequestMethod().equals("OPTIONS")) {
+	            exchange.sendResponseHeaders(204, -1);
+	            exchange.close();
+	            return;
+	        }
+			if (!exchange.getRequestMethod().equals("PUT")) {
+	            exchange.sendResponseHeaders(405, -1);
+	            exchange.close();
+	            return;
+	        }
+			
+			try {
+
+	            
+	            String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+	            String token = authHeader.substring(7);
+
+	            Claims claims = Jwts.parser()
+	                    .verifyWith(KEY)
+	                    .build()
+	                    .parseSignedClaims(token)
+	                    .getPayload();
+
+	            String mail = claims.getSubject();
+	           
+
+	            Gson gson = new Gson();
+	            InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8);
+	            Resenia reseniaRecibida = gson.fromJson(isr, Resenia.class);
+	            System.out.println("resenia que traigo: "+reseniaRecibida);
+
+	            
+	            Resenia reseniaExistente = recuperarPorIdJuegoYmail(reseniaRecibida.getId_juego(), mail);
+
+	            if (reseniaExistente == null) {
+	            	 codigoestado = 404;
+	                 mensaje = "No existe una resenia tuya para este juego";
+	            }else {
+
+	            
+	            
+
+	            
+	            reseniaExistente.setTitulo(reseniaRecibida.getTitulo());
+	            reseniaExistente.setPuntaje(reseniaRecibida.getPuntaje());
+	            reseniaExistente.setDescripcion(reseniaRecibida.getDescripcion());
+
+	            boolean actualizado = actualizar(reseniaExistente);
+	            
+	            if (actualizado) {
+	                codigoestado = 200;
+	                mensaje = "Resenia actualizada correctamente";
+	            } else {
+	                codigoestado=500;
+	                mensaje = "No se pudo actualizar la resenia";
+	            }
+	            }
+	            
+
+	        } catch (Exception e) {
+	        	codigoestado=401;
+	            System.out.println(e);
+	            enviarRespuesta(exchange, 401, "Token invalido o error en la solicitud");
+	        }
+	    }
+		
+	    // Metodo auxiliar para no repetir la logica de enviar respuesta
+	    private void enviarRespuesta(HttpExchange exchange, int codigoestado, String mensaje) throws IOException {
+	        Gson gson = new Gson();
+	        String jsonRespuesta = gson.toJson(mensaje);
+	        byte[] responseBytes = jsonRespuesta.getBytes(StandardCharsets.UTF_8);
+	        exchange.sendResponseHeaders(codigoestado, responseBytes.length);
+	        OutputStream os = exchange.getResponseBody();
+	        os.write(responseBytes);
+	        os.close();
+	    }
+	}
+			
+			
+
 	
 	public static class obtenerResenias implements HttpHandler {
 		@Override
@@ -416,6 +536,108 @@ public class AbmcResenia {
 
 		}
 	
+	public static Resenia recuperarPorIdJuegoYmail(int id, String mail) {
+
+		Resenia r = new Resenia();
+
+
+
+		try {
+
+			// crear una conexión
+	
+			Connection conn = Conexion.getInstancia().getConn();
+	
+	
+	
+			// definir la query
+	
+			PreparedStatement stmt = conn.prepareStatement("select * from resenia where id_juego=? and mail_usuario=?");
+	
+	
+	
+			// setear el/los parámetros
+	
+			stmt.setInt(1, id);
+			stmt.setString(2, mail);
+	
+	
+	
+			// ejecutar query y obtener resultados
+	
+			ResultSet rs = stmt.executeQuery();
+	
+	
+	
+			// mapear cada fila del resultset a un objeto y agregarlo a la lista
+	
+			while (rs.next()) {
+	
+				
+				Persona p = new Persona();
+				
+				
+		
+				r.setId_juego(rs.getInt("id_juego"));
+		
+				r.setFecha(rs.getString("fecha"));
+		
+				r.setHora(rs.getString("hora"));
+		
+				r.setTitulo(rs.getString("titulo"));
+		
+				r.setDescripcion(rs.getString("descripcion"));
+		
+				r.setPuntaje(rs.getFloat("puntaje"));
+		
+				r.setMail_usuario(rs.getString("mail_usuario"));
+				
+				p = Data_persona.buscar_solo_persona_pormail(r.getMail_usuario());
+				
+				r.setUsuario(p);
+		
+				
+	
+			}
+	
+		
+		
+				// cerrar recursos
+		
+				if (rs != null) { rs.close(); }
+		
+				if (stmt != null) { stmt.close(); }
+		
+				conn.close();
+		
+		
+		
+				// mostrar objetos
+		
+				System.out.println("Buscar por idjuego y mailusuario");
+		
+				System.out.println();
+		
+				System.out.println();
+	
+	
+	
+			} catch (SQLException ex) {
+	
+				// Manejo de errores
+		
+				System.out.println("SQLException: " + ex.getMessage());
+		
+				System.out.println("SQLState: " + ex.getSQLState());
+		
+				System.out.println("VendorError: " + ex.getErrorCode());
+		
+			}
+	
+			return r;
+
+		}
+	
 	public static List<Resenia> recuperarPorMailUsuario(String mail_usuario) {
 		LinkedList<Resenia> lista = new LinkedList<>();
 
@@ -448,7 +670,7 @@ public class AbmcResenia {
 			// cerrar recursos
 			if (rs != null) { rs.close(); }
 			if (stmt != null) { stmt.close(); }
-			conn.close();
+			
 
 			// mostrar objetos
 			System.out.println("Buscar por mail usuario");

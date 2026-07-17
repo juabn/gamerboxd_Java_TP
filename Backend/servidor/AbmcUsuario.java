@@ -34,7 +34,7 @@ public class AbmcUsuario {
 	public static void controlCors(HttpExchange exchange) {
 		
 		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE, OPTIONS");
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
 	}
 	
@@ -103,8 +103,7 @@ public class AbmcUsuario {
 		    	
 		    	
 		    }
-		    
-		 
+
 		    Gson gson = new Gson();
 		    String jsonRespuesta = gson.toJson(respuesta);
 		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
@@ -116,11 +115,7 @@ public class AbmcUsuario {
 		
 		}
 		
-		
-		
-		
-		
-		
+
 	}
 	
 	
@@ -574,20 +569,21 @@ public class AbmcUsuario {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-			 exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-			 exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-			
+		
 			int codigoestado;
 			Persona perr = new Persona();
 			
 			
 			
-			if (exchange.getRequestMethod().equals("OPTIONS")) {
-			    exchange.sendResponseHeaders(204, -1);
-			    exchange.close();
-			    return;
-			}
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
 		    
 		    try {
 		    	

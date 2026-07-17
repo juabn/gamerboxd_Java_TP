@@ -47,6 +47,7 @@ public class ServerHTTP {
 		server.createContext("/reseniasPorJuego", new AbmcResenia.obtenerReseniasPorJuego());
 		server.createContext("/nuevaResenia", new AbmcResenia.nuevaResenia());
 		server.createContext("/obtenerUsuarioToken", new AbmcUsuario.obtenerUsuarioToken());
+		server.createContext("/editarResenia", new AbmcResenia.editarResenia());
 
 		server.createContext("/fotousuario", new obtencionfotousuario());
 
