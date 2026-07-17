@@ -112,15 +112,19 @@ export default function Navbar({autenticado}) {
 						<li><Link to="Juegos">Juegos</Link></li>
 						
 						{/*opciones para todos los logeados*/}
-						{autenticado && (
+						{autenticado && rol === "usuario" &&(
+							<>
 							<li><Link to="/CrearGrupo">Comunidad</Link></li>
+							<li><Link to="/CrearJuegos">Agregar juego</Link></li>
+							</>
+							
 						)}
 
 						{/*opciones exclusivas para admins logeados*/}
 						{autenticado && rol === "administrador" && (
 							<>
-								<li><Link to="/AdministrarCompanias">Cargar compania</Link></li>
-								<li><Link to="/CrearJuegos">Cargar juegos</Link></li>
+								<li><Link to="/AdministrarCompanias">Admninistrar companias</Link></li>
+								<li><Link to="/CrearJuegos">Administrar juegos</Link></li>
 								<li><Link to="/CreacionAdmin">Crear administrador</Link></li>
 							</>
 						)}

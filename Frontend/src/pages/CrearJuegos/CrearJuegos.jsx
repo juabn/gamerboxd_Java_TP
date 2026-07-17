@@ -13,10 +13,7 @@ function CrearJuegos(){
 
 	
 	//lista de empresas solo para probar
-	const listacompanias = [
-	    { id: 4, name: "Rockstar Games", estado: "Activo" },
-	    { id: 10, name: "Nintendo", estado: "Activo" }
-	];
+
 
 	
 	
@@ -33,8 +30,8 @@ function CrearJuegos(){
 			  		
 			  }));
 			  
-			  const opcionPorDefecto = { value: '', label: 'Todos' };
-			  setListaEmpresas( [opcionPorDefecto, ...nuevoarray]);
+			 
+			  setListaEmpresas( nuevoarray);
 			  
 		      
 		    })
