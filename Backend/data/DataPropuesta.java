@@ -26,9 +26,9 @@ public class DataPropuesta {
 		
 		String query1 = "insert into propuesta (nombrejuego, imagen, descripcionjuego, mail_usuario) values (?,?,?,?)";
 		ps1 = conn.prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
-		String nombremin = nombrejuego.replace(" ", "").toLowerCase();
-		ps1.setString(1, nombremin);
-		ps1.setString(2, descripcion);
+		
+		ps1.setString(1, nombrejuego);
+		ps1.setString(2, foto);
 		ps1.setString(3, descripcion);
 		ps1.setString(4, mailusuario);
 		ps1.executeUpdate();
@@ -80,6 +80,7 @@ public class DataPropuesta {
 			
 			
 			respuesta = false;
+			System.out.println(e);
 			
 			
 		}

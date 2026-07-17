@@ -21,14 +21,16 @@ public static boolean buscarjuego(String nombreJuego) {
 		try {
 			
 			String nombremin = nombreJuego.replace(" ", "").toLowerCase();
+			System.out.println(nombremin);
 			
 			Connection conn = Conexion.getInstancia().getConn();
-			String query = "SELECT 1 FROM propuesta WHERE LOWER(REPLACE(nombrejuego, ' ', '')) = ?";
+			String query = "SELECT 1 FROM juego WHERE LOWER(REPLACE(titulo, ' ', '')) = ?";
 			PreparedStatement Resultado = conn.prepareStatement(query);
 			Resultado.setString(1, nombremin);
 			ResultSet rs = Resultado.executeQuery();
 			
-			if (rs.next()) {		
+			if (rs.next()) {	
+				System.out.println("okpa");
 				resultado = true;
 			}
 			

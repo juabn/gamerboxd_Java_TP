@@ -5,7 +5,7 @@ function CrearJuegos(){
 	
 	const [nombrejuego, setnombrejuegop] = useState("");
 	const [descripcion, setdescripcion] = useState("");
-	const [imagen, setimagen] = useState("a");
+	const [imagen, setimagen] = useState("");
 	
 	const manejarnombrejuego = (e) => {
 			
@@ -17,6 +17,19 @@ function CrearJuegos(){
 			
 			setdescripcion(e.target.value)
 		};
+		
+		
+		
+		const insertarimagen = (e) => {
+			
+			let reader = new FileReader()
+			reader.readAsDataURL(e.target.files[0])
+			reader.onload = () => {
+			setimagen(reader.result )
+			
+			}
+		}
+
 		
 
 	
@@ -51,6 +64,20 @@ function CrearJuegos(){
 		
 			
 		})
+		.then(response => {
+			        
+		        if (response.status === 200) {
+		            alert("Solicitud enviada correctamente");
+		        } 
+				else if (response.status === 402) {
+		            alert("Esta juego ya existe");
+					        
+		        }
+				else {
+		            alert("Hubo un problema al crear la empresa: " + response.status);
+		        }
+		    })
+			    .catch(error => console.error('Error en el fetch:', error));
 		
 	}
 	
@@ -78,10 +105,19 @@ function CrearJuegos(){
 		<p className="textocreajuegos"> descripcion</p>
 		<input
 		onChange={manejardescripcion} />
-		<p className="textocreajuegos"> En estre espacio pondria un selector para la empresa</p>
-		<p className="textocreajuegos">Imagen</p>
-		]
-		<input />
+		
+		
+		<input 
+		type = "file" 
+		accept="image/*"
+		onChange={insertarimagen}	
+		/>
+		<img className='imagen' style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }} src = {imagen} //lo pongo asi porque en el css no aplica los cambios no se qeu onda
+		/>
+		
+		
+		
+		
 		<button type='submit'>Enviar</button>
 		
 		</form>
