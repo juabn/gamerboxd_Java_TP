@@ -41,6 +41,73 @@ public class AbmcPropuesta {
 			
 			
 			
+			
+			
+	public static class actualizarpropuesta implements HttpHandler {
+		
+		boolean resultado;
+		boolean busquedajuego;
+		String respuesta = "error";
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+
+		    try {
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    
+	    	    InputStream is = exchange.getRequestBody();
+	    	    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+	    	    is.close();
+	    	    Gson gson = new Gson();
+	    	    Propuesta pro = gson.fromJson(body, Propuesta.class);
+	    	    
+	    	    busquedajuego = DataJuego.buscarjuego(pro.getNombreJuego());
+	    	    System.out.println(busquedajuego);
+	    	    
+
+	    	    	
+	    	    resultado = DataPropuesta.actualizarestado(pro.getEstado(), pro.getIdPropuesta());
+	    	    
+	    	    if(resultado) {		    		
+		    		respuesta = "Bien";
+		    		exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+		    		
+		    	}	
+	    	    
+	    	    
+		    }catch(Error e) {		    		
+		    		respuesta = "Error token";	
+		    	exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+		    	return;
+		    	
+		    }
+		
+		
+	}
+	}
+	
 	public static class listarPropuestas implements HttpHandler{
 		String respuesta;
 		LinkedList<Propuesta> propuestas = new LinkedList<>();

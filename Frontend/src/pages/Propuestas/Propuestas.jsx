@@ -37,6 +37,7 @@ function Propuestas(){
 					<PropuestaCard 
 						key={propuesta.idPropuesta} 
 						pro={{
+							id: propuesta.id_propuesta,
 							name: propuesta.nombrejuego,
 							descripcion: propuesta.descripcionjuego,
 							imagen: propuesta.foto,

@@ -11,6 +11,44 @@ import entities.Propuesta;
 public class DataPropuesta {
 	
 	
+	
+	
+	
+	public static boolean actualizarestado(String estado, int id) {
+		
+		boolean respuesta = false;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			
+			
+				String query = "update propuesta set estado = ? where idpropuesta = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				
+				 ps.setString(1, estado);
+				 ps.setInt(2, id);
+				 respuesta = true;
+				 ps.executeUpdate();
+				
+		    
+		}
+		
+		catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		
+		return respuesta;
+	}
+	
+	
+	
+	
 	public static LinkedList<Propuesta> listarpropuestas() {
 		
 		LinkedList<Propuesta> propuestas = new LinkedList<>();
@@ -39,6 +77,7 @@ public class DataPropuesta {
             	pro.setEstado(rs.getString("estado"));
             	pro.setFoto(rs.getString("imagen"));
             	pro.setNombreJuego(rs.getString("nombrejuego"));
+            	pro.setIdPropuesta(rs.getInt("idpropuesta"));
             	
             	String query2 = "select * from compania_propuesta inner join compania on "
             			+ "compania.idcompania = compania_propuesta.id_comp where id_propuesta = ?";

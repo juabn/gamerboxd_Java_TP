@@ -6,6 +6,7 @@ import servidor.AbmcUsuario.login;
 
 
 
+
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
@@ -33,6 +34,7 @@ import servidor.AbmcUsuario.dardebaja;
 import servidor.AbmcUsuario.convertirenadmin;
 import servidor.AbmcPropuesta.crearPropuesta;
 import servidor.AbmcPropuesta.listarPropuestas;
+import servidor.AbmcPropuesta.actualizarpropuesta;
 
 public class ServerHTTP {
 
@@ -51,9 +53,7 @@ public class ServerHTTP {
 		server.createContext("/listaempresas", new listaempresas());
 		server.createContext("/actualizardatosperfil", new actualizardatosusuario());
 		server.createContext("/verificarjwt", new verificarjwt());
-
 		server.createContext("/juego/", new juegoid());
-
 		server.createContext("/Actualizarnombrecompania", new actualizarnombrecompania());
 		server.createContext("/bajalogicacompania", new bajalogicacompania());
 		server.createContext("/crearcompania", new crearcompania());
@@ -61,19 +61,12 @@ public class ServerHTTP {
 		server.createContext("/devolverempresa", new devolverempresa());
 		server.createContext("/actualizardatosdeempresa", new actualizardatosdeempresa());
 		server.createContext("/dardebaja", new dardebaja());
-
-		
-
 		server.createContext("/fotousuario", new obtencionfotousuario());
-
 		server.createContext("/creargrupo", new creargrupo());
-		
 		server.createContext("/convertirenadmin", new convertirenadmin());
-		server.createContext("/crearPropuesta", new crearPropuesta());
-		
-		
-		
-		server.createContext("/listarPropuestas", new listarPropuestas());
+		server.createContext("/crearPropuesta", new crearPropuesta());	
+		server.createContext("/listarPropuestas", new listarPropuestas());	
+		server.createContext("/actualizarpropuesta", new actualizarpropuesta());
 		
 		
 		
