@@ -24,6 +24,9 @@ import Modificarcompanias from './pages/AdministrarCompanias/modificarcompanias'
 import CrearGrupo from './pages/crearGrupo/crearGrupo'
 
 
+import Propuestas from './pages/Propuestas/Propuestas'
+
+
 import './styles.css'
 
 import IngresoNuevacontrasenia from './pages/IngresoNuevaContrasenia/IngresoNuevacontrasenia'
@@ -64,6 +67,9 @@ function App (){
 		<Route path = "/CreacionAdmin" element = {<CreacionAdmin/>} />
 		
 		<Route path = "/CrearJuegos" element = {<CrearJuegos/>} />
+		
+		<Route path = "/Propuestas" element = {<Propuestas/>} />
+		
 		
 		
 		<Route 

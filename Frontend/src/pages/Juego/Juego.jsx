@@ -7,7 +7,7 @@ function JuegoResenia(){
 	const [juego, setJuego] = useState(null);
 	 
 	useEffect(() => {
-	    // Usas el id capturado para pedir los datos específicos a tu API
+	    
 	    fetch(`http://localhost:8081/juego/${id}`)
 	      .then(res => res.json())
 	      .then(data => setJuego(data))

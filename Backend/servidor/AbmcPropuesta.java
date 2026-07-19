@@ -1,9 +1,12 @@
 package servidor;
 
 import java.io.IOException;
+
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
 
 import javax.crypto.SecretKey;
 
@@ -11,6 +14,7 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import entities.Compania;
 import entities.Persona;
 import data.DataPropuesta;
 import data.DataJuego;
@@ -19,6 +23,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+import entities.Propuesta;
 public class AbmcPropuesta {
 	
 	//Clave JWT
@@ -34,6 +39,88 @@ public class AbmcPropuesta {
 			    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
 			}
 			
+			
+			
+	public static class listarPropuestas implements HttpHandler{
+		String respuesta;
+		LinkedList<Propuesta> propuestas = new LinkedList<>();
+		
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+
+		    try {
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+    
+		    	
+		    	
+		    }catch(Error e) {
+		    	
+		    	respuesta = "Error token";
+		    	
+		    	exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+		    	return;
+		    	
+		    }
+		    
+		    
+		    try {
+		    	
+		    	Gson gson = new Gson();
+		    	
+		    	propuestas = DataPropuesta.listarpropuestas();
+		    	
+		    	respuesta = gson.toJson(propuestas);
+		    	
+		    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+		    	
+				
+   	
+		    }catch(Error e) {
+		    	
+		    	respuesta = "Error";
+		    	exchange.sendResponseHeaders(400, respuesta.getBytes().length);
+		    	return;
+		    	
+		    	
+		    }
+				
+
+		   
+		   OutputStream os = exchange.getResponseBody();
+	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+	       os.close();
+		    
+		    
+				
+			
+			
+			
+			
+		}
+	}
 			
 	public static class crearPropuesta implements HttpHandler {
 		

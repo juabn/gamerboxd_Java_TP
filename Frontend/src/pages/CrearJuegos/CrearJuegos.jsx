@@ -12,7 +12,7 @@ function CrearJuegos(){
 	const [companiasElegidas, setCompaniasElegidas] = useState([]);
 
 	
-	//lista de empresas solo para probar
+	
 
 
 	

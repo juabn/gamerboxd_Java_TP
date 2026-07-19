@@ -5,6 +5,7 @@ package servidor;
 import servidor.AbmcUsuario.login;
 
 
+
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
@@ -31,6 +32,7 @@ import servidor.AbmcCompania.actualizardatosdeempresa;
 import servidor.AbmcUsuario.dardebaja;
 import servidor.AbmcUsuario.convertirenadmin;
 import servidor.AbmcPropuesta.crearPropuesta;
+import servidor.AbmcPropuesta.listarPropuestas;
 
 public class ServerHTTP {
 
@@ -68,6 +70,12 @@ public class ServerHTTP {
 		
 		server.createContext("/convertirenadmin", new convertirenadmin());
 		server.createContext("/crearPropuesta", new crearPropuesta());
+		
+		
+		
+		server.createContext("/listarPropuestas", new listarPropuestas());
+		
+		
 		
 
 		server.start();
