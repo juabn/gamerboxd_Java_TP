@@ -17,11 +17,14 @@ function PropuestaCard({ pro}){
 				body: JSON.stringify({
 	            id_propuesta: pro.id,            
 	            estado: nuevoEstado  ,
-				nombrejuego: pro.name  
+				nombrejuego: pro.name,
+				foto: pro.imagen,  
+				descripcionjuego: pro.descripcion
 				        })
 			})
 			.then(response => {
 				if (response.status === 200) {
+					console.log("bien")
 					alert('Bien');
 					window.location.reload(); 
 					}

@@ -84,11 +84,13 @@ public class AbmcPropuesta {
 	    	    Propuesta pro = gson.fromJson(body, Propuesta.class);
 	    	    
 	    	    busquedajuego = DataJuego.buscarjuego(pro.getNombreJuego());
-	    	    System.out.println(busquedajuego);
 	    	    
-
-	    	    	
-	    	    resultado = DataPropuesta.actualizarestado(pro.getEstado(), pro.getIdPropuesta());
+	    	    System.out.println(pro.getFoto());
+	    	    
+    	    	
+	    	    resultado = DataPropuesta.actualizarestado(pro);
+	    	    
+	    	    
 	    	    
 	    	    if(resultado) {		    		
 		    		respuesta = "Bien";

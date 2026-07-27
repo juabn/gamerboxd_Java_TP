@@ -14,38 +14,38 @@ public class DataPropuesta {
 	
 	
 	
-	public static boolean actualizarestado(String estado, int id) {
-		
+	public static boolean actualizarestado(Propuesta pro) {
 		boolean respuesta = false;
+		String query = "UPDATE propuesta SET estado = ? WHERE idpropuesta = ?";
 		
 		try {
 			
 			Connection conn = Conexion.getInstancia().getConn();
 			
-			
-				String query = "update propuesta set estado = ? where idpropuesta = ?";
-				PreparedStatement ps = conn.prepareStatement(query);
+			try (PreparedStatement ps = conn.prepareStatement(query)) {
 				
-				 ps.setString(1, estado);
-				 ps.setInt(2, id);
-				 respuesta = true;
-				 ps.executeUpdate();
+				ps.setString(1, pro.getEstado());
+				ps.setInt(2, pro.getIdPropuesta());
 				
+				int filasAfectadas = ps.executeUpdate();
+				
+				if (filasAfectadas > 0) {
+					if ("aceptado".equalsIgnoreCase(pro.getEstado())) {
+						respuesta = DataJuego.insertarjuego(pro);
+					} else {
+						respuesta = true; 
+					}
+				}
+			}
 		    
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
 		}
-		
-		catch(SQLException ex){
-	
-	
-		System.out.println("SQLException: " + ex.getMessage());
-	    System.out.println("SQLState: " + ex.getSQLState());
-	    System.out.println("VendorError: " + ex.getErrorCode());
-		}
-		
 		
 		return respuesta;
 	}
-	
 	
 	
 	

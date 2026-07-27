@@ -113,7 +113,6 @@ public static class juegoid implements HttpHandler{
 	
 	
 	
-	
 public static class listajuegos implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
