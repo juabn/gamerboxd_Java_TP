@@ -24,7 +24,7 @@ public static boolean buscarjuego(String nombreJuego) {
 		try {
 			
 			String nombremin = nombreJuego.replace(" ", "").toLowerCase();
-			System.out.println(nombremin);
+			
 			
 			Connection conn = Conexion.getInstancia().getConn();
 			String query = "SELECT 1 FROM juego WHERE LOWER(REPLACE(titulo, ' ', '')) = ?";
@@ -56,14 +56,19 @@ public static boolean buscarjuego(String nombreJuego) {
 public static boolean insertarjuego(Propuesta pro) {
 	
 	boolean resultado = false;
+    Connection conn = null;
+    
+   
 	
 	try {
 	
 	
-	Connection conn = Conexion.getInstancia().getConn();
+	conn = Conexion.getInstancia().getConn();
+	
+	conn.setAutoCommit(false);
     
     String query = "insert into juego(titulo, imagen, descripcion) values (?,?,?)";
-    PreparedStatement statement = conn.prepareStatement(query);
+    PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
     
     
     statement.setString(1, pro.getNombreJuego());
@@ -72,15 +77,46 @@ public static boolean insertarjuego(Propuesta pro) {
     
     statement.executeUpdate();
     
-    resultado = true;
+    ResultSet rsKeys = statement.getGeneratedKeys();
+    int idJuegoGenerado = 0;
+    if (rsKeys.next()) {
+        idJuegoGenerado = rsKeys.getInt(1);
+    }
+    statement.close();
+    
+    
+    String queryRelacion = "insert into juego_compania(idjuego, id_comp) values (?,?)";
+    PreparedStatement psRelacion = conn.prepareStatement(queryRelacion);
+    
+    for (Compania comp : pro.getCompaniasJuego()) {
+        psRelacion.setInt(1, idJuegoGenerado);
+        psRelacion.setInt(2, comp.getId()); 
+        
+        psRelacion.executeUpdate();
+        
+    }
 
+    
+    conn.commit();
+    resultado = true;
 	}
+	
+	
 	
 	catch(SQLException ex){
 		
-		System.out.println("SQLException: " + ex.getMessage());
-	    System.out.println("SQLState: " + ex.getSQLState());
-	    System.out.println("VendorError: " + ex.getErrorCode());
+		if (conn != null) {
+            try {
+                conn.rollback();
+                System.out.println("Transacción revertida (Rollback realizado).");
+            } catch (SQLException rollbackEx) {
+                System.out.println("Error en rollback: " + rollbackEx.getMessage());
+            }
+        }
+        
+        System.out.println("SQLException: " + ex.getMessage());
+        System.out.println("SQLState: " + ex.getSQLState());
+        System.out.println("VendorError: " + ex.getErrorCode());
 		
 		
 	}

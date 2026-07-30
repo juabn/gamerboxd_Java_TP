@@ -16,6 +16,7 @@ public class DataPropuesta {
 	
 	public static boolean actualizarestado(Propuesta pro) {
 		boolean respuesta = false;
+		
 		String query = "UPDATE propuesta SET estado = ? WHERE idpropuesta = ?";
 		
 		try {
@@ -32,6 +33,7 @@ public class DataPropuesta {
 				if (filasAfectadas > 0) {
 					if ("aceptado".equalsIgnoreCase(pro.getEstado())) {
 						respuesta = DataJuego.insertarjuego(pro);
+						
 					} else {
 						respuesta = true; 
 					}

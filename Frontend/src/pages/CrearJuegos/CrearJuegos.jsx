@@ -1,5 +1,6 @@
 import './CrearJuegos.css'
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router";
 import Select from 'react-select'
 
 function CrearJuegos(){
@@ -13,7 +14,7 @@ function CrearJuegos(){
 
 	
 	
-
+	const navigate = useNavigate();
 
 	
 	
@@ -77,6 +78,12 @@ function CrearJuegos(){
 
 	
 		const enviar = (e) => {
+			
+			if (companiasElegidas.length === 0) {
+			        alert("Debes seleccionar al menos una compañia.");
+			        return; 
+			    }
+			
 		    let token = localStorage.getItem('token');
 		    e.preventDefault();
 		    
@@ -99,6 +106,7 @@ function CrearJuegos(){
 		    .then(response => {
 		        if (response.status === 200) {
 		            alert("Solicitud enviada correctamente");
+					navigate('/');
 		        } 
 		        else if (response.status === 402) {
 		            alert("Este juego ya existe");
@@ -130,13 +138,15 @@ function CrearJuegos(){
 		
 		<p className="textocreajuegos"> nombre</p>
 		<input
+		required
 		onChange={manejarnombrejuego} />
 		<p className="textocreajuegos"> descripcion</p>
+		
 		<input
+		required
 		onChange={manejardescripcion} />
-		
-		
 		<input 
+		required
 		type = "file" 
 		accept="image/*"
 		onChange={insertarimagen}	

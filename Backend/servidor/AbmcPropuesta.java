@@ -83,28 +83,44 @@ public class AbmcPropuesta {
 	    	    Gson gson = new Gson();
 	    	    Propuesta pro = gson.fromJson(body, Propuesta.class);
 	    	    
-	    	    busquedajuego = DataJuego.buscarjuego(pro.getNombreJuego());
-	    	    
-	    	    System.out.println(pro.getFoto());
-	    	    
+	    	    System.out.println("nombre" + pro.getNombreJuego());
+	    	    System.out.println("desc" +pro.getDescripcionjuego());	    	    
     	    	
 	    	    resultado = DataPropuesta.actualizarestado(pro);
 	    	    
+	    	   
 	    	    
-	    	    
-	    	    if(resultado) {		    		
-		    		respuesta = "Bien";
-		    		exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+	    	    if(resultado) {		
+	    	    	if(pro.getEstado().equals("aceptado")) {
+	    	    		respuesta = "Bien";
+			    		exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+	    	    	}
+	    	    	else if(pro.getEstado().equals("rechazado")){
+	    	    		respuesta = "Bien";
+			    		exchange.sendResponseHeaders(202, respuesta.getBytes().length);
+	    	    	}
 		    		
-		    	}	
+		    	}
+	    	    
+	    	    else {
+	    	    	
+	    	    	respuesta = "Ocurrio un error";
+		    		exchange.sendResponseHeaders(400, respuesta.getBytes().length);
+	    	    }
 	    	    
 	    	    
-		    }catch(Error e) {		    		
+		    }catch(Exception e) {		    		
 		    		respuesta = "Error token";	
+		    		System.out.println("error" + e);
 		    	exchange.sendResponseHeaders(403, respuesta.getBytes().length);
 		    	return;
 		    	
 		    }
+		    
+		    OutputStream os = exchange.getResponseBody();
+	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+	       os.close();
+			    
 		
 		
 	}

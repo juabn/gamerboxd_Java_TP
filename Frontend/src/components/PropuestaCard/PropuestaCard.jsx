@@ -19,18 +19,21 @@ function PropuestaCard({ pro}){
 	            estado: nuevoEstado  ,
 				nombrejuego: pro.name,
 				foto: pro.imagen,  
-				descripcionjuego: pro.descripcion
+				descripcionjuego: pro.descripcion,
+				companiasJuego: pro.companias
 				        })
 			})
 			.then(response => {
 				if (response.status === 200) {
 					console.log("bien")
-					alert('Bien');
+					alert('Juego añadido');
 					window.location.reload(); 
 					}
-				else if (response.status === 404){
+				else if (response.status === 202){
 					
-					alert("Este juego ya existe")
+					console.log("bien")
+					alert('Juego rechazado');
+					window.location.reload();
 				}
 				 else {
 					alert("Hubo un problema al actualizar el estado: " + response.status);
