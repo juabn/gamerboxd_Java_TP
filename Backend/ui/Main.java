@@ -26,7 +26,7 @@ import servidor.GeneracionWebToken;
 
 import servidor.AbmcResenia;
 
-import servidor.Juegos;
+import servidor.AbmcJuegos;
 
 
 

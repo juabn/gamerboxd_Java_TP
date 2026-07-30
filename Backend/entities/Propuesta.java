@@ -12,9 +12,7 @@ public class Propuesta {
 	private String mail_usuario;
 	
 	
-	
-	
-	
+
 	
 	public ArrayList<Compania> getCompaniasJuego() {
 		return companiasJuego;

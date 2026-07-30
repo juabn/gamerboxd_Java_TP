@@ -15,7 +15,7 @@ import entities.Juego;
 
 import data.Conexion;
 
-public class Juegos {
+public class AbmcJuegos {
 	
 	
 	public static void controlCors(HttpExchange exchange) {

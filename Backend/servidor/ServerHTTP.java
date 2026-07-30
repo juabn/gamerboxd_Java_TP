@@ -18,10 +18,10 @@ import servidor.AbmcCompania.devolverempresa;
 import servidor.AbmcUsuario.cambiarpassword;
 import servidor.AbmcUsuario.obtencionfotousuario;
 
-import servidor.Juegos.juegoid;
+import servidor.AbmcJuegos.juegoid;
 
-import servidor.Juegos.listajuegos;
-import servidor.Empresas.listaempresas;
+import servidor.AbmcJuegos.listajuegos;
+import servidor.AbmcEmpresa.listaempresas;
 import servidor.AbmcGrupo.creargrupo;
 import servidor.AbmcUsuario.actualizardatosusuario;
 import servidor.AbmcUsuario.verificarjwt;

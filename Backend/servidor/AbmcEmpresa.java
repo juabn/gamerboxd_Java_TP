@@ -15,7 +15,7 @@ import com.sun.net.httpserver.HttpHandler;
 import data.Conexion;
 import entities.Compania;
 
-public class Empresas {
+public class AbmcEmpresa {
 	
 public static void controlCors(HttpExchange exchange) {
 		
