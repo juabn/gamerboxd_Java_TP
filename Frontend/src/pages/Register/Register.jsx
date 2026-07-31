@@ -49,6 +49,7 @@ function Registro(){
 			const data = await res.text()	
 			console.log(data)
 			alert("Usuario registrado")
+			navigate("/login")
 					}
 					
 			if(res.status === 409){
