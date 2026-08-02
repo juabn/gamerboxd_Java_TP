@@ -21,6 +21,7 @@ public class Juego {
 	private ArrayList<Plataforma> plataformas;
 	@SerializedName("developers")
 	private String companias;
+	private String estado;
 	
 	
 	/*public static class DeveloperEntry {
@@ -29,9 +30,15 @@ public class Juego {
 	}*/
 	
 	
-
+	
 	public String getId_juego() {
 		return id_juego;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	public void setId_juego(String id_juego) {
 		this.id_juego = id_juego;

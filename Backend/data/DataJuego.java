@@ -52,6 +52,50 @@ public static boolean buscarjuego(String nombreJuego) {
 	}
 
 
+public static Juego recuperarPorTitulo(String titulo) {		
+	Juego j = null;
+
+	try {
+		
+		Connection conn = Conexion.getInstancia().getConn();
+
+		
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM juego WHERE LOWER(REPLACE(titulo, ' ', '')) = ?");
+        
+        String tituloNormalizado = titulo.replace(" ", "").toLowerCase();
+        stmt.setString(1, tituloNormalizado);
+
+       
+
+      
+        ResultSet rs= stmt.executeQuery();
+
+
+        if(rs.next()) {
+    		j=new Juego();
+    		j.setTitulo(rs.getString("titulo"));
+    		j.setDescripcion(rs.getString("descripcion"));
+    		j.setId_juego(rs.getString("idjuego"));
+    		j.setEstado(rs.getString("estado"));
+
+        }
+        
+        if(rs!=null){rs.close();}
+        if(stmt!=null){stmt.close();}
+
+	    
+	    
+
+	} catch (SQLException ex) {
+	
+	    System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+	}
+	return j;
+}
+
+
 
 public static boolean insertarjuego(Propuesta pro) {
 	

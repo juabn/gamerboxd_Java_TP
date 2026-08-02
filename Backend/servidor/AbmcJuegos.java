@@ -1,21 +1,34 @@
 package servidor;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.crypto.SecretKey;
+
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import entities.Juego;
 
+import entities.Compania;
+import entities.Juego;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import data.Conexion;
+import data.DataCompania;
+import data.DataJuego;
 
 public class AbmcJuegos {
+	
+	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
+	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
 	
 	
 	public static void controlCors(HttpExchange exchange) {
@@ -190,4 +203,170 @@ public static class listajuegos implements HttpHandler {
 			
 			
 		}
-}}
+}
+
+public static class existejuego implements HttpHandler{
+	
+	public void handle(HttpExchange exchange) throws IOException{
+		
+		String respuesta;
+		
+		boolean existejuego = false;
+		controlCors(exchange);
+		
+		if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+	        exchange.sendResponseHeaders(204, -1);
+	        exchange.close();
+
+	        return;
+	    }
+		
+		 
+	    try {
+	    	
+	    	
+	    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+	    	
+	    	String token = authHeader.substring(7);
+	    	
+    	    
+    	    Claims claims = Jwts.parser()
+    	    		.verifyWith(KEY) 
+    	            .build()
+    	            .parseSignedClaims(token)
+    	            .getPayload();
+    	    
+		}catch(Exception e ) {
+	    	
+			respuesta = "Error token";
+	    	exchange.sendResponseHeaders(402, respuesta.getBytes().length);
+	    	
+		}
+		
+	    try {
+	    	
+    	 	InputStream is = exchange.getRequestBody();
+		    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+		    is.close();
+		    Gson gson = new Gson();
+			Juego juego = gson.fromJson(body, Juego.class);
+			
+			existejuego = DataJuego.buscarjuego(juego.getTitulo());
+					
+			if(!existejuego) {
+				
+				respuesta = "No existe empresa";
+		    	exchange.sendResponseHeaders(404, respuesta.getBytes().length);
+				
+			}
+			
+	    	respuesta = "todo bem";
+	    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+
+    	
+    }
+    catch(Error e ) {
+    	
+    	respuesta = "Error en la bd";
+    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+    	
+    	
+    }
+    	
+    	
+    OutputStream os = exchange.getResponseBody();
+    os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+    os.close();
+	
+    	
+    }
+	
+
+}
+
+
+
+
+	public static class devolverjuego implements HttpHandler{
+	
+	public void handle(HttpExchange exchange) throws IOException {
+		
+		
+		Juego juego = new Juego();
+		Juego juegoRespuesta = new Juego();
+		
+		String respuesta = "aaa no seee";
+		
+
+		controlCors(exchange);
+		
+	    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+	        exchange.sendResponseHeaders(204, -1);
+	        exchange.close();
+
+	        return;
+	    }
+	    
+	    try {
+	    	
+	    	
+	    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+	    	
+	    	String token = authHeader.substring(7);
+	    	
+    	    
+    	    Claims claims = Jwts.parser()
+    	    		.verifyWith(KEY) 
+    	            .build()
+    	            .parseSignedClaims(token)
+    	            .getPayload();
+    	    
+		}catch(Exception e ) {
+	    	
+			respuesta = "Error token";
+	    	exchange.sendResponseHeaders(402, respuesta.getBytes().length);
+	    	
+	    	
+		}
+	    
+	    try {
+	    	
+	    	 	InputStream is = exchange.getRequestBody();
+			    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			    is.close();
+			    Gson gson = new Gson();
+			    juego = gson.fromJson(body, Juego.class);
+			   
+				
+				juegoRespuesta = DataJuego.recuperarPorTitulo(juego.getTitulo());
+				
+				respuesta = gson.toJson(juegoRespuesta);
+				
+		    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+
+	    	
+	    }
+	    catch(Exception e ) {
+	    	
+	    	respuesta = "Error en la bd";
+	    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+	    	
+	    	
+	    }
+	    	
+	    OutputStream os = exchange.getResponseBody();
+        os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+        os.close();
+		
+	    	
+	    }
+	
+	
+	
+	
+}
+
+
+}

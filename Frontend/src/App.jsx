@@ -14,6 +14,7 @@ import VerificarToken from './components/verificacionToken/verificacionToken'
 import Modificarperfil from './pages/modificarperfil/modificarperfil'
 import CreacionAdmin from './pages/creacionAdministrador/crearAdministrador'
 import CrearJuegos from './pages/CrearJuegos/CrearJuegos'
+import MenuPropuestas from './pages/Propuestas/MenuPropuestas'
 
 import JuegoResenias from './pages/Juego/Juego'
 
@@ -25,6 +26,8 @@ import CrearGrupo from './pages/crearGrupo/crearGrupo'
 
 
 import Propuestas from './pages/Propuestas/Propuestas'
+
+import ModificarJuego from './pages/ModificarJuego/ModificarJuego'
 
 
 import './styles.css'
@@ -69,8 +72,9 @@ function App (){
 		<Route path = "/CrearJuegos" element = {<CrearJuegos/>} />
 		
 		<Route path = "/Propuestas" element = {<Propuestas/>} />
-		
-		
+		<Route path = "/MenuPropuestas" element = {<MenuPropuestas/>} />
+		<Route path = "/ModificarJuego" element = {<ModificarJuego/>} />
+	
 		
 		<Route 
 		          path="/CrearGrupo" 
