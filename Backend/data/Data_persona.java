@@ -460,9 +460,10 @@ catch(SQLException ex){
 	    }
 
 	    String query = "select * from grupo where idgrupo = ?";
+	    
+	    Connection conn = Conexion.getInstancia().getConn();
 
-	    try (Connection conn = Conexion.getInstancia().getConn();
-	         PreparedStatement ps = conn.prepareStatement(query)) {
+	    try (PreparedStatement ps = conn.prepareStatement(query)) {
 
 	        ps.setInt(1, p.getIdgrupo());
 

@@ -221,9 +221,9 @@ public class AbmcGrupo {
 				
 				//el primer parametro es la foto de perfil
 
+				System.out.println("llegue aca");
 				insertarNuevo(nuevoGrupo.getFoto_perfil(), nuevoGrupo.getNombre(), nuevoGrupo.getDescripcion(), personas, mail, u);
-
-
+				
 				String jsonResponse = "{\"status\":\"ok\", \"mensaje\":\"Grupo insertado correctamente\"}";
 				byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
 				exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
@@ -302,7 +302,7 @@ public class AbmcGrupo {
 		    System.out.println();System.out.println();
 
 		} catch (SQLException ex) {
-		    // Manejo de errores
+			System.out.println("fallo aca");
 		    System.out.println("SQLException: " + ex.getMessage());
 		    System.out.println("SQLState: " + ex.getSQLState());
 		    System.out.println("VendorError: " + ex.getErrorCode());
