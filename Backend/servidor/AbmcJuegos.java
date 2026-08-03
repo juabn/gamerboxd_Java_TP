@@ -154,6 +154,7 @@ public static class listajuegos implements HttpHandler {
 				        + "FROM juego \r\n"
 				        + "LEFT JOIN juego_compania ON juego_compania.idjuego = juego.idjuego \r\n"
 				        + "LEFT JOIN compania ON juego_compania.id_comp = compania.idcompania AND LOWER(compania.estado) != ? \r\n"
+				        + "WHERE juego.estado = 'activo' \r\n"
 				        + "GROUP BY juego.idjuego;";
 				PreparedStatement Resultado = conn.prepareStatement(query);
 				Resultado.setString(1, "inactivo");
@@ -367,6 +368,137 @@ public static class existejuego implements HttpHandler{
 	
 	
 }
+	
+	
+	
+	
+	
+	public static class actualizardatosjuego implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			
+			Boolean existe;
+			Juego juego = new Juego();
+			Juego comRespuesta = new Juego();
+			
+			String respuesta = "aaa no seee";
+			
+			
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+			}catch(Exception e ) {
+		    	
+				respuesta = "Error token";
+		    	exchange.sendResponseHeaders(402, respuesta.getBytes().length);
+		    	
+			}
+		    
+		    try {
+		    	
+		    	 	InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+				    juego = gson.fromJson(body, Juego.class);
+				    
+				   
+				    	
+				    existe = DataJuego.buscarjuego(juego.getTitulo());
+				    
+				    
+				    if(existe) {
+				    	
+					respuesta = "empresa repetida";
+						
+
+						
+			    	exchange.sendResponseHeaders(409, respuesta.getBytes().length);
+				    }
+				    else if (!existe) {
+				    	
+				    	try {
+				    		
+				    	    
+				    	    DataJuego.actualizarJuego(
+				    	    	Integer.parseInt(juego.getId_juego()),
+				    	        juego.getTitulo(), 
+				    	        juego.getEstado(), 
+				    	        juego.getImagen(), 
+				    	        juego.getDescripcion()
+				    	    );
+				    	    
+				    	    respuesta = "Actualizado con exito";
+				    	    byte[] bytesResp = respuesta.getBytes(StandardCharsets.UTF_8);
+				    	    exchange.sendResponseHeaders(200, bytesResp.length);
+
+				    	} catch(Exception e) {
+				    	    System.out.println("Error al actualizar en la BD: " + e.getMessage());
+				    	    
+				    	    
+				    	    respuesta = "Error en la bd";
+				    	    byte[] bytesError = respuesta.getBytes(StandardCharsets.UTF_8);
+				    	    exchange.sendResponseHeaders(500, bytesError.length);
+				    	    
+				    	} finally {
+				    	    OutputStream os = exchange.getResponseBody();
+				    	    os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+				    	    os.close();
+				    	}
+				    	
+				    	
+				    }
+
+
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	respuesta = "Error en la bd";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+		
+		
+		
+		
+		
+		
+	}
 
 
 }

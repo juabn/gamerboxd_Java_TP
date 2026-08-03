@@ -18,6 +18,7 @@ import servidor.AbmcCompania.existeempresa;
 import servidor.AbmcCompania.devolverempresa;
 import servidor.AbmcUsuario.cambiarpassword;
 import servidor.AbmcUsuario.obtencionfotousuario;
+import servidor.AbmcJuegos.actualizardatosjuego;
 import servidor.AbmcJuegos.devolverjuego;
 import servidor.AbmcJuegos.existejuego;
 import servidor.AbmcJuegos.juegoid;
@@ -71,7 +72,7 @@ public class ServerHTTP {
 		server.createContext("/actualizarpropuesta", new actualizarpropuesta());
 		server.createContext("/existejuego", new existejuego());
 		server.createContext("/devolverjuego", new devolverjuego());
-		
+		server.createContext("/actualizardatosjuego", new actualizardatosjuego());
 		
 
 		server.start();

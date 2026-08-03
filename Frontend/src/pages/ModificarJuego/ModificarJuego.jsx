@@ -16,7 +16,22 @@ function Modificarcompanias(){
 	const [nuevonombrejuego, setnuevonombre] = useState("");
 	const [estado, setestado] = useState("");
 	const [id, setid] = useState("");
+	const [imagen, setimagen] = useState("")
 	
+	const [estadofoto, setestadofoto] = useState(false)
+	
+	
+	const insertarimagen = (e) => {
+				
+				let reader = new FileReader()
+				reader.readAsDataURL(e.target.files[0])
+				reader.onload = () => {
+				setimagen(reader.result )
+				setestadofoto(true);
+				
+				
+				}
+			}
 	
 	const [juegoconfirmado, setjuegoconfirmado] = useState(nombreJuegoOriginal);
 	const [estadoconfirmado, setestadoconfirmado] = useState(""); 
@@ -24,7 +39,7 @@ function Modificarcompanias(){
 	let token = localStorage.getItem('token');
 	
 	const volver = () => {
-		navigate("");
+		navigate("/MenuPropuestas");
 	}
 	
 	const cambiarnombre = (e) => {
@@ -42,31 +57,32 @@ function Modificarcompanias(){
 	
 	const huboCambios = 
 		(nuevonombrejuego.trim() !== "" && nuevonombrejuego.trim() !== juegoconfirmado) || 
-		(estado !== estadoconfirmado);
+		(estado !== estadoconfirmado)  || (estadofoto !== false);
 
 	const guardarcambios = (e) => {
 		e.preventDefault();
 		
 		
-		let nombreFinalParaEnviar = nuevonombrejuego.trim() === "" ? juegoconfirmado : nuevonombrejuego;
+		let nombreFinalParaEnviar = nuevonombrejuego.trim();
+		    
+		    
+		    if (nombreFinalParaEnviar !== "") {
+		        const nombreoriginalnormalizado = juegoconfirmado.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
+		        const nuevonombrenormalizado = nombreFinalParaEnviar.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
+		        
+		        if (nombreoriginalnormalizado === nuevonombrenormalizado) {
+		            alert("El nombre elegido es el mismo que ya posee el juego");
+		            return;
+		        }
+		    }
 		
-		
-		if (nuevonombrejuego.trim() !== "") {
-			const nombreoriginalnormalizado = juegoconfirmado.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
-			const nuevonombrenormalizado = juegoconfirmado.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
-			
-			if(nombreoriginalnormalizado === nuevonombrenormalizado){
-				alert("El nombre elegido es el mismo que ya posee el juego");
-				return;
-			}
-		}
-		
-		fetch('http://localhost:8081/actualizardatosdeempresa', {
+		fetch('http://localhost:8081/actualizardatosjuego', {
 			method: "POST",
 			body: JSON.stringify({
 				name: nombreFinalParaEnviar,
 				estado: estado,
-				id: id
+				id: id,
+				background_image: imagen
 			}),
 			headers: {
 				"Content-type": "application/json",	
@@ -77,12 +93,17 @@ function Modificarcompanias(){
 			if(response.status === 200){
 				alert("Actualización realizada con éxito");
 				
+				if (nombreFinalParaEnviar !== "") {
+				            setjuegoconfirmado(nombreFinalParaEnviar);
+				        }
 				
-				setjuegoconfirmado(nombreFinalParaEnviar);
+				
+				setnuevonombre("");
 				setestadoconfirmado(estado);
+				setestadofoto(false);
 				
 				
-				setnuevonombre(""); 
+				
 			}
 			else if (response.status == 409){
 				alert("Ya existe juego con ese nombre");
@@ -117,6 +138,8 @@ function Modificarcompanias(){
 					setestado(data.estado);
 					
 					setestadoconfirmado(data.estado); 
+					
+					setimagen(data.background_image)
 				});
 			} 
 			else if (response.status === 402) {
@@ -137,7 +160,14 @@ function Modificarcompanias(){
 		<form onSubmit={guardarcambios}>
 			<div className='divprincipalmodificarjuegos'>
 			
-				
+				<img className='imagen' style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }} src = {imagen} //lo pongo asi porque en el css no aplica los cambios no se qeu onda
+									/>
+									
+				<input className='file-input' type = "file" 
+										accept="image/*"
+										onChange={insertarimagen}	
+										/>
+									
 				<p className='textojuego'> Nombre: {juegoconfirmado} </p>
 				<p className='textojuego'> Estado: {estado} </p>
 				

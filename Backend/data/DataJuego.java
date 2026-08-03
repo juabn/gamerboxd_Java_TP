@@ -2,10 +2,12 @@ package data;
 
 import java.util.ArrayList;
 
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
 
 import java.io.IOException;
 import java.sql.*;
@@ -77,6 +79,7 @@ public static Juego recuperarPorTitulo(String titulo) {
     		j.setDescripcion(rs.getString("descripcion"));
     		j.setId_juego(rs.getString("idjuego"));
     		j.setEstado(rs.getString("estado"));
+    		j.setImagen(rs.getString("imagen"));
 
         }
         
@@ -167,5 +170,40 @@ public static boolean insertarjuego(Propuesta pro) {
 	
 	return resultado;
 }
+
+
+
+
+public static String actualizarJuego(int idJuego, String nuevoTitulo, String estado, String imagen, String descripcion) {
+    
+	
+    String query = "UPDATE juego SET "
+                 + "titulo = COALESCE(NULLIF(?, ''), titulo), "
+                 + "estado = COALESCE(NULLIF(?, ''), estado), "
+                 + "imagen = COALESCE(NULLIF(?, ''), imagen), "
+                 + "descripcion = COALESCE(NULLIF(?, ''), descripcion) "
+                 + "WHERE idjuego = ?";
+
+    Connection conn = Conexion.getInstancia().getConn();
+
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, nuevoTitulo);
+        ps.setString(2, estado);
+        ps.setString(3, imagen);
+        ps.setString(4, descripcion);
+        ps.setInt(5, idJuego);
+
+        ps.executeUpdate();
+        return "exito";
+
+    } catch (SQLException ex) {
+        System.out.println("SQLException: " + ex.getMessage());
+        return "error en la bd";
+    }
+}
+
+
+
+
 }
 
