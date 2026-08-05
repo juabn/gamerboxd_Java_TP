@@ -286,3 +286,27 @@
 	background-color:var(--color0)
 }
 
+.botones-accion-resenia {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    margin-top: 15px; 
+    width: fit-content; 
+}
+
+.btn-danger{
+	background: transparent;
+  border: 1px solid #9e0000;
+  color: #9e0000;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+
+.btn-danger:hover {
+    background-color: #ef4444;
+    color: white;
+}

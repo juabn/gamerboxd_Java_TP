@@ -9,14 +9,31 @@ function JuegoResenia(){
 	const [juego, setJuego] = useState(null);
 	const [resenias, setResenias] = useState([]);
 	const [usuario, setUsuario] = useState(null);
+	const [notificacion, setNotificacion] = useState(null); 
 	const [usuarioLogueado, setUsuarioLogueado] = useState(()=>{
 		const token = localStorage.getItem('token');
 		return token ? token : null
 	});
-
+	const mostrarNotificacion = (tipo, texto) => {
+	  setNotificacion({ tipo, texto });
+	  setTimeout(() => {
+	    setNotificacion(null);
+	  }, 4000); 
+	};
 	const [reseniaPropia, setReseniaPropia] = useState(null);
 	const [editando, setEditando] = useState(false); 
 
+	const handleBorrarResenia = (idResenia) => {
+	    // Pedimos confirmación al usuario
+	    const confirmacion = window.confirm("seguro");
+	    
+	    if (confirmacion) {
+	        
+	        console.log(`Listo para borrar la reseña con ID: ${idResenia}`);
+	        
+	        
+	    }
+	};
 	const obtenerUsuario = async () => {
 	  const token = localStorage.getItem('token'); 
 
@@ -101,12 +118,12 @@ function JuegoResenia(){
 			  		        return res.text();
 			  		    })
 			  		    .then(mensaje => {
-			  		        alert("resenia publicada");
+			  		        mostrarNotificacion('exito', 'Reseña publicada correctamente');
 			  				e.target.reset();
 			  				cargarResenias();
 			  		    })
 			  		    .catch(err => {
-			  		        alert("error: " + err.message); 
+			  		        mostrarNotificacion('error', 'No se pudo publicar la reseña');
 			  		    });
 	      };
 
@@ -135,12 +152,12 @@ function JuegoResenia(){
 	  				return res.text();
 	  			})
 	  			.then(mensaje => {
-	  				alert("reseña actualizada");
+	  				mostrarNotificacion('exito', 'Reseña editada correctamente');
 	  				setEditando(false); 
 	  				cargarResenias();
 	  			})
 	  			.catch(err => {
-	  				alert("error: " + err.message);
+	  				mostrarNotificacion('error', 'No se pudo editar la resenia');
 	  			});
 	  };
 
@@ -164,6 +181,12 @@ function JuegoResenia(){
 		      </header>
 	
 		      <section className="reviews-section">
+			  {notificacion && (
+			      <div className={`toast toast-${notificacion.tipo}`}>
+			        {notificacion.tipo === 'exito' ? '✓' : '✕'} {notificacion.texto}
+			      </div>
+			    )}
+
 		        <h2>Reseñas de usuarios</h2>
 	
 				
@@ -246,9 +269,17 @@ function JuegoResenia(){
 								</div>
 	
 								{esPropia && (
+									<div className="botones-accion-resenia">
 									<button className="btn-editar" onClick={() => setEditando(true)}>
 										Editar
 									</button>
+									<button 
+									        className="btn-primary btn-danger" 
+									        onClick={() => handleBorrarResenia(resenia.id)}
+									    >
+									        Borrar
+									    </button>
+									</div>
 								)}
 							</div>
 			            <p>{r.descripcion}</p>
