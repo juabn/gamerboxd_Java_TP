@@ -122,7 +122,7 @@ export default function CrearGrupo(){
 		        </div>
 	
 		        <div className="input-group">
-		          <label htmlFor="descripcion" >Descripción</label>
+		          <label htmlFor="descripcion" >Descripcion</label>
 		          <textarea 
 		            id="descripcion" 
 		            name="descripcion" 

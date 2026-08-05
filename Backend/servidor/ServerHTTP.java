@@ -11,11 +11,15 @@ import servidor.AbmcUsuario.login;
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
+
 import servidor.AbmcCompania.actualizarnombrecompania;
 import servidor.AbmcCompania.bajalogicacompania;
 import servidor.AbmcCompania.crearcompania;
 import servidor.AbmcCompania.existeempresa;
 import servidor.AbmcCompania.devolverempresa;
+
+
+
 import servidor.AbmcUsuario.cambiarpassword;
 import servidor.AbmcUsuario.obtencionfotousuario;
 import servidor.AbmcJuegos.actualizardatosjuego;
@@ -64,6 +68,11 @@ public class ServerHTTP {
 		server.createContext("/devolverempresa", new devolverempresa());
 		server.createContext("/actualizardatosdeempresa", new actualizardatosdeempresa());
 		server.createContext("/dardebaja", new dardebaja());
+		server.createContext("/reseniasPorJuego", new AbmcResenia.obtenerReseniasPorJuego());
+		server.createContext("/nuevaResenia", new AbmcResenia.nuevaResenia());
+		server.createContext("/obtenerUsuarioToken", new AbmcUsuario.obtenerUsuarioToken());
+		server.createContext("/editarResenia", new AbmcResenia.editarResenia());
+		server.createContext("/borrarResenia", new AbmcResenia.borrarResenia());
 		server.createContext("/fotousuario", new obtencionfotousuario());
 		server.createContext("/creargrupo", new creargrupo());
 		server.createContext("/convertirenadmin", new convertirenadmin());

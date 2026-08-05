@@ -326,6 +326,9 @@ try {
 	    	per.setRolgrupo(rs.getString("rolgrupo"));
 	    	per.setEstado(rs.getString("estado"));
 	 
+
+	    	per.setMail(mail);
+
 	
 		}
 	    
@@ -474,7 +477,7 @@ catch(SQLException ex){
 	                grupo.setNombre(rs.getString("nombre"));
 	                grupo.setDescripcion(rs.getString("descripcion"));
 	                grupo.setFoto_perfil(rs.getString("foto_perfil"));
-	                // agregá acá el resto de los campos que tenga tu tabla grupo
+	                // agrega aca el resto de los campos que tenga tu tabla grupo
 	                return grupo;
 	            }
 	        }
@@ -485,7 +488,7 @@ catch(SQLException ex){
 	        System.out.println("VendorError: " + ex.getErrorCode());
 	    }
 
-	    return null; // no se encontró el grupo (o hubo error)
+	    return null; 
 	}
 	
 	
@@ -509,12 +512,7 @@ catch(SQLException ex){
 					System.out.println(nombre);
 					
 				}
-				
-				
-				
-				
-				
-		
+
 			}
 			
 			

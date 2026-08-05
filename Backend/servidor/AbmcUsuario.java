@@ -34,7 +34,7 @@ public class AbmcUsuario {
 	public static void controlCors(HttpExchange exchange) {
 		
 		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE, OPTIONS");
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
 	}
 	
@@ -280,8 +280,7 @@ public class AbmcUsuario {
 		    	
 		    	
 		    }
-		    
-		 
+
 		    Gson gson = new Gson();
 		    String jsonRespuesta = gson.toJson(respuesta);
 		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
@@ -293,11 +292,7 @@ public class AbmcUsuario {
 		
 		}
 		
-		
-		
-		
-		
-		
+
 	}
 	
 	
@@ -369,7 +364,7 @@ public class AbmcUsuario {
 		}
 		
 		
-		
+	
 		
 		
 		
@@ -758,6 +753,76 @@ public class AbmcUsuario {
 		}  
 		
 	}
+
+	
+	
+
+	
+
+	public static class obtenerUsuarioToken implements HttpHandler {
+	
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+		
+			int codigoestado;
+			Persona perr = new Persona();
+			
+			
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	
+	    	    
+	    	    String mail = claims.getSubject();
+				
+					perr = Data_persona.buscar_solo_persona_pormail(mail);
+					System.out.println(perr);
+					codigoestado = 200;
+					
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	
+		    	codigoestado = 401;
+		    	System.out.println(e);
+		    	
+		    	
+		    }
+		    
+		    Gson gson = new Gson();
+		    String jsonRespuesta = gson.toJson(perr);
+		    exchange.sendResponseHeaders(codigoestado, jsonRespuesta.getBytes().length);	
+		    OutputStream os = exchange.getResponseBody();
+	       os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+	       os.close();
+
+		}
+	
+}
 	
 	
 	public static class registro implements HttpHandler{
