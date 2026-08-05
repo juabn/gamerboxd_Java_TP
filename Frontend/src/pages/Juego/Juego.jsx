@@ -126,6 +126,7 @@ function JuegoResenia(){
 			  	        },
 			  	        body: JSON.stringify(datosResenia)
 			  	    })
+					
 			  		.then(res => {
 			  		        if (!res.ok) {
 			  		            return res.text().then(text => { throw new Error(text) });
@@ -277,7 +278,7 @@ function JuegoResenia(){
 							<div className="review-card-header">
 								<div className="reviewUserInfo">
 									<img 
-								          src={r.usuario.foto_perfil || `https://i.pravatar.cc/150?img=3`} 
+								          src={r.usuario.foto_perfil || `https://picsum.photos/200`} 
 								          className="user-avatar" 
 								        />
 								  <strong>{r.usuario.nombre_usuario}</strong>
@@ -297,6 +298,7 @@ function JuegoResenia(){
 									</div>
 								)}
 							</div>
+						<h3 className="titulo-resenia">{r.titulo}</h3>
 			            <p>{r.descripcion}</p>
 			            <span className="puntaje-badge">Puntaje: {r.puntaje}/5</span>
 			          </div>

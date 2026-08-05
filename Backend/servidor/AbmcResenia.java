@@ -177,13 +177,14 @@ public class AbmcResenia {
 
 	            if (reseniaExistente == null) {
 	            	 codigoestado = 404;
-	                 mensaje = "No existe una resenia tuya para este juego";
+	                
 	            }else {
-
-	            
-	            
-
-	            
+	            	if (Moderacion.contienePalabrasProhibidas(reseniaExistente.getDescripcion()) || Moderacion.contienePalabrasProhibidas(reseniaExistente.getTitulo())) {
+	    	        	String error = "la resenia tiene palabras prohibidas";
+	    	        	exchange.sendResponseHeaders(400, error.getBytes().length);
+	    	            return; 
+	    	        	
+	    	        }
 	            reseniaExistente.setTitulo(reseniaRecibida.getTitulo());
 	            reseniaExistente.setPuntaje(reseniaRecibida.getPuntaje());
 	            reseniaExistente.setDescripcion(reseniaRecibida.getDescripcion());
@@ -207,7 +208,7 @@ public class AbmcResenia {
 	        }
 	    }
 		
-	    // Metodo auxiliar para no repetir la logica de enviar respuesta
+	    
 	    private void enviarRespuesta(HttpExchange exchange, int codigoestado, String mensaje) throws IOException {
 	        Gson gson = new Gson();
 	        String jsonRespuesta = gson.toJson(mensaje);
@@ -325,8 +326,20 @@ public class AbmcResenia {
     	    String jsonBody = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 	        Resenia nuevaResenia = gson.fromJson(jsonBody, Resenia.class);
 	        nuevaResenia.setMail_usuario(mail);
+	        if (Moderacion.contienePalabrasProhibidas(nuevaResenia.getDescripcion())||Moderacion.contienePalabrasProhibidas(nuevaResenia.getTitulo())) {
+	        	String error = "la resenia tiene palabras prohibidas";
+	        	exchange.sendResponseHeaders(400, error.getBytes().length);
+	            return; 
+	        	
+	        }
+	        	
 	        
-	        if (existeResenia(nuevaResenia.getId_juego(), mail)) {
+	        	
+	        
+	        
+	        else {
+	        	if (existeResenia(nuevaResenia.getId_juego(), mail)) {
+	        
 	            
 	            String error = "ya escribiste una reseña para este juego.";
 	            exchange.sendResponseHeaders(400, error.getBytes().length);
@@ -344,7 +357,7 @@ public class AbmcResenia {
 	        }
 		}
 	}
-	
+	}
 	public static boolean existeResenia(int idJuego, String mailUsuario) {
 		boolean existe = false;
 
