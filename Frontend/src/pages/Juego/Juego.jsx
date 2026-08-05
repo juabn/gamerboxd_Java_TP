@@ -23,15 +23,28 @@ function JuegoResenia(){
 	const [reseniaPropia, setReseniaPropia] = useState(null);
 	const [editando, setEditando] = useState(false); 
 
-	const handleBorrarResenia = (idResenia) => {
-	    // Pedimos confirmación al usuario
-	    const confirmacion = window.confirm("seguro");
+	const handleBorrarResenia = () => {
+	    const confirmacion = window.confirm("esstas seguro de que deseas eliminar esta reseña?");
 	    
 	    if (confirmacion) {
-	        
-	        console.log(`Listo para borrar la reseña con ID: ${idResenia}`);
-	        
-	        
+			
+			const token = localStorage.getItem('token'); 
+	        fetch(`http://localhost:8081/borrarResenia?id=${id}`, {
+	            method: 'DELETE',
+				headers: {
+					        'Content-Type': 'application/json',
+					        'Authorization': `Bearer ${token}`
+					      }
+	        })
+	        .then(response => {
+	            if (response.ok) {
+	                alert("Reseña borrada con éxito.");
+	                
+	            } else {
+	                alert("Hubo un error al borrar la reseña.");
+	            }
+	        })
+	        .catch(error => console.error("Error en la petición:", error));
 	    }
 	};
 	const obtenerUsuario = async () => {
@@ -275,7 +288,7 @@ function JuegoResenia(){
 									</button>
 									<button 
 									        className="btn-primary btn-danger" 
-									        onClick={() => handleBorrarResenia(resenia.id)}
+									        onClick={() => handleBorrarResenia()}
 									    >
 									        Borrar
 									    </button>

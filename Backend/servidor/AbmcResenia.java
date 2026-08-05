@@ -685,4 +685,117 @@ public class AbmcResenia {
 		}
 		return lista;
 	}
+	
+	public static boolean eliminarResenia(String mailusuario, int id_juego) {
+	    boolean exito = false;
+	    
+
+	    try {
+	        Connection conn = Conexion.getInstancia().getConn();
+	        
+	        
+	        String sql = "DELETE FROM resenia WHERE mail_usuario = ? AND id_juego = ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        
+	        stmt.setString(1, mailusuario);
+	        stmt.setInt(2, id_juego);
+	        
+	        
+	        int afectado = stmt.executeUpdate();
+	        if (afectado > 0) {
+	            exito = true;
+	        }
+
+	        if (stmt != null) { stmt.close(); }
+
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        System.out.println("SQLState: " + ex.getSQLState());
+	        System.out.println("VendorError: " + ex.getErrorCode());
+	    }
+
+	    return exito;
+	}
+	
+	public static class borrarResenia implements HttpHandler {
+	    @Override
+	    public void handle(HttpExchange exchange) throws IOException {
+	    	exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+	        if (exchange.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
+	            exchange.sendResponseHeaders(204, -1); // 204 No Content, sin body
+	            exchange.close();
+	            return;
+	        }
+	        
+	        
+
+	        String metodo = exchange.getRequestMethod();
+	        if (metodo.equalsIgnoreCase("DELETE")) {
+	            try {
+	                String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+	                if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+	                    responder(exchange, 401, "{\"error\": \"Falta token\"}");
+	                    return;
+	                }
+	                String token = authHeader.substring(7);
+
+	                Claims claims = Jwts.parser()
+	                        .verifyWith(KEY)
+	                        .build()
+	                        .parseSignedClaims(token)
+	                        .getPayload();
+
+	                String mail = claims.getSubject();
+	               
+
+	                
+	                String query = exchange.getRequestURI().getQuery();
+	                if (!query.startsWith("id=")) {
+	                    responder(exchange, 400, "{\"error\": \"Falta el parametro id\"}");
+	                    return;
+	                }
+	                int idJuego = Integer.parseInt(query.split("=")[1]);
+	                
+	                Resenia reseniaExistente = recuperarPorIdJuegoYmail(idJuego, mail);
+	                
+	                if (reseniaExistente == null) {
+	                    responder(exchange, 404, "{\"error\": \"no se encontro la resenia\"}");
+	                    return;
+	                }
+
+	                boolean borrado = eliminarResenia(mail, idJuego);
+
+	                if (borrado) {
+	                    responder(exchange, 200, "{\"mensaje\": \"Resenia eliminada\"}");
+	                } else {
+	                    responder(exchange, 404, "{\"error\": \"no se encontro la resenia\"}");
+	                }
+
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                responder(exchange, 403, "{\"error\": \"Error de autenticacion\"}");
+	            }
+	        } else {
+	            responder(exchange, 405, "{\"error\": \"Metodo no permitido\"}");
+	        }
+
+	        }
+	    private static void responder(HttpExchange exchange, int status, String json) throws IOException {
+	        byte[] bytes = json.getBytes(StandardCharsets.UTF_8);
+	        exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+	        exchange.sendResponseHeaders(status, bytes.length);
+	        OutputStream os = exchange.getResponseBody();
+	        os.write(bytes);
+	        os.close();
+	    }
+  
+	                
+	} 
+	            
+	        
+	    
+	
+	
 }
