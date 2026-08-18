@@ -31,7 +31,7 @@ public class DataGrupo {
 
 			
 	        PreparedStatement stmt = conn.prepareStatement("select * from persona inner join grupo on grupo.idgrupo = persona.idgrupo where persona.mail = ?");
-	        PreparedStatement stmt2 = conn.prepareStatement("select * from persona where idgrupo = ?");
+	        PreparedStatement stmt2 = conn.prepareStatement("select * from persona where idgrupo = ? and estado = ?");
 	        
 	        
 	        stmt.setString(1, mail);
@@ -46,6 +46,7 @@ public class DataGrupo {
 	    		g.setNombre(rs.getString("nombre"));
 	    		
 	    		stmt2.setString(1, rs.getString("idgrupo"));
+	    		stmt2.setString(1, rs.getString("Activo"));
 	    		ResultSet rs2= stmt.executeQuery();
 	    		
 	    		while (rs2.next()) {

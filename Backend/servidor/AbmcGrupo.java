@@ -536,4 +536,50 @@ public class AbmcGrupo {
 	}
 	
 	
+public static class recuperarGrupoPorMiembro implements HttpHandler {
+		
+		boolean resultado;
+		String mail;
+		String respuesta = "error";
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+
+		    try {
+		    	
+
+	    	    
+	    	    
+		    }catch(Exception e) {		    		
+		    		respuesta = "Error token";	
+		    		System.out.println("error" + e);
+		    		exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+		    		return;
+		    	
+		    }
+		    
+		    OutputStream os = exchange.getResponseBody();
+	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+	       os.close();
+			    
+		
+		
+	}
+		
+		
+
+	}
+	
+	
 }
