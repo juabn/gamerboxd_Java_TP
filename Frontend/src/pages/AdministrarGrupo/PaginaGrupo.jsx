@@ -57,6 +57,13 @@ function PaginaGrupo(){
 		<p className='textojuego'> Miembro 2 </p>
 		<p className='textojuego'> Miembro 3 </p>
 		
+		{rol === 'miembro' && (
+        <div className='seccion-miembro'>
+            <button type="button">Salir</button>
+ 
+        </div>
+		            )}
+		
 		
 		{rol === 'admin' && (
         <div className='seccion-admin'>

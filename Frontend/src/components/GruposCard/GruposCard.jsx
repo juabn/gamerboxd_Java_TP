@@ -1,7 +1,10 @@
 import './GruposCard.css'
+import { useNavigate } from "react-router";
 
 
 function GruposCard({ gru}){
+	
+	const navigate = useNavigate();
 	
 	
 	const actualizarEstado = () => {
@@ -23,7 +26,7 @@ function GruposCard({ gru}){
 				if (response.status === 200) {
 					console.log("bien")
 					alert('Fuiste aniadido al grupo');
-					window.location.reload(); 
+					navigate('/');
 					}
 				 else {
 					alert("Hubo un problema al agregarlo al grupo: " + response.status);
