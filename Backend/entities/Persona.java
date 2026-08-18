@@ -14,6 +14,10 @@ public class Persona {
 	
 	
 	
+	
+	
+	
+
 	public String getEstado() {
 		return estado;
 	}

@@ -39,8 +39,62 @@ public class AbmcUsuario {
 	}
 	
 	
-	
-	
+	public static class rolengrupo implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			Persona p = new Persona();
+			String respuesta = "aaa no seee";
+			boolean exito; 
+			String rol;
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+		        
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    String mail = claims.getSubject();
+
+				
+				
+	    	    p.setRolgrupo(Data_persona.obtenerrolgrupo(mail));
+	    	    
+	    	    Gson gson = new Gson();
+	    	    String jsonRespuesta = gson.toJson(p);
+			    exchange.sendResponseHeaders(200, jsonRespuesta.getBytes().length);	
+			    OutputStream os = exchange.getResponseBody();
+			    os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+			    os.close();
+			    return;
+			
+  
+	    	    
+		    }catch(Error e) {
+		    	
+		    
+		    
+		    	}
+		    
+	}
+	}
 	public static class convertirenadmin implements HttpHandler {
 		
 		

@@ -29,11 +29,17 @@ import Propuestas from './pages/Propuestas/Propuestas'
 
 import ModificarJuego from './pages/ModificarJuego/ModificarJuego'
 
+import PaginaGrupo from './pages/AdministrarGrupo/PaginaGrupo'
+
 
 import './styles.css'
 
 import IngresoNuevacontrasenia from './pages/IngresoNuevaContrasenia/IngresoNuevacontrasenia'
 
+
+import MenuGrupo from './pages/MenuGrupo/MenuGrupo'
+
+import ListadoGrupos from './pages/AdministrarGrupo/ListadoGrupos'
 
 function App (){
 	
@@ -74,7 +80,10 @@ function App (){
 		<Route path = "/Propuestas" element = {<Propuestas/>} />
 		<Route path = "/MenuPropuestas" element = {<MenuPropuestas/>} />
 		<Route path = "/ModificarJuego" element = {<ModificarJuego/>} />
-	
+		<Route path = "/PaginaGrupo" element = {<PaginaGrupo/>} />
+		<Route path = "/MenuGrupo" element = {<MenuGrupo/>} />
+		<Route path = "/ListadoGrupos" element = {<ListadoGrupos/>} />
+		
 		
 		<Route 
 		          path="/CrearGrupo" 

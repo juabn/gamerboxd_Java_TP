@@ -22,10 +22,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import data.Conexion;
+import data.DataGrupo;
+import data.DataPropuesta;
 import data.Data_persona;
 import entities.Grupo;
 import entities.Persona;
 import entities.Plataforma;
+import entities.Propuesta;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -39,6 +42,100 @@ public class AbmcGrupo {
 	//Grupo g = AbmcGrupo.recuperarPorId(1);
 	//LinkedList<Grupo> grupos = AbmcGrupo.recuperarTodos();
 	//ArrayList<Grupo> grupos = AbmcGrupo.recuperarPorNombre("IG");
+	public static void controlCors(HttpExchange exchange) {
+		
+		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
+	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+	}
+	
+	
+	
+	public static class listarGrupos implements HttpHandler{
+		String respuesta;
+		LinkedList<Grupo> grupos = new LinkedList<>();
+		
+
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+
+		    try {
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+    
+		    	
+		    	
+		    }catch(Error e) {
+		    	
+		    	respuesta = "Error token";
+		    	
+		    	exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+		    	return;
+		    	
+		    }
+		    
+		    
+		    try {
+		    	
+		    	Gson gson = new Gson();
+		    	
+		    	grupos = DataGrupo.listargrupos();
+		    	
+		    	respuesta = gson.toJson(grupos);
+		    	
+		    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+		    	
+				
+   	
+		    }catch(Error e) {
+		    	
+		    	respuesta = "Error";
+		    	exchange.sendResponseHeaders(400, respuesta.getBytes().length);
+		    	return;
+		    	
+		    	
+		    }
+				
+
+		   
+		   OutputStream os = exchange.getResponseBody();
+	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+	       os.close();
+		    
+		    
+				
+			
+			
+			
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
 	
 	public static LinkedList<Grupo> recuperarTodos() {
 		LinkedList<Grupo> grupos = new LinkedList<>();
@@ -354,4 +451,89 @@ public class AbmcGrupo {
 		}
 		return grupos;
 	}
+	
+	
+	public static class aniadirMiembroAGrupo implements HttpHandler {
+		
+		boolean resultado;
+		String mail;
+		String respuesta = "error";
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+
+		    try {
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    mail = claims.getSubject();
+	    	    
+	    	    
+	    	    InputStream is = exchange.getRequestBody();
+	    	    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+	    	    is.close();
+	    	    Gson gson = new Gson();
+	    	    Grupo gru = gson.fromJson(body, Grupo.class);
+	    	    	    	    
+    	    	
+	    	    resultado = DataGrupo.insertarMiembro(gru.getId(), mail);
+	    	    
+	    	   
+	    	    
+	    	    if(resultado) {		
+	    	    	
+    	    		respuesta = "Bien";
+		    		exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+	    	    	
+		    		
+		    	}
+	    	    
+	    	    else {
+	    	    	
+	    	    	respuesta = "Ocurrio un error";
+		    		exchange.sendResponseHeaders(400, respuesta.getBytes().length);
+	    	    }
+	    	    
+	    	    
+		    }catch(Exception e) {		    		
+		    		respuesta = "Error token";	
+		    		System.out.println("error" + e);
+		    	exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+		    	return;
+		    	
+		    }
+		    
+		    OutputStream os = exchange.getResponseBody();
+	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+	       os.close();
+			    
+		
+		
+	}
+		
+		
+
+	}
+	
+	
 }
