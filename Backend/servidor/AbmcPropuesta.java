@@ -158,7 +158,6 @@ public class AbmcPropuesta {
 	    	            .build()
 	    	            .parseSignedClaims(token)
 	    	            .getPayload();
-    
 		    	
 		    	
 		    }catch(Error e) {
@@ -189,11 +188,9 @@ public class AbmcPropuesta {
 		    	exchange.sendResponseHeaders(400, respuesta.getBytes().length);
 		    	return;
 		    	
-		    	
 		    }
 				
-
-		   
+	   
 		   OutputStream os = exchange.getResponseBody();
 	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
 	       os.close();

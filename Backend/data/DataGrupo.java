@@ -17,7 +17,45 @@ import entities.Propuesta;
 
 public class DataGrupo {
 
+	public static boolean salirGrupo (String mail) {
+		
+		boolean respuesta = false;
+		
+		try {
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			
+			
+				String query = "UPDATE persona  SET idgrupo = NULL, rolgrupo = NULL WHERE mail = ?";
+				PreparedStatement ps = conn.prepareStatement(query);
+				
+				 ps.setString(1, mail);
+				 ps.executeUpdate();
+				 respuesta = true;
+				
+		    
+		}
+		
+		catch(SQLException ex){
 	
+		respuesta = false;
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		
+		
+		
+		
+		
+		return respuesta;
+		
+		
+		
+		
+	}
 	
 	
 	public static Grupo buscarGrupoPorMiembro (String mail) {
@@ -30,7 +68,7 @@ public class DataGrupo {
 			Connection conn = Conexion.getInstancia().getConn();
 
 			
-	        PreparedStatement stmt = conn.prepareStatement("select * from persona inner join grupo on grupo.idgrupo = persona.idgrupo where persona.mail = ?");
+	        PreparedStatement stmt = conn.prepareStatement("select grupo.foto_perfil, grupo.nombre, grupo.descripcion, grupo.idgrupo from grupo inner join persona on grupo.idgrupo = persona.idgrupo where persona.mail = ?");
 	        PreparedStatement stmt2 = conn.prepareStatement("select * from persona where idgrupo = ? and estado = ?");
 	        
 	        
@@ -46,8 +84,8 @@ public class DataGrupo {
 	    		g.setNombre(rs.getString("nombre"));
 	    		
 	    		stmt2.setString(1, rs.getString("idgrupo"));
-	    		stmt2.setString(1, rs.getString("Activo"));
-	    		ResultSet rs2= stmt.executeQuery();
+	    		stmt2.setString(2, "Activo");
+	    		ResultSet rs2= stmt2.executeQuery();
 	    		
 	    		while (rs2.next()) {
 	    			

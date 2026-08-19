@@ -526,9 +526,7 @@ public class AbmcGrupo {
 		    OutputStream os = exchange.getResponseBody();
 	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
 	       os.close();
-			    
-		
-		
+	
 	}
 		
 		
@@ -538,7 +536,7 @@ public class AbmcGrupo {
 	
 public static class recuperarGrupoPorMiembro implements HttpHandler {
 		
-		boolean resultado;
+		Grupo gru;
 		String mail;
 		String respuesta = "error";
 		
@@ -554,32 +552,121 @@ public static class recuperarGrupoPorMiembro implements HttpHandler {
 		        return;
 		    }
 		    
-		    
-
 		    try {
 		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    mail = claims.getSubject();
+	    	    
 
+	    	    Gson gson = new Gson();
 	    	    
+	    	    gru = DataGrupo.buscarGrupoPorMiembro(mail);
 	    	    
+	    	    respuesta = gson.toJson(gru);
+	    	    
+	    	    exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+	    
 		    }catch(Exception e) {		    		
-		    		respuesta = "Error token";	
+		    		respuesta = "Error";	
 		    		System.out.println("error" + e);
 		    		exchange.sendResponseHeaders(403, respuesta.getBytes().length);
 		    		return;
 		    	
 		    }
 		    
-		    OutputStream os = exchange.getResponseBody();
+		   OutputStream os = exchange.getResponseBody();
 	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
 	       os.close();
-			    
-		
+	
 		
 	}
 		
 		
 
 	}
+
+
+public static class salirDeGrupo implements HttpHandler {
+	
+	boolean resultado = false;
+	
+	String mail;
+	String respuesta = "error";
+	
+	public void handle(HttpExchange exchange) throws IOException {
+		
+		controlCors(exchange);
+		
+	    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+	        exchange.sendResponseHeaders(204, -1);
+	        exchange.close();
+
+	        return;
+	    }
+	    
+	    try {
+	    	
+	    	
+	    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+	    	
+	    	String token = authHeader.substring(7);
+	    	
+    	    
+    	    Claims claims = Jwts.parser()
+    	    		.verifyWith(KEY) 
+    	            .build()
+    	            .parseSignedClaims(token)
+    	            .getPayload();
+    	    
+    	    mail = claims.getSubject();
+    	    
+
+    	    
+    	    resultado = DataGrupo.salirGrupo(mail);
+    	    
+    	    if(resultado) {
+    	    
+    	    respuesta = "Bien";
+    	    exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+    	    }
+    	    else {
+    	    	respuesta = "Error";
+    	    	exchange.sendResponseHeaders(400, respuesta.getBytes().length);
+    	    }
+    	    
+    	    
+    
+	    }catch(Exception e) {		    		
+	    		respuesta = "Error";	
+	    		System.out.println("error" + e);
+	    		exchange.sendResponseHeaders(403, respuesta.getBytes().length);
+	    		return;
+	    	
+	    }
+	    
+	    
+	   OutputStream os = exchange.getResponseBody();
+       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+       os.close();
+
+	
+}
+	
+	
+
+}
 	
 	
 }
