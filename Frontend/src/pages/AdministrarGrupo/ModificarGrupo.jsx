@@ -177,7 +177,8 @@ function ModificarGrupo(){
 
 				/>		
 			
-			<button className='submit-btn' type="submit" disabled={!estadofoto && nuevonombre == ""} >Confirmar cambios  </button>
+			<button className='submit-btn' type="submit" disabled={!estadofoto && nuevonombre == "" 
+				&& descripcion == ""} >Confirmar cambios  </button>
 			<button type = "button" onClick={dardebaja}> Eliminar grupo </button>
 			<button type="button" onClick={volver}> Volver </button>
 			
