@@ -16,6 +16,177 @@ import entities.Persona;
 import entities.Propuesta;
 
 public class DataGrupo {
+	
+	
+public static boolean existegrupo(String nombreJuego) {
+		
+		boolean resultado = false;
+		
+		try {
+			
+			String nombremin = nombreJuego.replace(" ", "").toLowerCase();
+			
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			String query = "SELECT 1 FROM grupo WHERE LOWER(REPLACE(nombre, ' ', '')) = ?";
+			PreparedStatement Resultado = conn.prepareStatement(query);
+			Resultado.setString(1, nombremin);
+			ResultSet rs = Resultado.executeQuery();
+			
+			if (rs.next()) {	
+				
+				resultado = true;
+			}
+				
+			
+		}catch(SQLException ex) {
+			
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+			
+		}
+		
+		
+		return resultado;
+		
+	}
+	
+	
+	
+	
+	
+public static boolean buscargrupo(String nombreJuego) {
+		
+		boolean resultado = false;
+		
+		try {
+			
+			String nombremin = nombreJuego.replace(" ", "").toLowerCase();
+			
+			
+			Connection conn = Conexion.getInstancia().getConn();
+			String query = "SELECT 1 FROM juego WHERE LOWER(REPLACE(titulo, ' ', '')) = ?";
+			PreparedStatement Resultado = conn.prepareStatement(query);
+			Resultado.setString(1, nombremin);
+			ResultSet rs = Resultado.executeQuery();
+			
+			if (rs.next()) {	
+				
+				resultado = true;
+			}
+				
+			
+		}catch(SQLException ex) {
+			
+			System.out.println("SQLException: " + ex.getMessage());
+		    System.out.println("SQLState: " + ex.getSQLState());
+		    System.out.println("VendorError: " + ex.getErrorCode());
+			
+		}
+		
+		
+		return resultado;
+		
+	}
+	
+	public static String actualizarGrupo(int id, String nuevoNombre, String Nuevaimagen, String Nuevadescripcion) {
+	    
+	
+	    
+	    String query = "UPDATE grupo SET "
+	                 + "foto_perfil = COALESCE(NULLIF(?, ''), foto_perfil), "
+	                 + "nombre = COALESCE(NULLIF(?, ''), nombre), "
+	                 + "descripcion = COALESCE(NULLIF(?, ''), descripcion) "
+	                 + "WHERE idgrupo = ?";
+
+	    Connection conn = Conexion.getInstancia().getConn();
+
+	    try (PreparedStatement ps = conn.prepareStatement(query)) {
+	        ps.setString(1, Nuevaimagen);
+	        ps.setString(2, nuevoNombre);
+	        ps.setString(3, Nuevadescripcion);
+	        ps.setInt(4, id);
+
+	        int filasAfectadas = ps.executeUpdate();
+	        return filasAfectadas > 0 ? "exito" : "no encontrado";
+
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return "error en la bd";
+	    }
+	}
+
+
+
+
+	
+	
+	
+public static boolean dardebajagrupo (int id) {
+		
+	boolean respuesta = false;
+	Connection conn = null;
+
+	try {
+	    conn = Conexion.getInstancia().getConn();
+	    
+
+	    conn.setAutoCommit(false);
+
+	    String query = "UPDATE grupo SET estado = ? WHERE idgrupo = ?";
+	    String query2 = "UPDATE persona SET idgrupo = NULL, rolgrupo = NULL WHERE idgrupo = ?";
+
+	    try (PreparedStatement ps = conn.prepareStatement(query);
+	         PreparedStatement ps2 = conn.prepareStatement(query2)) {
+
+	        ps.setString(1, "inactivo");
+	        ps.setInt(2, id);
+	        ps.executeUpdate();
+
+	        ps2.setInt(1, id);
+	        ps2.executeUpdate();
+
+	  
+	        conn.commit();
+	        respuesta = true;
+	    }
+
+	} catch (SQLException e) {
+	    
+	    if (conn != null) {
+	        try {
+	            conn.rollback();
+	        } catch (SQLException ex) {
+	            System.out.println("Error en rollback: " + ex.getMessage());
+	        }
+	    }
+	    System.out.println("Error en la transacción: " + e.getMessage());
+	    respuesta = false;
+
+	} finally {
+	  
+	    if (conn != null) {
+	        try {
+	            conn.setAutoCommit(true);
+	        } catch (SQLException ex) {
+	            System.out.println("Error al restaurar autoCommit: " + ex.getMessage());
+	        }
+	    }
+	}
+	
+	return respuesta;
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 
 	public static boolean salirGrupo (String mail) {
 		
@@ -82,6 +253,7 @@ public class DataGrupo {
 	    		g.setDescripcion(rs.getString("descripcion"));
 	    		g.setFoto_perfil(rs.getString("foto_perfil"));
 	    		g.setNombre(rs.getString("nombre"));
+	    		g.setId(rs.getInt("idgrupo"));
 	    		
 	    		stmt2.setString(1, rs.getString("idgrupo"));
 	    		stmt2.setString(2, "Activo");
@@ -160,8 +332,9 @@ public static LinkedList<Grupo> listargrupos() {
 		Connection conn = Conexion.getInstancia().getConn();
 
 		
-		String query = "select * from grupo";
+		String query = "select * from grupo where estado = ?";
 	    PreparedStatement ps = conn.prepareStatement(query);
+	    ps.setString(1, "activo");
 	    ResultSet rs = ps.executeQuery();
 
         // mapear de resultset a objeto

@@ -41,6 +41,8 @@ import MenuGrupo from './pages/MenuGrupo/MenuGrupo'
 
 import ListadoGrupos from './pages/AdministrarGrupo/ListadoGrupos'
 
+import ModificarGrupo from './pages/AdministrarGrupo/ModificarGrupo'
+
 function App (){
 	
 	
@@ -83,6 +85,9 @@ function App (){
 		<Route path = "/PaginaGrupo" element = {<PaginaGrupo/>} />
 		<Route path = "/MenuGrupo" element = {<MenuGrupo/>} />
 		<Route path = "/ListadoGrupos" element = {<ListadoGrupos/>} />
+		<Route path = "/ModificarGrupo" element = {<ModificarGrupo/>} />
+		
+		
 		
 		
 		<Route 

@@ -15,7 +15,23 @@ function PaginaGrupo(){
 	const [nombre, setnombre] = useState("")
 	const [descripcion, setdescripcion] = useState("")
 	const [miembros, setMiembros] = useState([]);
+	const [idgrupo, setidgrupo] = useState("")
 	
+	
+	
+	const modificarGrupo = () => {
+		
+		navigate("/ModificarGrupo", {
+			
+			state: {
+				img: imagen,
+				nombre: nombre,
+				id:idgrupo
+			
+			}
+		})
+		
+	}
 	
 	const salirDelGrupo = async () => {
 	    const tokenActual = localStorage.getItem('token');
@@ -59,12 +75,15 @@ function PaginaGrupo(){
 		.then(response => response.json())
 		.then(data => {
 			
+			console.log(data)
+			
 			
 			
 			setimagen(data.foto_perfil)
 			setnombre(data.nombre)
 			setdescripcion(data.descripcion)
 			setMiembros(data.integrantes)
+			setidgrupo(data.id)
 		    
 		   
 		})
@@ -107,7 +126,7 @@ function PaginaGrupo(){
 		
 		{rol === 'admin' && (
         <div className='seccion-admin'>
-            <button type="button">Editar información del grupo</button>
+            <button onClick={modificarGrupo} type="button">Editar información del grupo</button>
  
         </div>
 		            )}

@@ -11,6 +11,7 @@ import servidor.AbmcUsuario.login;
 
 
 
+
 import servidor.AbmcUsuario.registro;
 import servidor.AbmcUsuario.rolengrupo;
 import servidor.AbmcUsuario.recuperarpersona;
@@ -50,6 +51,8 @@ import servidor.AbmcPropuesta.actualizarpropuesta;
 import servidor.AbmcGrupo.aniadirMiembroAGrupo;
 import servidor.AbmcGrupo.recuperarGrupoPorMiembro;
 import servidor.AbmcGrupo.salirDeGrupo;
+import servidor.AbmcGrupo.dardebajagrupo;
+import servidor.AbmcGrupo.actualizardatosgrupo;
 
 public class ServerHTTP {
 
@@ -95,6 +98,8 @@ public class ServerHTTP {
 		server.createContext("/aniadirMiembroAGrupo", new aniadirMiembroAGrupo());
 		server.createContext("/recuperarGrupoPorMiembro", new recuperarGrupoPorMiembro());
 		server.createContext("/salirDeGrupo", new salirDeGrupo());
+		server.createContext("/dardebajagrupo", new dardebajagrupo());
+		server.createContext("/actualizardatosgrupo", new actualizardatosgrupo());
 		
 
 		server.start();

@@ -23,9 +23,11 @@ import java.io.OutputStream;
 
 import data.Conexion;
 import data.DataGrupo;
+import data.DataJuego;
 import data.DataPropuesta;
 import data.Data_persona;
 import entities.Grupo;
+import entities.Juego;
 import entities.Persona;
 import entities.Plataforma;
 import entities.Propuesta;
@@ -48,6 +50,218 @@ public class AbmcGrupo {
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
 	}
+	
+	
+	
+	public static class actualizardatosgrupo implements HttpHandler {
+		
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			
+			
+			Boolean existe;
+			Grupo grupo = new Grupo();
+			
+			
+			String respuesta = "aaa no seee";
+			
+			
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		    	
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+			}catch(Exception e ) {
+		    	
+				respuesta = "Error token";
+		    	exchange.sendResponseHeaders(402, respuesta.getBytes().length);
+		    	
+			}
+		    
+		    try {
+		    	
+		    	 	InputStream is = exchange.getRequestBody();
+				    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+				    is.close();
+				    Gson gson = new Gson();
+				    grupo = gson.fromJson(body, Grupo.class);
+				    
+				   
+				    	
+				    existe = DataGrupo.existegrupo(grupo.getNombre());	
+				   
+				    
+				    if(existe) {
+				    	
+					respuesta = "Grupo repetido";
+						
+			    	exchange.sendResponseHeaders(409, respuesta.getBytes().length);
+				    }
+				    
+				    else if (!existe) {
+				    	
+				    	try {
+				    		
+				    		String valor =DataGrupo.actualizarGrupo(grupo.getId(), grupo.getNombre(), grupo.getFoto_perfil(), grupo.getDescripcion());			    	    			    	 
+				    	    System.out.println(valor);
+				    		
+				    	    respuesta = "Actualizado con exito";
+				    	    byte[] bytesResp = respuesta.getBytes(StandardCharsets.UTF_8);
+				    	    exchange.sendResponseHeaders(200, bytesResp.length);
+
+				    	} catch(Exception e) {
+				    	    System.out.println("Error al actualizar en la BD: " + e.getMessage());
+				    	    
+				    	    
+				    	    respuesta = "Error en la bd";
+				    	    byte[] bytesError = respuesta.getBytes(StandardCharsets.UTF_8);
+				    	    exchange.sendResponseHeaders(500, bytesError.length);
+				    	    
+				    	} finally {
+				    	    OutputStream os = exchange.getResponseBody();
+				    	    os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+				    	    os.close();
+				    	}
+				    	
+				    	
+				    }
+
+
+		    	
+		    }
+		    catch(Exception e ) {
+		    	
+		    	respuesta = "Error en la bd";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    	
+		    }
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	public static class dardebajagrupo implements HttpHandler {
+		
+		public void handle(HttpExchange exchange) throws IOException {
+			String respuesta = "aaa no seee";
+			boolean respuestadb; 
+			
+			controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+
+		        return;
+		    }
+		     
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    
+	    	    
+	    	    
+	    	    InputStream is = exchange.getRequestBody();
+			    String body = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			    is.close();
+			    Gson gson = new Gson();
+				Grupo gru = gson.fromJson(body, Grupo.class);
+	    	    
+	  
+				respuestadb = DataGrupo.dardebajagrupo(gru.getId());
+				
+				if(respuestadb) {
+					
+					respuesta = "todo bem";
+			    	exchange.sendResponseHeaders(200, respuesta.getBytes().length);
+		
+				}
+				
+				else {
+					
+					respuesta = "error";
+			    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+			    	
+					
+				}
+				
+		    	
+		    
+		    }
+		    catch(Error e){
+		    	
+		    	respuesta = "error";
+		    	exchange.sendResponseHeaders(401, respuesta.getBytes().length);
+		    	
+		    }
+		    
+		    	
+		    	
+		    OutputStream os = exchange.getResponseBody();
+            os.write(respuesta.getBytes(StandardCharsets.UTF_8));
+            os.close();
+			
+		    	
+		    }
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
