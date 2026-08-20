@@ -183,10 +183,6 @@ public static boolean dardebajagrupo (int id) {
 	}
 	
 	
-	
-	
-	
-	
 
 	public static boolean salirGrupo (String mail) {
 		
