@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import data.Cors;
 import data.Data_persona;
 import servidor.GestionMail;
 
@@ -29,13 +30,8 @@ public class AbmcUsuario {
 	
 	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 
-	//metodo para controlar cors
-	public static void controlCors(HttpExchange exchange) {
-		
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-	}
+	
+
 	
 	
 	public static class rolengrupo implements HttpHandler {
@@ -45,7 +41,7 @@ public class AbmcUsuario {
 			String respuesta = "aaa no seee";
 			boolean exito; 
 			String rol;
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -101,7 +97,7 @@ public class AbmcUsuario {
 			String respuesta = "aaa no seee";
 			boolean exito; 
 			Persona per_completa;
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -198,7 +194,7 @@ public class AbmcUsuario {
 			String respuesta = "aaa no seee";
 			boolean respuestadb; 
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -280,7 +276,7 @@ public class AbmcUsuario {
 			
 
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -358,7 +354,7 @@ public class AbmcUsuario {
 			int codigoestado;
 			Persona perr = new Persona();
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -435,7 +431,7 @@ public class AbmcUsuario {
 		public void handle(HttpExchange exchange) throws IOException {
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -495,7 +491,7 @@ public class AbmcUsuario {
 			String respuesta = "";
 			int codigoestado;
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -560,7 +556,7 @@ public class AbmcUsuario {
 			
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -625,7 +621,7 @@ public class AbmcUsuario {
 			
 			
 			
-			controlCors(exchange);
+				Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -726,7 +722,7 @@ public class AbmcUsuario {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 		    
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 			String respuesta = "Error";
 			String token = "";
@@ -824,7 +820,7 @@ public class AbmcUsuario {
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -883,7 +879,7 @@ public class AbmcUsuario {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 	
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 			
 			if (exchange.getRequestMethod().equals("OPTIONS")) {

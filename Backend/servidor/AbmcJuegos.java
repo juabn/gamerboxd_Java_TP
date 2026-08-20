@@ -31,16 +31,7 @@ public class AbmcJuegos {
 	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 	
 	
-	public static void controlCors(HttpExchange exchange) {
-		/*
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-	    */
-		exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
-	    exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	    exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "*");
-	}
+
 	
 	
 	

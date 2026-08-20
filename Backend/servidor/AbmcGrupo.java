@@ -2,6 +2,7 @@ package servidor;
 import data.Data_persona;
 
 
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import data.Conexion;
+import data.Cors;
 import data.DataGrupo;
 import data.DataJuego;
 import data.DataPropuesta;
@@ -43,13 +45,7 @@ public class AbmcGrupo {
 	//Grupo g = AbmcGrupo.recuperarPorId(1);
 	//LinkedList<Grupo> grupos = AbmcGrupo.recuperarTodos();
 	//ArrayList<Grupo> grupos = AbmcGrupo.recuperarPorNombre("IG");
-	public static void controlCors(HttpExchange exchange) {
-		
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-	}
-	
+
 	
 	
 	public static class actualizardatosgrupo implements HttpHandler {
@@ -66,7 +62,7 @@ public class AbmcGrupo {
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -180,7 +176,7 @@ public class AbmcGrupo {
 			String respuesta = "aaa no seee";
 			boolean respuestadb; 
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -271,7 +267,7 @@ public class AbmcGrupo {
 
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -674,7 +670,7 @@ public class AbmcGrupo {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -755,7 +751,7 @@ public static class recuperarGrupoPorMiembro implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -819,7 +815,7 @@ public static class salirDeGrupo implements HttpHandler {
 	
 	public void handle(HttpExchange exchange) throws IOException {
 		
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 	    if (exchange.getRequestMethod().equals("OPTIONS")) {
 

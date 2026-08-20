@@ -14,6 +14,7 @@ import java.util.List;
 import javax.crypto.SecretKey;
 
 import data.Conexion;
+import data.Cors;
 import data.Data_persona;
 import entities.Juego;
 import entities.Persona;
@@ -32,14 +33,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class AbmcResenia {
-	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
-	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
-	public static void controlCors(HttpExchange exchange) {
-		
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-	}
+	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
+
 	
 	public static LinkedList<Resenia> recuperarTodos() {
 
@@ -140,7 +135,7 @@ public class AbmcResenia {
 		public void handle(HttpExchange exchange) throws IOException{
 			 int codigoestado;
 			 String mensaje = "";
-			controlCors(exchange);
+			 Cors.controlCors(exchange);
 			if (exchange.getRequestMethod().equals("OPTIONS")) {
 	            exchange.sendResponseHeaders(204, -1);
 	            exchange.close();

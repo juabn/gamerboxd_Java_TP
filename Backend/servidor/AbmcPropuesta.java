@@ -17,6 +17,7 @@ import com.sun.net.httpserver.HttpHandler;
 import entities.Compania;
 import entities.Persona;
 import data.DataPropuesta;
+import data.Cors;
 import data.DataJuego;
 import entities.Propuesta;
 import io.jsonwebtoken.Claims;
@@ -29,17 +30,6 @@ public class AbmcPropuesta {
 	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 
 	
-	//metodo para controlar cors
-			public static void controlCors(HttpExchange exchange) {
-				
-				exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-			    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-			    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-			}
-			
-			
-			
-			
 			
 	public static class actualizarpropuesta implements HttpHandler {
 		
@@ -49,7 +39,7 @@ public class AbmcPropuesta {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -132,7 +122,7 @@ public class AbmcPropuesta {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -210,7 +200,7 @@ public class AbmcPropuesta {
 			Boolean exito;
 			String mail;
 			
-		controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 	    if (exchange.getRequestMethod().equals("OPTIONS")) {
 

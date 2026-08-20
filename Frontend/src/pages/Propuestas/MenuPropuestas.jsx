@@ -14,6 +14,13 @@ function MenuPropuestas(){
 			setnombrejuego(e.target.value)
 			
 		};
+		
+		
+	const verporpuestas = () => {
+		
+		
+		navigate("/Propuestas")
+	}
 	
 	const modificarjuego = (e) => {
 		
@@ -71,7 +78,7 @@ function MenuPropuestas(){
 			onChange = {manejarnombrejuego}
 			required /> 
 			<button onClick={modificarjuego}>Modificar juego </button>
-			<button >Ver propuestas recibidas </button>
+			<button onClick={verporpuestas}>Ver propuestas recibidas </button>
 			
 		</div>
 		);
