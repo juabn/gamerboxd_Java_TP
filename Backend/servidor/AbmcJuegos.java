@@ -24,6 +24,7 @@ import io.jsonwebtoken.security.Keys;
 import data.Conexion;
 import data.DataCompania;
 import data.DataJuego;
+import data.Cors;
 
 public class AbmcJuegos {
 	
@@ -48,7 +49,7 @@ public static class juegoid implements HttpHandler{
 	
 	public void handle(HttpExchange exchange) throws IOException{
 		
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 		if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -131,7 +132,7 @@ public static class listajuegos implements HttpHandler {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -213,7 +214,7 @@ public static class existejuego implements HttpHandler{
 		String respuesta;
 		
 		boolean existejuego = false;
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 		if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -300,7 +301,7 @@ public static class existejuego implements HttpHandler{
 		String respuesta = "aaa no seee";
 		
 
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 	    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -387,7 +388,7 @@ public static class existejuego implements HttpHandler{
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 

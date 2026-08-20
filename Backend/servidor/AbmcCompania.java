@@ -4,6 +4,7 @@ import entities.Compania;
 
 
 
+
 import entities.Persona;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -29,6 +30,7 @@ import com.sun.net.httpserver.HttpHandler;
 import data.Conexion;
 import data.DataCompania;
 import data.Data_persona;
+import data.Cors;
 
 public class AbmcCompania {
 	
@@ -66,8 +68,10 @@ public class AbmcCompania {
 			String respuesta = "aaa no seee";
 			
 			
+			Cors.controlCors(exchange);
 			
-			controlCors(exchange);
+			
+	
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -184,7 +188,7 @@ public class AbmcCompania {
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -263,7 +267,7 @@ public class AbmcCompania {
 			
 			Boolean existeempresa;
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -349,7 +353,7 @@ public class AbmcCompania {
 			
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -397,7 +401,7 @@ public class AbmcCompania {
 			
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -448,7 +452,7 @@ public class AbmcCompania {
 			Boolean Existe_empresa = false;
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 			
 			if (exchange.getRequestMethod().equals("OPTIONS")) {
