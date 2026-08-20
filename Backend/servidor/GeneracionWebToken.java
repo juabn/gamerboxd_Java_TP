@@ -17,7 +17,7 @@ public class GeneracionWebToken {
 	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
     private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
     
-    // Método para reutilizar la misma clave en toda la aplicación
+    // Método para reutilizar la misma clave en toda web
     public static SecretKey llaveJWT() {
         return KEY;
     }

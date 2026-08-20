@@ -27,8 +27,7 @@ public class AbmcUsuario {
 	
 	//clave secreta de JWT
 	
-	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
-	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
+	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 
 	//metodo para controlar cors
 	public static void controlCors(HttpExchange exchange) {
