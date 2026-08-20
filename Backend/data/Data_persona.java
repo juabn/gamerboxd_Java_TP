@@ -28,6 +28,45 @@ public class Data_persona {
     }
 	
 	
+	
+	public static String obtenerrolgrupo(String mail) {
+		
+		String rol = "";
+		
+		Connection conn = Conexion.getInstancia().getConn();
+	    
+		try {
+	    String query = "select rolgrupo from persona where mail = ?";
+	    PreparedStatement ps = conn.prepareStatement(query);
+	    ps.setString(1, mail);
+	    ResultSet rs = ps.executeQuery();
+	    
+	    if (rs.next()) {
+	    	
+	    	rol = rs.getString("rolgrupo");
+
+	
+		}
+	    
+	        
+		}
+	    
+	
+		catch(SQLException ex){
+	
+	
+		System.out.println("SQLException: " + ex.getMessage());
+	    System.out.println("SQLState: " + ex.getSQLState());
+	    System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		return rol;
+		
+		
+		
+	}
+	
+	
 	public static boolean convertirenadmin(String mail) {
 		
 		boolean respuesta = false;

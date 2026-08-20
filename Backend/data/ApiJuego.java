@@ -1,3 +1,9 @@
+//Esto se usó para traer los juegos y guardarlos en la bd
+
+
+
+
+
 
 /*
 package data;

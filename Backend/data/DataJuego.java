@@ -166,7 +166,15 @@ public static boolean insertarjuego(Propuesta pro) {
         System.out.println("VendorError: " + ex.getErrorCode());
 		
 		
-	}
+	}finally {
+        if (conn != null) {
+            try {
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.out.println("Error al restaurar autoCommit: " + e.getMessage());
+            }
+        }
+    }
 	
 	return resultado;
 }

@@ -24,23 +24,14 @@ import io.jsonwebtoken.security.Keys;
 import data.Conexion;
 import data.DataCompania;
 import data.DataJuego;
+import data.Cors;
 
 public class AbmcJuegos {
 	
-	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
-	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
+	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 	
 	
-	public static void controlCors(HttpExchange exchange) {
-		/*
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-	    */
-		exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
-	    exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	    exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "*");
-	}
+
 	
 	
 	
@@ -48,7 +39,7 @@ public static class juegoid implements HttpHandler{
 	
 	public void handle(HttpExchange exchange) throws IOException{
 		
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 		if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -131,7 +122,7 @@ public static class listajuegos implements HttpHandler {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -213,7 +204,7 @@ public static class existejuego implements HttpHandler{
 		String respuesta;
 		
 		boolean existejuego = false;
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 		if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -300,7 +291,7 @@ public static class existejuego implements HttpHandler{
 		String respuesta = "aaa no seee";
 		
 
-		controlCors(exchange);
+		Cors.controlCors(exchange);
 		
 	    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -387,7 +378,7 @@ public static class existejuego implements HttpHandler{
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 

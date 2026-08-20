@@ -8,6 +8,10 @@ import { useState} from 'react';
 
 export default function Navbar({autenticado}) {
 	
+	
+	
+	const [rolGrupo, setrolGrupo] = useState("");
+	
 	const [imagen, setimagen] = useState("")
 	
 	
@@ -38,7 +42,48 @@ export default function Navbar({autenticado}) {
 		};
 		
 		
-	
+		const handleComunidad = async () => {
+		    try {
+		        const response = await fetch('http://localhost:8081/rolengrupo', {
+		            method: 'POST',
+		            headers: {
+		                'Content-Type': 'application/json',
+		                'Authorization': 'Bearer ' + tokenActual
+		            },
+		            body: JSON.stringify({})
+		        });
+
+		        if (!response.ok) {
+		            console.error("Error en la respuesta del servidor");
+		            return;
+		        }
+
+		        const data = await response.json();
+		        const rolObtenido = data.rolgrupo;
+
+		        setrolGrupo(rolObtenido);
+				
+				
+
+		        // Redirección según el rol
+		        if (rolObtenido === "admin") {
+		            navigate("/PaginaGrupo", { 
+		                state: { rol: rolObtenido } 
+		            });
+		        } else if (rolObtenido === "miembro") {
+		            navigate("/PaginaGrupo", { 
+		                state: { rol: rolObtenido } 
+		            });
+		        } else {
+		            navigate("/MenuGrupo", { 
+		            
+		            });
+		        }
+
+		    } catch (error) {
+		        console.error('Error al procesar comunidad:', error);
+		    }
+		};
 	
 	
 	const [rol, setrol] = useState("");
@@ -100,6 +145,9 @@ export default function Navbar({autenticado}) {
 	  	  		.catch(error => console.error('Error:', error));
 	
 	}
+	
+	
+	
 
   return (
 
@@ -114,7 +162,11 @@ export default function Navbar({autenticado}) {
 						{/*opciones para todos los logeados*/}
 						{autenticado && rol === "usuario" &&(
 							<>
-							<li><Link to="/CrearGrupo">Comunidad</Link></li>
+							<li>
+							    <span onClick={handleComunidad} style={{ cursor: 'pointer' }}>
+							        Comunidad
+							    </span>
+							</li>
 							<li><Link to="/CrearJuegos">Agregar juego</Link></li>
 							</>
 							

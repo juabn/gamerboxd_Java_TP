@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 import './crearGrupo.css'
 import '../../styles.css'
 import FooterC from '../../components/Footer/Footer'
 
 export default function CrearGrupo(){
 	const token = localStorage.getItem('token');
+	
+	const navigate = useNavigate();
 	
 	const [formData, setFormData] = useState({
 	    nombre: '',
@@ -67,6 +70,7 @@ export default function CrearGrupo(){
 	        setFormData({ nombre: '', descripcion: '' });
 			alert('bien'); 
 			setFotoPreview(null)
+			navigate("/")
 	      } else {
 			const errorData = await response.json();
 			console.log(errorData);

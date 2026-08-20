@@ -1,6 +1,7 @@
 package servidor;
 
 import java.io.IOException;
+
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,16 +14,12 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import data.Conexion;
+import data.Cors;
 import entities.Compania;
 
 public class AbmcEmpresa {
 	
-public static void controlCors(HttpExchange exchange) {
-		
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-	}
+
 	
 
 	
@@ -30,7 +27,7 @@ public static class listaempresas implements HttpHandler {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 

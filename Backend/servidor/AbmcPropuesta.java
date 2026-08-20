@@ -17,6 +17,7 @@ import com.sun.net.httpserver.HttpHandler;
 import entities.Compania;
 import entities.Persona;
 import data.DataPropuesta;
+import data.Cors;
 import data.DataJuego;
 import entities.Propuesta;
 import io.jsonwebtoken.Claims;
@@ -26,22 +27,9 @@ import io.jsonwebtoken.security.Keys;
 import entities.Propuesta;
 public class AbmcPropuesta {
 	
-	//Clave JWT
-	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
-	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
+	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 
 	
-	//metodo para controlar cors
-			public static void controlCors(HttpExchange exchange) {
-				
-				exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-			    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-			    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-			}
-			
-			
-			
-			
 			
 	public static class actualizarpropuesta implements HttpHandler {
 		
@@ -51,7 +39,7 @@ public class AbmcPropuesta {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -134,7 +122,7 @@ public class AbmcPropuesta {
 		
 		public void handle(HttpExchange exchange) throws IOException {
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -158,7 +146,6 @@ public class AbmcPropuesta {
 	    	            .build()
 	    	            .parseSignedClaims(token)
 	    	            .getPayload();
-    
 		    	
 		    	
 		    }catch(Error e) {
@@ -189,11 +176,9 @@ public class AbmcPropuesta {
 		    	exchange.sendResponseHeaders(400, respuesta.getBytes().length);
 		    	return;
 		    	
-		    	
 		    }
 				
-
-		   
+	   
 		   OutputStream os = exchange.getResponseBody();
 	       os.write(respuesta.getBytes(StandardCharsets.UTF_8));
 	       os.close();
@@ -215,7 +200,7 @@ public class AbmcPropuesta {
 			Boolean exito;
 			String mail;
 			
-		controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 	    if (exchange.getRequestMethod().equals("OPTIONS")) {
 

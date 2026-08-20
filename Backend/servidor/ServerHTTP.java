@@ -8,7 +8,12 @@ import servidor.AbmcUsuario.login;
 
 
 
+
+
+
+
 import servidor.AbmcUsuario.registro;
+import servidor.AbmcUsuario.rolengrupo;
 import servidor.AbmcUsuario.recuperarpersona;
 import servidor.AbmcUsuario.verificartoken;
 
@@ -30,6 +35,7 @@ import servidor.AbmcJuegos.juegoid;
 import servidor.AbmcJuegos.listajuegos;
 import servidor.AbmcEmpresa.listaempresas;
 import servidor.AbmcGrupo.creargrupo;
+import servidor.AbmcGrupo.listarGrupos;
 import servidor.AbmcUsuario.actualizardatosusuario;
 import servidor.AbmcUsuario.verificarjwt;
 import java.io.IOException;
@@ -42,6 +48,11 @@ import servidor.AbmcUsuario.convertirenadmin;
 import servidor.AbmcPropuesta.crearPropuesta;
 import servidor.AbmcPropuesta.listarPropuestas;
 import servidor.AbmcPropuesta.actualizarpropuesta;
+import servidor.AbmcGrupo.aniadirMiembroAGrupo;
+import servidor.AbmcGrupo.recuperarGrupoPorMiembro;
+import servidor.AbmcGrupo.salirDeGrupo;
+import servidor.AbmcGrupo.dardebajagrupo;
+import servidor.AbmcGrupo.actualizardatosgrupo;
 
 public class ServerHTTP {
 
@@ -82,6 +93,13 @@ public class ServerHTTP {
 		server.createContext("/existejuego", new existejuego());
 		server.createContext("/devolverjuego", new devolverjuego());
 		server.createContext("/actualizardatosjuego", new actualizardatosjuego());
+		server.createContext("/rolengrupo", new rolengrupo());
+		server.createContext("/listarGrupos", new listarGrupos());
+		server.createContext("/aniadirMiembroAGrupo", new aniadirMiembroAGrupo());
+		server.createContext("/recuperarGrupoPorMiembro", new recuperarGrupoPorMiembro());
+		server.createContext("/salirDeGrupo", new salirDeGrupo());
+		server.createContext("/dardebajagrupo", new dardebajagrupo());
+		server.createContext("/actualizardatosgrupo", new actualizardatosgrupo());
 		
 
 		server.start();
