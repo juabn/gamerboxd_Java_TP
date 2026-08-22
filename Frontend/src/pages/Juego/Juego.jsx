@@ -2,6 +2,8 @@ import './Juego.css'
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import FooterC from '../../components/Footer/Footer'
+import { API_URL } from '../../config';
+
 
 function JuegoResenia(){
 
@@ -29,7 +31,7 @@ function JuegoResenia(){
 	    if (confirmacion) {
 			
 			const token = localStorage.getItem('token'); 
-	        fetch(`http://localhost:8081/borrarResenia?id=${id}`, {
+	        fetch(`${API_URL}/borrarResenia?id=${id}`, {
 	            method: 'DELETE',
 				headers: {
 					        'Content-Type': 'application/json',
@@ -51,7 +53,7 @@ function JuegoResenia(){
 	  const token = localStorage.getItem('token'); 
 
 	  try {
-	    const response = await fetch('http://localhost:8081/obtenerUsuarioToken', {
+	    const response = await fetch(`${API_URL}/obtenerUsuarioToken`, {
 	      method: 'GET',
 	      headers: {
 	        'Content-Type': 'application/json',
@@ -74,14 +76,14 @@ function JuegoResenia(){
 	useEffect(() => {
 
 
-	    fetch(`http://localhost:8081/juego/${id}`)
+	    fetch(`${API_URL}/juego/${id}`)
 	      .then(res => res.json())
 	      .then(data => setJuego(data))
 	      .catch(err => console.error(err));
 	  }, [id]);
 
 	  const cargarResenias = () => {
-		fetch(`http://localhost:8081/reseniasPorJuego?id=${id}`)
+		fetch(`${API_URL}/reseniasPorJuego?id=${id}`)
 		  .then(res => res.json())
 		  .then(data => setResenias(data))
 		  .catch(err => console.error(err));
@@ -118,7 +120,7 @@ function JuegoResenia(){
 			  		puntaje:parseFloat(formData.get('puntaje')),
 			  		descripcion:formData.get('descripcion')
 			  	}
-			  	fetch('http://localhost:8081/nuevaResenia', {
+			  	fetch(`${API_URL}/nuevaResenia`, {
 			  	        method: 'POST',
 			  	        headers: {
 			  	            'Content-Type': 'application/json',
@@ -153,7 +155,7 @@ function JuegoResenia(){
 	  			puntaje: parseFloat(formData.get('puntaje')),
 	  			descripcion: formData.get('descripcion')
 	  		}
-	  		fetch('http://localhost:8081/editarResenia', {
+	  		fetch(`${API_URL}/editarResenia`, {
 	  			method: 'PUT',
 	  			headers: {
 	  				'Content-Type': 'application/json',

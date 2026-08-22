@@ -3,6 +3,7 @@ import './Carrousel.css';
 
 
 
+
 export default function Carrousel({ imagenes }) {
 	
   const [currentIndex, setCurrentIndex] = useState(0);

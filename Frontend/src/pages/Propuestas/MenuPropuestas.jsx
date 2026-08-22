@@ -1,6 +1,7 @@
 import './menuPropuestas.css'
 import { useNavigate } from "react-router";
 import { useState } from 'react';
+import { API_URL } from '../../config';
 
 function MenuPropuestas(){
 	
@@ -28,7 +29,7 @@ function MenuPropuestas(){
 				
 		e.preventDefault();
 				
-		fetch('http://localhost:8081/existejuego',{
+		fetch(`${API_URL}/existejuego`,{
 				
 				
 			method: 'POST', 

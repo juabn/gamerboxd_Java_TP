@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import './crearGrupo.css'
 import '../../styles.css'
 import FooterC from '../../components/Footer/Footer'
+import { API_URL } from '../../config';
 
 export default function CrearGrupo(){
 	const token = localStorage.getItem('token');
@@ -52,7 +53,7 @@ export default function CrearGrupo(){
 	    e.preventDefault();
 
 	    try {
-	      const response = await fetch('http://localhost:8081/creargrupo', {
+	      const response = await fetch(`${API_URL}/creargrupo`, {
 	        method: 'POST',
 	        headers: {
 	          'Content-Type': 'application/json',

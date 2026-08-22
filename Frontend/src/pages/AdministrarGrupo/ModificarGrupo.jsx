@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 function ModificarGrupo() {
     const location = useLocation();
@@ -29,7 +30,7 @@ function ModificarGrupo() {
         let token = localStorage.getItem('token');
         e.preventDefault();
 
-        fetch('http://localhost:8081/dardebajagrupo', {
+        fetch(`${API_URL}/dardebajagrupo`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ function ModificarGrupo() {
         let token = localStorage.getItem('token');
         e.preventDefault();
 
-        fetch('http://localhost:8081/actualizardatosgrupo', {
+        fetch(`${API_URL}/actualizardatosgrupo`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

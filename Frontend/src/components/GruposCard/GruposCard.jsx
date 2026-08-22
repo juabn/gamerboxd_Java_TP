@@ -1,5 +1,6 @@
 import './GruposCard.css'
 import { useNavigate } from "react-router";
+import { API_URL } from '../../config';
 
 
 function GruposCard({ gru}){
@@ -11,7 +12,7 @@ function GruposCard({ gru}){
 			let token = localStorage.getItem('token');
 			
 			
-			fetch('http://localhost:8081/aniadirMiembroAGrupo', {
+			fetch(`${API_URL}/aniadirMiembroAGrupo`, {
 				method: 'POST', 
 				headers: {
 					'Content-Type': 'application/json',

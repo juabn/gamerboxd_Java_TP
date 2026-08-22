@@ -1,5 +1,6 @@
 import './crearAdministrador.css'
 import { useState } from 'react';
+import { API_URL } from '../../config';
 
 function CreacionAdmin(){
 	
@@ -21,7 +22,7 @@ function CreacionAdmin(){
 				
 		e.preventDefault();
 				
-		fetch('http://localhost:8081/convertirenadmin',{
+		fetch(`${API_URL}/convertirenadmin`,{
 			
 			method: 'POST', 
 			headers: {

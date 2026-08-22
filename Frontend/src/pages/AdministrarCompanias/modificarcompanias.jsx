@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router";
 import './modificarcompanias.css'
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 
 function Modificarcompanias(){
 	
@@ -58,7 +59,7 @@ function Modificarcompanias(){
 			}
 		}
 		
-		fetch('http://localhost:8081/actualizardatosdeempresa', {
+		fetch(`${API_URL}/actualizardatosdeempresa`, {
 			method: "POST",
 			body: JSON.stringify({
 				name: nombreFinalParaEnviar,
@@ -96,7 +97,7 @@ function Modificarcompanias(){
 	
 	
 	useEffect(() => {		
-		fetch('http://localhost:8081/devolverempresa',{
+		fetch(`${API_URL}/devolverempresa`,{
 			method: 'POST', 
 			headers: {
 				'Content-Type': 'application/json',

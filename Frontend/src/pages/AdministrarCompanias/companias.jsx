@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router";
+import { API_URL } from '../../config';
 
 import './companias.css'
 
@@ -22,7 +23,7 @@ function AdministrarCompanias(){
 				
 		e.preventDefault();
 				
-		fetch('http://localhost:8081/existeempresa',{
+		fetch(`${API_URL}/existeempresa`,{
 				
 				
 			method: 'POST', 
@@ -72,7 +73,7 @@ function AdministrarCompanias(){
 		
 		e.preventDefault();
 		
-	fetch('http://localhost:8081/crearcompania',{
+	fetch(`${API_URL}/crearcompania`,{
 		
 		
 		method: 'POST', 

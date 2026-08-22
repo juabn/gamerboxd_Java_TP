@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useState } from 'react';
-
+import { API_URL } from '../../config';
 import './RecuperarPassword.css'
 
 
@@ -18,7 +18,7 @@ function Recuperarpassword(){
 		
 		try{
 			
-			const res = await fetch ("http://localhost:8081/recuperarpassword",{
+			const res = await fetch (`${API_URL}/recuperarpassword`,{
 				
 				method: "POST",
 				body: JSON.stringify({

@@ -1,4 +1,5 @@
 import './PropuestaCard.css'
+import { API_URL } from '../../config';
 
 
 function PropuestaCard({ pro}){
@@ -8,7 +9,7 @@ function PropuestaCard({ pro}){
 			let token = localStorage.getItem('token');
 			
 			
-			fetch('http://localhost:8081/actualizarpropuesta', {
+			fetch(`${API_URL}/actualizarpropuesta`, {
 				method: 'POST', 
 				headers: {
 					'Content-Type': 'application/json',

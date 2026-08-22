@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from "react-router";
 
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 
 function Modificarcompanias(){
 	
@@ -76,7 +77,7 @@ function Modificarcompanias(){
 		        }
 		    }
 		
-		fetch('http://localhost:8081/actualizardatosjuego', {
+		fetch(`${API_URL}/actualizardatosjuego`, {
 			method: "POST",
 			body: JSON.stringify({
 				name: nombreFinalParaEnviar,
@@ -121,7 +122,7 @@ function Modificarcompanias(){
 	
 	useEffect(() => {		
 		
-		fetch('http://localhost:8081/devolverjuego',{
+		fetch(`${API_URL}/devolverjuego`,{
 			method: 'POST', 
 			headers: {
 				'Content-Type': 'application/json',

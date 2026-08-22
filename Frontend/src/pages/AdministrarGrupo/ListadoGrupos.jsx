@@ -1,6 +1,7 @@
 import './ListadoGrupos.css'
 import GruposCard from '../../components/GruposCard/GruposCard';
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 
 function Propuestas(){
 	
@@ -10,7 +11,7 @@ function Propuestas(){
 	useEffect(() => {
 	let token = localStorage.getItem('token');
 	
-	fetch('http://localhost:8081/listarGrupos',{
+	fetch(`${API_URL}/listarGrupos`,{
 					
 				method: 'POST', 
 				headers: {

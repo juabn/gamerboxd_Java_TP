@@ -1,192 +1,148 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
+import { useState, useEffect } from 'react';
 
-import { useNavigate } from "react-router";
-import { useState} from 'react';
+import { API_URL } from '../../config';
 
+export default function Navbar({ autenticado }) {
+    const [rolGrupo, setrolGrupo] = useState("");
+    const [imagen, setimagen] = useState("");
+    const [rol, setrol] = useState("");
+    const navigate = useNavigate();
 
+    let tokenActual = localStorage.getItem('token');
 
-export default function Navbar({autenticado}) {
-	
-	
-	
-	const [rolGrupo, setrolGrupo] = useState("");
-	
-	const [imagen, setimagen] = useState("")
-	
-	
-	const renderPanelDerecho = () => {
-			if (!autenticado) {
-				return (
-					<Link to="/login">
-						<button className="btnlogin">Login</button>
-					</Link>
-				);
-			}
+    
+    useEffect(() => {
+        if (!tokenActual) {
+            console.log("no estas logeado");
+            return;
+        }
 
-			return (
-				<div className='usuariologeado'>
-					<button className="btnlogin" onClick={handleLogout}>
-						Cerrar Sesión
-					</button>
-					<div className="avatar-perfil">
-						<img 
-							src={imagen || null} 
-							onClick={() => navigate('/Modificarperfil')} 
-							alt="Perfil" 
-							className="avatar-img" 
-						/>
-					</div>
-				</div>
-			);
-		};
-		
-		
-		const handleComunidad = async () => {
-		    try {
-		        const response = await fetch('http://localhost:8081/rolengrupo', {
-		            method: 'POST',
-		            headers: {
-		                'Content-Type': 'application/json',
-		                'Authorization': 'Bearer ' + tokenActual
-		            },
-		            body: JSON.stringify({})
-		        });
+        
+        fetch(`${API_URL}/verificarjwt`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + tokenActual
+            },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                setrol(data);
+            })
+            .catch(error => console.error('Error al verificar JWT:', error));
 
-		        if (!response.ok) {
-		            console.error("Error en la respuesta del servidor");
-		            return;
-		        }
+        
+        fetch(`${API_URL}/fotousuario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + tokenActual
+            },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                setimagen(data.foto_perfil);
+            })
+            .catch(error => console.error('Error al obtener foto:', error));
+    }, [tokenActual]);
 
-		        const data = await response.json();
-		        const rolObtenido = data.rolgrupo;
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+    };
 
-		        setrolGrupo(rolObtenido);
-				
-				
+    const handleComunidad = async () => {
+        try {
+            const response = await fetch(`${API_URL}/rolengrupo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + tokenActual
+                },
+                body: JSON.stringify({})
+            });
 
-		        // Redirección según el rol
-		        if (rolObtenido === "admin") {
-		            navigate("/PaginaGrupo", { 
-		                state: { rol: rolObtenido } 
-		            });
-		        } else if (rolObtenido === "miembro") {
-		            navigate("/PaginaGrupo", { 
-		                state: { rol: rolObtenido } 
-		            });
-		        } else {
-		            navigate("/MenuGrupo", { 
-		            
-		            });
-		        }
+            if (!response.ok) {
+                console.error("Error en la respuesta del servidor");
+                return;
+            }
 
-		    } catch (error) {
-		        console.error('Error al procesar comunidad:', error);
-		    }
-		};
-	
-	
-	const [rol, setrol] = useState("");
-	
-	
-	const navigate = useNavigate();
-	
-	const handleLogout = () => {
-	    localStorage.removeItem('token');
-	    window.location.href = '/login'; // Recarga y limpia la sesión
-	  };
-	  
-	  
-	  
-	  let tokenActual = localStorage.getItem('token');
-	 
-	  
-	  //trae rol de persona(administrador o usuario)
-	  if(tokenActual !== null){
-	  fetch('http://localhost:8081/verificarjwt',{
-		method: 'POST', 
-			  	  		  headers: {
-			  	  		    'Content-Type': 'application/json' ,
-							'Authorization': 'Bearer ' + tokenActual
-			  	  		  },
-			  	  		  body: JSON.stringify({}) 
-	  })
-	  .then(response => response.json())
-	  .then(data => {
-	    console.log(data)
-		setrol(data)
-	  	  	  		   
-  	  		})
-	.catch(error => console.error('Error:', error));
-	  
-	}else{
-		console.log("no estas logeado")
-	}
-	  
-	  	  
-	if(tokenActual !== null){  	
-	  	  
-	  	  fetch('http://localhost:8081/fotousuario', {
-			
-	  	  		
-	  	  		method: 'POST', 
-	  	  		  headers: {
-	  	  		    'Content-Type': 'application/json' ,
-					'Authorization': 'Bearer ' + tokenActual
-	  	  		  },
-	  	  		  body: JSON.stringify({}) 
-	  	  		})
-	  	  		
-	  	  		.then(response => response.json())
-	  	  		.then(data => {
-	  	  		    setimagen(data.foto_perfil)
-	  	  		   
-	  	  		})
-	  	  		.catch(error => console.error('Error:', error));
-	
-	}
-	
-	
-	
+            const data = await response.json();
+            const rolObtenido = data.rolgrupo;
+            setrolGrupo(rolObtenido);
 
-  return (
+            if (rolObtenido === "admin" || rolObtenido === "miembro") {
+                navigate("/PaginaGrupo", { state: { rol: rolObtenido } });
+            } else {
+                navigate("/MenuGrupo");
+            }
+        } catch (error) {
+            console.error('Error al procesar comunidad:', error);
+        }
+    };
 
-	<nav>
-				<div className="nav-group">
-					<div className="logo">Gamerboxd</div>
-					<ul className="nav-links">
-						{/*opciones publicas*/}
-						<li><Link to="/">Inicio</Link></li>
-						<li><Link to="Juegos">Juegos</Link></li>
-						
-						{/*opciones para todos los logeados*/}
-						{autenticado && rol === "usuario" &&(
-							<>
-							<li>
-							    <span onClick={handleComunidad} style={{ cursor: 'pointer' }}>
-							        Comunidad
-							    </span>
-							</li>
-							<li><Link to="/CrearJuegos">Agregar juego</Link></li>
-							</>
-							
-						)}
+    const renderPanelDerecho = () => {
+        if (!autenticado) {
+            return (
+                <Link to="/login">
+                    <button className="btnlogin">Login</button>
+                </Link>
+            );
+        }
 
-						{/*opciones exclusivas para admins logeados*/}
-						{autenticado && rol === "administrador" && (
-							<>
-								<li><Link to="/AdministrarCompanias">Admninistrar companias</Link></li>
-								<li><Link to="/MenuPropuestas">Administrar juegos</Link></li>
-								<li><Link to="/CreacionAdmin">Crear administrador</Link></li>
-							</>
-						)}
-					</ul>
-				</div> 
+        return (
+            <div className='usuariologeado'>
+                <button className="btnlogin" onClick={handleLogout}>
+                    Cerrar Sesión
+                </button>
+                <div className="avatar-perfil">
+                    <img 
+                        src={imagen || null} 
+                        onClick={() => navigate('/Modificarperfil')} 
+                        alt="Perfil" 
+                        className="avatar-img" 
+                    />
+                </div>
+            </div>
+        );
+    };
 
-				<div className="divloginnavbar">
-					{renderPanelDerecho()}
-				</div>
-			</nav>
+    return (
+        <nav>
+            <div className="nav-group">
+                <div className="logo">Gamerboxd</div>
+                <ul className="nav-links">
+                    <li><Link to="/">Inicio</Link></li>
+                    <li><Link to="Juegos">Juegos</Link></li>
 
-  );
+                    {autenticado && rol === "usuario" && (
+                        <>
+                            <li>
+                                <span onClick={handleComunidad} style={{ cursor: 'pointer' }}>
+                                    Comunidad
+                                </span>
+                            </li>
+                            <li><Link to="/CrearJuegos">Agregar juego</Link></li>
+                        </>
+                    )}
+
+                    {autenticado && rol === "administrador" && (
+                        <>
+                            <li><Link to="/AdministrarCompanias">Admninistrar companias</Link></li>
+                            <li><Link to="/MenuPropuestas">Administrar juegos</Link></li>
+                            <li><Link to="/CreacionAdmin">Crear administrador</Link></li>
+                        </>
+                    )}
+                </ul>
+            </div>
+
+            <div className="divloginnavbar">
+                {renderPanelDerecho()}
+            </div>
+        </nav>
+    );
 }

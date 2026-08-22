@@ -2,6 +2,7 @@ import './PaginaGrupo.css'
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
+import { API_URL } from '../../config';
 
 
 function PaginaGrupo(){
@@ -37,7 +38,7 @@ function PaginaGrupo(){
 	    const tokenActual = localStorage.getItem('token');
 
 	    try {
-	        const response = await fetch('http://localhost:8081/salirDeGrupo', {
+	        const response = await fetch(`${API_URL}/salirDeGrupo`, {
 	            method: 'POST',
 	            headers: {
 	                'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ function PaginaGrupo(){
 		let tokenActual = localStorage.getItem('token');
 		
 
-	fetch('http://localhost:8081/recuperarGrupoPorMiembro', {
+	fetch(`${API_URL}/recuperarGrupoPorMiembro`, {
 		
 		method: 'POST', 
 		  headers: {

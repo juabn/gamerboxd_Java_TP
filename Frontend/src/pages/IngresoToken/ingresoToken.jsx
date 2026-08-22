@@ -1,6 +1,7 @@
 import './ingresoToken.css'
 import { useNavigate } from "react-router";
 import { useState } from 'react';
+import { API_URL } from '../../config';
 
 function IngresarToken(){
 	
@@ -23,7 +24,7 @@ function IngresarToken(){
 		
 		try {
 			
-			const res = await fetch ("http://localhost:8081/verificartoken", {
+			const res = await fetch (`${API_URL}/verificartoken`, {
 				
 				
 				method: "POST",

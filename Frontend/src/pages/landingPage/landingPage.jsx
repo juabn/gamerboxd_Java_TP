@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 import {useState,useEffect} from 'react';
 import { register } from 'swiper/element/bundle';
 register();
+import { API_URL } from '../../config';
 
+
+const IMAGEN_DEFAULT = ["https://media.rawg.io/media/games/4cf/4cfc6b7f1850590a4634b08bfab308ab.jpg"];
 
 import Carrousel from '../../components/carrousel/Carrousel';
 
@@ -15,7 +18,7 @@ export default function LandingPage() {
 	const [juegosImagenes, setJuegosImagenes] = useState([]);
 
 	useEffect(() => {
-		    fetch('http://localhost:8081/listajuegos') 
+		    fetch(`${API_URL}/listajuegos`) 
 		      .then(respuesta => respuesta.json())
 		      .then(datos => {
 					const imagenes = datos.map(juego => juego.background_image)
@@ -32,7 +35,7 @@ export default function LandingPage() {
 	const [resenas, setResenas] = useState([]);
 
 	  useEffect(() => {
-	    fetch('http://localhost:8081/allresenias') 
+	    fetch(`${API_URL}/allresenias`) 
 	      .then(respuesta => respuesta.json())
 	      .then(datos => {
 			console.log("Datos crudos del servidor:", datos);
@@ -69,7 +72,11 @@ export default function LandingPage() {
                       </Link>
                   </div>
                   <div className="cFilter">
-                      <Carrousel imagenes={juegosImagenes} className="cAnim" />
+                      <Carrousel 
+					  key={juegosImagenes.length}
+					      imagenes={juegosImagenes.length > 0 ? juegosImagenes : IMAGEN_DEFAULT} 
+					      className="cAnim"
+								 />
                   </div>
               </div>
 			  <h1 className="highlighterReviewsTitle">
