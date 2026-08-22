@@ -1,4 +1,4 @@
-//ESTO NO ES UNA API NO SE POR QUE LE PUSE ESE NOMBRE JEJE DESPUES LO CAMBIO
+
 
 package data;
 import java.sql.*;
@@ -21,49 +21,34 @@ import java.sql.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class Data_persona {
-	public static void main(String[] args) {
-        
-
-
-    }
-	
-	
 	
 	public static String obtenerrolgrupo(String mail) {
 		
 		String rol = "";
 		
 		Connection conn = Conexion.getInstancia().getConn();
+		String query = "select rolgrupo from persona where mail = ?";
 	    
-		try {
-	    String query = "select rolgrupo from persona where mail = ?";
-	    PreparedStatement ps = conn.prepareStatement(query);
+		try (PreparedStatement ps = conn.prepareStatement(query)) {
 	    ps.setString(1, mail);
-	    ResultSet rs = ps.executeQuery();
 	    
-	    if (rs.next()) {
-	    	
-	    	rol = rs.getString("rolgrupo");
+	    	try (ResultSet rs = ps.executeQuery()){
+	    
+	    		if (rs.next()) {
+	    			rol = rs.getString("rolgrupo");
 
-	
-		}
-	    
+	    		}
+	    	
+	    	}
 	        
-		}
-	    
-	
-		catch(SQLException ex){
-	
+		} catch(SQLException ex){
 	
 		System.out.println("SQLException: " + ex.getMessage());
 	    System.out.println("SQLState: " + ex.getSQLState());
 	    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		
-		return rol;
-		
-		
-		
+		return rol;	
 	}
 	
 	
@@ -71,20 +56,17 @@ public class Data_persona {
 		
 		boolean respuesta = false;
 		
-		try {
+		Connection conn = Conexion.getInstancia().getConn();
+		String query = "update persona set rol = ? where LOWER(REPLACE(mail, ' ', '')) = ?";
+		
+		try (PreparedStatement ps = conn.prepareStatement(query)) {
 			
-			Connection conn = Conexion.getInstancia().getConn();
-			
-			
-				String query = "update persona set rol = ? where LOWER(REPLACE(mail, ' ', '')) = ?";
-				PreparedStatement ps = conn.prepareStatement(query);
-				
-				 ps.setString(1, "administrador");
-				 String mailNormalizado = mail.replace(" ", "").toLowerCase();
-				 ps.setString(2, mailNormalizado);
-				 respuesta = true;
-				 ps.executeUpdate();
-				
+		
+		 ps.setString(1, "administrador");
+		 String mailNormalizado = mail.replace(" ", "").toLowerCase();
+		 ps.setString(2, mailNormalizado);
+		 ps.executeUpdate();		
+		 respuesta = true;
 		    
 		}
 		
@@ -96,104 +78,89 @@ public class Data_persona {
 	    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		
-		
-		
-		
-		
-		
+
 		return respuesta;
 		
-		
-		
-		
+	
 	}
 	
 	
 	public static boolean dardebaja (String mail) {
 		
 		Boolean respuesta = false;
+		String query = "update persona set estado = ? where mail = ?";
+		Connection conn = Conexion.getInstancia().getConn();
 		
-		try {
-			
-			Connection conn = Conexion.getInstancia().getConn();
-			
-			
-				String query = "update persona set estado = ? where mail = ?";
-				PreparedStatement ps = conn.prepareStatement(query);
-				 ps.setString(1, "inactivo");
-				 ps.setString(2, mail);
-				respuesta = true;
-				 ps.executeUpdate();
-				
-		    
+		try (PreparedStatement ps = conn.prepareStatement(query);) {
+	
+			 ps.setString(1, "inactivo");
+			 ps.setString(2, mail);	
+			 ps.executeUpdate();
+			 respuesta = true;
+				    
 		}
 		
 		catch(SQLException ex){
-	
 	
 		System.out.println("SQLException: " + ex.getMessage());
 	    System.out.println("SQLState: " + ex.getSQLState());
 	    System.out.println("VendorError: " + ex.getErrorCode());
 		}
 		
-		
-		
-		
-		
-		
+	
 		return respuesta;
 		
-		
-		
-		
+	
 	}
 	
 	
 	public static String actualizarImagenYnombre(String mail, String nuevaimagen, String nuevonombre) {
 		
-		String Respuesta = "hola";
+		String Respuesta = "error";
+		Connection conn = Conexion.getInstancia().getConn();
 		
 		
 		
 		try {
 			
-			Connection conn = Conexion.getInstancia().getConn();
-			
-			
 			if(nuevaimagen.equals("") && !nuevonombre.equals("")) {
 				String query = "update persona set nombre = ? where mail = ?";
-				PreparedStatement ps = conn.prepareStatement(query);
+				
+				try(PreparedStatement ps = conn.prepareStatement(query)){
+				
 				 ps.setString(1, nuevonombre);
 				 ps.setString(2, mail);
-				 Respuesta = "ok";
 				 ps.executeUpdate();
+				 Respuesta = "ok";
+				}
 				
 			}
 			
 			if(nuevonombre.equals("") && !nuevaimagen.equals("")) {
 				String query = "update persona set foto_perfil = ? where mail = ?";
-				PreparedStatement ps = conn.prepareStatement(query);
+				
+				try(PreparedStatement ps = conn.prepareStatement(query)){
+
 				ps.setString(1, nuevaimagen);
 				ps.setString(2, mail);
-				Respuesta = "ok";
 				ps.executeUpdate();
+				Respuesta = "ok";
+				}
 				
 			}
 			
 			if(!nuevonombre.equals("") && !nuevaimagen.equals("")) {
 				String query = "UPDATE persona SET foto_perfil = ?, nombre = ? WHERE mail = ?";
-				PreparedStatement ps = conn.prepareStatement(query);
+				try(PreparedStatement ps = conn.prepareStatement(query)){
 				ps.setString(1, nuevaimagen);
 				ps.setString(2, nuevonombre);
 				ps.setString(3, mail);
-				Respuesta = "ok";
 				ps.executeUpdate();
+				Respuesta = "ok";
+				}
 				
 			}
-
-
-		   
-		    
+	    
 		}
 		
 		catch(SQLException ex){
@@ -203,20 +170,12 @@ public class Data_persona {
 	    System.out.println("SQLState: " + ex.getSQLState());
 	    System.out.println("VendorError: " + ex.getErrorCode());
 		}
-		
-		
-		
-		
-		
-		
+			
 		return Respuesta;
 	}
 	
 	
-	
-	
-	
-	
+
 
 	//verifica token que envio po mail
 	
@@ -231,16 +190,20 @@ public class Data_persona {
 			
 			Connection conn = Conexion.getInstancia().getConn();
 			String query = "SELECT id FROM recuperacion_password WHERE id IN (SELECT MAX(id) FROM recuperacion_password  WHERE mail_persona = ?  GROUP BY mail_persona)";
-			PreparedStatement ps = conn.prepareStatement(query);
+			try(PreparedStatement ps = conn.prepareStatement(query)){
 	    	ps.setString(1, mail);
-	    	ResultSet rs = ps.executeQuery();
+	    	
+	    	
+	    	try(ResultSet rs = ps.executeQuery()){
 	    	
 	    	if (rs.next()) {
 	    		
 	    		String query1 = "SELECT * from recuperacion_password where id = ?";
-	    		PreparedStatement ps1 = conn.prepareStatement(query1);
-		    	ps1.setString(1, rs.getString("id"));
-		    	ResultSet rs1 = ps1.executeQuery();
+	    			try(PreparedStatement ps1 = conn.prepareStatement(query1)){
+	    				ps1.setString(1, rs.getString("id"));
+	    				
+	    			try(ResultSet rs1 = ps1.executeQuery()){
+	    				
 		    	if (rs1.next()) {
 		    		
 		    		tiempo_expiracion = rs1.getObject("fecha_expiracion", LocalDateTime.class);
@@ -251,7 +214,7 @@ public class Data_persona {
 	    		if (token_real.equals(token)) {
 	    			ok1 = true;
 				}
-	    	}
+	    	
 	    	
 	    	if (ok1 == true && tiempo_expiracion.isAfter(LocalDateTime.now()) ) {
 	    		
@@ -262,9 +225,11 @@ public class Data_persona {
     			
     			ok = false;
     		}
-			
-			
-			
+	    			}
+	    			}
+	    				}
+												}
+			}
 		}catch(SQLException ex){
 			
 			System.out.println("SQLException: " + ex.getMessage());
@@ -275,11 +240,7 @@ public class Data_persona {
 		
 		
 		return ok;
-		
-		
-		
-		
-		
+			
 		
 	}
 	
@@ -287,42 +248,43 @@ public class Data_persona {
 	//Genera token de cambio de password, lo guarda en la bd y lo envia por mail
 	public static String enviar_token(String mail) {
 		
-		String token = "Error";
-		
+		String token = "Error";	
 		try {
 			
 			Connection conn = Conexion.getInstancia().getConn();
 			String query = "select * from persona where mail = ?";
-		    PreparedStatement ps = conn.prepareStatement(query);
+			
+			
+		    try(PreparedStatement ps = conn.prepareStatement(query)){
 		    ps.setString(1, mail);
-		    ResultSet rs = ps.executeQuery();
+		   
+		    
+		    try(ResultSet rs = ps.executeQuery()){
 		    
 		    if (rs.next()) {
 		    	
 		    	Random random = new Random();
 		    	int numeroMinMax = random.nextInt(1000, 9999);
 		    	token = String.valueOf(numeroMinMax);
-		    	
-		    	
-		    	
+
 		        LocalDateTime fecha_hora_vencimiento = LocalDateTime.now().plusMinutes(10);
 		    	
 		    	String query1 = "insert into recuperacion_password (codigo,fecha_expiracion, mail_persona) values  (?, ?, ?)";
-		    	PreparedStatement ps1 = conn.prepareStatement(query1);
+		    	try(PreparedStatement ps1 = conn.prepareStatement(query1)){
 		    	ps1.setString(1, token);
 		    	ps1.setObject(2, fecha_hora_vencimiento);
 		    	ps1.setString(3, mail);
 		    	ps1.executeUpdate();
 		    	GestionMail.enviarmail(mail, "nuevacontrasenia", "El token de recuperacion de contrasenia es: " + token);
- 	
+		    	}
 				
 			}else {
 				
 				token = "No existe mail";
 				
 			}
-					
-				
+		    }	
+		    }
 			
 		}
 		catch(SQLException ex){
@@ -331,14 +293,14 @@ public class Data_persona {
 		    System.out.println("SQLState: " + ex.getSQLState());
 		    System.out.println("VendorError: " + ex.getErrorCode());
 			
-		}
+		}		
 		
-		
-		return token;
-		
-		
+		return token;			
 	}
 		
+	
+	
+	
 
 	public static Persona buscar_solo_persona_pormail(String mail) {
 		
@@ -346,7 +308,7 @@ public class Data_persona {
 		
 		
 		
-try {
+		try {
 		
 		Connection conn = Conexion.getInstancia().getConn();
 	    
