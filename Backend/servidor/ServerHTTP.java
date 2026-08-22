@@ -1,8 +1,9 @@
 package servidor;
 
-
+import data.FormaEjecucion;
 
 import servidor.AbmcUsuario.login;
+
 
 
 
@@ -58,8 +59,15 @@ public class ServerHTTP {
 
 	public static void main(String[] args) throws IOException {
 		
+	
+		
 		try {
-		HttpServer server = HttpServer.create(new InetSocketAddress(8081), 0);
+			
+				
+		int port = System.getenv("PORT") != null ? Integer.parseInt(System.getenv("PORT")) : 8081;
+		HttpServer  server = HttpServer.create(new InetSocketAddress(port), 0);
+			
+
 		
 		server.createContext("/login", new login());
 		server.createContext("/registro", new registro());
