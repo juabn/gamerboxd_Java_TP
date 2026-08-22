@@ -5,10 +5,11 @@ import java.sql.*;
 
 
 
-import java.time.LocalDate;
+
+
 import java.time.LocalDateTime;
-import java.security.SecureRandom;
-import java.util.Base64;
+
+
 import servidor.GestionMail;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ import entities.Grupo;
 import entities.Persona;
 
 
-import java.sql.*;
+
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -493,7 +494,7 @@ catch(SQLException ex){
 	}
 	
 	
-	private static void obtener_todos() {
+	public static void obtener_todos() {
 			
 			try {
 				
