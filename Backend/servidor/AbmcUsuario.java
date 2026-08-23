@@ -908,29 +908,24 @@ public class AbmcUsuario {
             os.write(mensaje.getBytes()); 
             os.close();
 			
-			}catch(SQLException e) {
-				
-				System.out.println(e.getErrorCode());
-				
+			}catch (SQLException e) {
+			    System.out.println(e.getErrorCode());
 
-				if (e.getErrorCode() == 1062) {
-					
-					mensaje = "usuario duplicadoooo";
-					exchange.sendResponseHeaders(409, mensaje.getBytes().length);
-					OutputStream os = exchange.getResponseBody();
-		            os.write(mensaje.getBytes()); 
-		            os.close();
-					
-				}else {
-					
-					mensaje = "error al acceder a la bd";
-					exchange.sendResponseHeaders(403, mensaje.getBytes().length);
-					OutputStream os = exchange.getResponseBody();
-		            os.write(mensaje.getBytes()); 
-		            os.close();
-					
-					
-				}
+			    if (e.getErrorCode() == 1062) {
+			        mensaje = "usuario duplicadoooo";
+			        exchange.sendResponseHeaders(409, mensaje.getBytes().length);
+			    } else {
+			        mensaje = "error al acceder a la bd";
+			        exchange.sendResponseHeaders(403, mensaje.getBytes().length);
+			    }
+			    
+			    OutputStream os = exchange.getResponseBody();
+			    os.write(mensaje.getBytes());
+			    os.close();
+			} catch (Exception e) {
+			    // Para otros errores generales
+			    e.printStackTrace();
+			
 			}
 					
 			

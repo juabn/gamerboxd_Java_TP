@@ -1,71 +1,54 @@
 package servidor;
 
-
-
-import java.util.Date;
-import java.util.Properties;
-
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.MimeMessage;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class GestionMail {
-	
-	
-	
-	
-	
 
-	public static void main(String[] args) {
-	    Properties props = new Properties();
-	    props.put("mail.smtp.host", "smtp.gmail.com");     
-        props.put("mail.smtp.port", "587");                
-        props.put("mail.smtp.auth", "true");              
-        props.put("mail.smtp.starttls.enable", "true");
-	    Session session = Session.getInstance(props, null);
+    private static final String SERVICE_ID = "service_ugxx7yx";
+    private static final String TEMPLATE_ID = "template_g8f4utp";
+    private static final String PUBLIC_KEY = "0a4aCAH1hwG6hPV34";
+    private static final String PRIVATE_KEY = "H4lygm8O4aYAIhHxQMFQN"; 
 
-	    try {
-	        MimeMessage msg = new MimeMessage(session);
-	        msg.setFrom("gamerboxdoficial@gmail.com");
-	        msg.setRecipients(Message.RecipientType.TO,
-	                          "santiagomalet229@gmail.com");
-	        msg.setSubject("Probando enviar mails");
-	        msg.setSentDate(new Date());
-	        msg.setText("Probando");
-	        Transport.send(msg, "gamerboxdoficial@gmail.com", "qpbf siqy hrrg rkov");
-	    } catch (MessagingException mex) {
-	        System.out.println("send failed, exception: " + mex);
-	    }
+    public static void enviarmail(String destino, String asunto, String tokenOMensaje) {
+        System.out.println("--> Enviando mail vía EmailJS HTTP a: " + destino);
 
-	}
-	
-	
-	public static void enviarmail(String destino,String asunto, String mensaje) {
-		
-		 Properties props = new Properties();
-		    props.put("mail.smtp.host", "smtp.gmail.com");     
-	        props.put("mail.smtp.port", "587");                
-	        props.put("mail.smtp.auth", "true");              
-	        props.put("mail.smtp.starttls.enable", "true");
-		    Session session = Session.getInstance(props, null);
+        try {
+            String jsonBody = "{"
+                    + "\"service_id\": \"" + SERVICE_ID + "\","
+                    + "\"template_id\": \"" + TEMPLATE_ID + "\","
+                    + "\"user_id\": \"" + PUBLIC_KEY + "\","
+                    + "\"accessToken\": \"" + PRIVATE_KEY + "\","
+                    + "\"template_params\": {"
+                    + "\"to_email\": \"" + destino + "\","
+                    + "\"subject\": \"" + asunto + "\","
+                    + "\"token\": \"" + tokenOMensaje + "\""
+                    + "}"
+                    + "}";
 
-		    try {
-		        MimeMessage msg = new MimeMessage(session);
-		        msg.setFrom("gamerboxdoficial@gmail.com");
-		        msg.setRecipients(Message.RecipientType.TO,
-		                          destino);
-		        msg.setSubject(asunto);
-		        msg.setSentDate(new Date());
-		        msg.setText(mensaje);
-		        Transport.send(msg, "gamerboxdoficial@gmail.com", "qpbf siqy hrrg rkov");
-		    } catch (MessagingException mex) {
-		        System.out.println("send failed, exception: " + mex);
-		    }
-		
-		
-		
-	} 
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.emailjs.com/api/v1.0/email/send"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .build();
 
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("Status EmailJS: " + response.statusCode());
+            System.out.println("Respuesta: " + response.body());
+
+            if (response.statusCode() == 200) {
+                System.out.println("--> EMAIL ENVIADO EXITOSAMENTE A: " + destino);
+            } else {
+                System.err.println("--> ERROR EMAILJS: " + response.body());
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error en peticion HTTP a EmailJS: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
