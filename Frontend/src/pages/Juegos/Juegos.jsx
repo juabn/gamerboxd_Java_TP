@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 
 import GameCard from '../../components/GameCard/GameCard'
 
+import { API_URL } from '../../config';
+
 function Juegos(){
 	
 	const [listaJuegos, setListaJuegos] = useState([])
@@ -16,7 +18,7 @@ function Juegos(){
 	
 	useEffect(() => {
 		
-	  fetch('http://localhost:8081/listaempresas')
+	  fetch(`${API_URL}/listaempresas`)
 	  
 	    .then((Response) => Response.json())
 	    .then((dataa) => {
@@ -37,7 +39,7 @@ function Juegos(){
 	
 	useEffect(() =>{
 		
-		fetch('http://localhost:8081/listajuegos')
+		fetch(`${API_URL}/listajuegos`)
 		.then((response) => response.json())
 		.then((data) => {
 		       

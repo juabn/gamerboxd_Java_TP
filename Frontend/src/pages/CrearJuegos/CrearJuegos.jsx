@@ -2,6 +2,7 @@ import './CrearJuegos.css'
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import Select from 'react-select'
+import { API_URL } from '../../config';
 
 function CrearJuegos(){
 	
@@ -20,7 +21,7 @@ function CrearJuegos(){
 	
 	useEffect(() => {
 			
-		  fetch('http://localhost:8081/listaempresas')
+		  fetch(`${API_URL}/listaempresas`)
 		  
 		    .then((Response) => Response.json())
 		    .then((dataa) => {
@@ -87,7 +88,7 @@ function CrearJuegos(){
 		    let token = localStorage.getItem('token');
 		    e.preventDefault();
 		    
-		    fetch('http://localhost:8081/crearPropuesta', {
+		    fetch(`${API_URL}/crearPropuesta`, {
 		        method: 'POST', 
 		        headers: {
 		            'Content-Type': 'application/json',

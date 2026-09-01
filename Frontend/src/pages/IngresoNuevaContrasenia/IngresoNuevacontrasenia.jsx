@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useState } from 'react';
+import { API_URL } from '../../config';
 
 import './IngresoNuevaContrasenia.css'
 
@@ -22,7 +23,7 @@ function IngresoNuevacontrasenia(){
 			
 			
 			try{
-				const res = await fetch("http://localhost:8081/cambiarpassword",{
+				const res = await fetch(`${API_URL}/cambiarpassword`,{
 					
 
 					method: "POST",

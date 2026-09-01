@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import './modificarperfil.css'
+import { API_URL } from '../../config';
 
 
 
@@ -36,7 +37,7 @@ function Modificarperfil(){
 		
 		e.preventDefault();
 		
-		fetch('http://localhost:8081/dardebaja',{
+		fetch(`${API_URL}/dardebaja`,{
 			
 			method: 'POST', 
 			headers: {
@@ -77,7 +78,7 @@ function Modificarperfil(){
 		
 		console.log("Token a enviar:", token);
 		
-		fetch('http://localhost:8081/actualizardatosperfil', {
+		fetch(`${API_URL}/actualizardatosperfil`, {
 			
 			method: 'POST', 
 			headers: {
@@ -118,7 +119,7 @@ function Modificarperfil(){
 		let tokenActual = localStorage.getItem('token');
 		
 	
-	fetch('http://localhost:8081/fotousuario', {
+	fetch(`${API_URL}/fotousuario`, {
 		
 		method: 'POST', 
 		  headers: {

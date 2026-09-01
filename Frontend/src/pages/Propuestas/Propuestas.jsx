@@ -1,6 +1,7 @@
 import './Propuestas.css'
 import PropuestaCard from '../../components/PropuestaCard/PropuestaCard';
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../config';
 
 function Propuestas(){
 	
@@ -10,7 +11,7 @@ function Propuestas(){
 	useEffect(() => {
 	let token = localStorage.getItem('token');
 	
-	fetch('http://localhost:8081/listarPropuestas',{
+	fetch(`${API_URL}/listarPropuestas`,{
 					
 					
 				method: 'POST', 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router";
 import './Register.css'
+import { API_URL } from '../../config';
 
 function Registro(){
 	
@@ -25,7 +26,7 @@ function Registro(){
 		
 		try{
 			
-			const res = await fetch('http://localhost:8081/registro',{
+			const res = await fetch(`${API_URL}/registro`,{
 				
 				
 				method: "POST", 

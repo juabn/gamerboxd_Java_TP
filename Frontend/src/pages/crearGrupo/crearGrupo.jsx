@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 import './crearGrupo.css'
 import '../../styles.css'
 import FooterC from '../../components/Footer/Footer'
+import { API_URL } from '../../config';
 
 export default function CrearGrupo(){
 	const token = localStorage.getItem('token');
+	
+	const navigate = useNavigate();
 	
 	const [formData, setFormData] = useState({
 	    nombre: '',
@@ -49,7 +53,7 @@ export default function CrearGrupo(){
 	    e.preventDefault();
 
 	    try {
-	      const response = await fetch('http://localhost:8081/creargrupo', {
+	      const response = await fetch(`${API_URL}/creargrupo`, {
 	        method: 'POST',
 	        headers: {
 	          'Content-Type': 'application/json',
@@ -67,6 +71,7 @@ export default function CrearGrupo(){
 	        setFormData({ nombre: '', descripcion: '' });
 			alert('bien'); 
 			setFotoPreview(null)
+			navigate("/")
 	      } else {
 			const errorData = await response.json();
 			console.log(errorData);

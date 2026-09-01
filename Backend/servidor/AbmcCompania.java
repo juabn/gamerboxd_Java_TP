@@ -4,6 +4,7 @@ import entities.Compania;
 
 
 
+
 import entities.Persona;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -25,30 +26,19 @@ import javax.crypto.SecretKey;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import servidor.GeneracionWebToken;
 
 import data.Conexion;
 import data.DataCompania;
 import data.Data_persona;
+import data.Cors;
 
 public class AbmcCompania {
 	
-	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
-	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
-	
-	//ABMC Compania USOS
-	
-	//LinkedList<Compania> companias = AbmcCompania.recuperarTodos();
-	//Compania compania = AbmcCompania.recuperarPorId(10);
-	//AbmcCompania.insertarNuevo("Warner Bros");
+
+	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 	
 	
-	//metodo para controlar cors
-		public static void controlCors(HttpExchange exchange) {
-			
-			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-		    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-		    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-		}
 		
 	
 		
@@ -66,8 +56,10 @@ public class AbmcCompania {
 			String respuesta = "aaa no seee";
 			
 			
+			Cors.controlCors(exchange);
 			
-			controlCors(exchange);
+			
+	
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -184,7 +176,7 @@ public class AbmcCompania {
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -263,7 +255,7 @@ public class AbmcCompania {
 			
 			Boolean existeempresa;
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -349,7 +341,7 @@ public class AbmcCompania {
 			
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -397,7 +389,7 @@ public class AbmcCompania {
 			
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -448,7 +440,7 @@ public class AbmcCompania {
 			Boolean Existe_empresa = false;
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 			
 			if (exchange.getRequestMethod().equals("OPTIONS")) {

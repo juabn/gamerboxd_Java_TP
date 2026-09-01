@@ -1,6 +1,7 @@
 import './menuPropuestas.css'
 import { useNavigate } from "react-router";
 import { useState } from 'react';
+import { API_URL } from '../../config';
 
 function MenuPropuestas(){
 	
@@ -14,6 +15,13 @@ function MenuPropuestas(){
 			setnombrejuego(e.target.value)
 			
 		};
+		
+		
+	const verporpuestas = () => {
+		
+		
+		navigate("/Propuestas")
+	}
 	
 	const modificarjuego = (e) => {
 		
@@ -21,7 +29,7 @@ function MenuPropuestas(){
 				
 		e.preventDefault();
 				
-		fetch('http://localhost:8081/existejuego',{
+		fetch(`${API_URL}/existejuego`,{
 				
 				
 			method: 'POST', 
@@ -71,7 +79,7 @@ function MenuPropuestas(){
 			onChange = {manejarnombrejuego}
 			required /> 
 			<button onClick={modificarjuego}>Modificar juego </button>
-			<button >Ver propuestas recibidas </button>
+			<button onClick={verporpuestas}>Ver propuestas recibidas </button>
 			
 		</div>
 		);

@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import data.Cors;
 import data.Data_persona;
 import servidor.GestionMail;
 
@@ -27,20 +28,68 @@ public class AbmcUsuario {
 	
 	//clave secreta de JWT
 	
-	private static final String SECRET_TEXT = "mi_clave_secreta_gamerboxd_tp_final_2026";
-	private static final SecretKey KEY = Keys.hmacShaKeyFor(SECRET_TEXT.getBytes(StandardCharsets.UTF_8));
+	private static final SecretKey KEY = GeneracionWebToken.llaveJWT();
 
-	//metodo para controlar cors
-	public static void controlCors(HttpExchange exchange) {
+	
+
+	
+	
+	public static class rolengrupo implements HttpHandler {
 		
-		exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE, OPTIONS");
-	    exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+		public void handle(HttpExchange exchange) throws IOException {
+			Persona p = new Persona();
+			String respuesta = "aaa no seee";
+			boolean exito; 
+			String rol;
+			Cors.controlCors(exchange);
+			
+		    if (exchange.getRequestMethod().equals("OPTIONS")) {
+
+		        exchange.sendResponseHeaders(204, -1);
+		        exchange.close();
+		        
+		        return;
+		    }
+		    
+		    
+		    try {
+		    	
+		    	
+		    	String authHeader = exchange.getRequestHeaders().getFirst("Authorization");
+		    	
+		    	String token = authHeader.substring(7);
+		
+	    	    
+	    	    Claims claims = Jwts.parser()
+	    	    		.verifyWith(KEY) 
+	    	            .build()
+	    	            .parseSignedClaims(token)
+	    	            .getPayload();
+	    	    
+	    	    String mail = claims.getSubject();
+
+				
+				
+	    	    p.setRolgrupo(Data_persona.obtenerrolgrupo(mail));
+	    	    
+	    	    Gson gson = new Gson();
+	    	    String jsonRespuesta = gson.toJson(p);
+			    exchange.sendResponseHeaders(200, jsonRespuesta.getBytes().length);	
+			    OutputStream os = exchange.getResponseBody();
+			    os.write(jsonRespuesta.getBytes(StandardCharsets.UTF_8));
+			    os.close();
+			    return;
+			
+  
+	    	    
+		    }catch(Error e) {
+		    	
+		    
+		    
+		    	}
+		    
 	}
-	
-	
-	
-	
+	}
 	public static class convertirenadmin implements HttpHandler {
 		
 		
@@ -48,7 +97,7 @@ public class AbmcUsuario {
 			String respuesta = "aaa no seee";
 			boolean exito; 
 			Persona per_completa;
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -145,7 +194,7 @@ public class AbmcUsuario {
 			String respuesta = "aaa no seee";
 			boolean respuestadb; 
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -227,7 +276,7 @@ public class AbmcUsuario {
 			
 
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -305,7 +354,7 @@ public class AbmcUsuario {
 			int codigoestado;
 			Persona perr = new Persona();
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -382,7 +431,7 @@ public class AbmcUsuario {
 		public void handle(HttpExchange exchange) throws IOException {
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -442,7 +491,7 @@ public class AbmcUsuario {
 			String respuesta = "";
 			int codigoestado;
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -507,7 +556,7 @@ public class AbmcUsuario {
 			
 			String respuesta = "aaa no seee";
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -572,7 +621,7 @@ public class AbmcUsuario {
 			
 			
 			
-			controlCors(exchange);
+				Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -673,7 +722,7 @@ public class AbmcUsuario {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 		    
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 			String respuesta = "Error";
 			String token = "";
@@ -771,7 +820,7 @@ public class AbmcUsuario {
 			
 			
 			
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 		    if (exchange.getRequestMethod().equals("OPTIONS")) {
 
@@ -830,7 +879,7 @@ public class AbmcUsuario {
 		public void handle(HttpExchange exchange) throws IOException {
 			
 	
-			controlCors(exchange);
+			Cors.controlCors(exchange);
 			
 			
 			if (exchange.getRequestMethod().equals("OPTIONS")) {
@@ -859,29 +908,24 @@ public class AbmcUsuario {
             os.write(mensaje.getBytes()); 
             os.close();
 			
-			}catch(SQLException e) {
-				
-				System.out.println(e.getErrorCode());
-				
+			}catch (SQLException e) {
+			    System.out.println(e.getErrorCode());
 
-				if (e.getErrorCode() == 1062) {
-					
-					mensaje = "usuario duplicadoooo";
-					exchange.sendResponseHeaders(409, mensaje.getBytes().length);
-					OutputStream os = exchange.getResponseBody();
-		            os.write(mensaje.getBytes()); 
-		            os.close();
-					
-				}else {
-					
-					mensaje = "error al acceder a la bd";
-					exchange.sendResponseHeaders(403, mensaje.getBytes().length);
-					OutputStream os = exchange.getResponseBody();
-		            os.write(mensaje.getBytes()); 
-		            os.close();
-					
-					
-				}
+			    if (e.getErrorCode() == 1062) {
+			        mensaje = "usuario duplicadoooo";
+			        exchange.sendResponseHeaders(409, mensaje.getBytes().length);
+			    } else {
+			        mensaje = "error al acceder a la bd";
+			        exchange.sendResponseHeaders(403, mensaje.getBytes().length);
+			    }
+			    
+			    OutputStream os = exchange.getResponseBody();
+			    os.write(mensaje.getBytes());
+			    os.close();
+			} catch (Exception e) {
+			    // Para otros errores generales
+			    e.printStackTrace();
+			
 			}
 					
 			
