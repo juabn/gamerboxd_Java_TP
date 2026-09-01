@@ -18,16 +18,16 @@ public class Moderacion {
 
 
  
-    public static boolean contienePalabrasProhibidas(String texto) {
-        if (texto == null) return false;
+    public static String contienePalabrasProhibidas(String texto) {
+        if (texto == null) return "";
 
         for (String palabra : PALABRAS_PROHIBIDAS) {
             if(texto.contains(palabra))
             
-                return true;
+                return palabra;
             
         }
-        return false;
+        return "";
     }
 
     

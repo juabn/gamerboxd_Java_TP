@@ -1,7 +1,9 @@
 import './Juego.css'
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import FooterC from '../../components/Footer/Footer'
+import FooterC from '../../components/Footer/Footer';
+import AlertMessage from '../../components/AlertMessage/AlertMessage';
+
 
 function JuegoResenia(){
 
@@ -9,17 +11,13 @@ function JuegoResenia(){
 	const [juego, setJuego] = useState(null);
 	const [resenias, setResenias] = useState([]);
 	const [usuario, setUsuario] = useState(null);
-	const [notificacion, setNotificacion] = useState(null); 
+
+	const [alerta, setAlerta] = useState(null);
 	const [usuarioLogueado, setUsuarioLogueado] = useState(()=>{
 		const token = localStorage.getItem('token');
 		return token ? token : null
 	});
-	const mostrarNotificacion = (tipo, texto) => {
-	  setNotificacion({ tipo, texto });
-	  setTimeout(() => {
-	    setNotificacion(null);
-	  }, 4000); 
-	};
+	
 	const [reseniaPropia, setReseniaPropia] = useState(null);
 	const [editando, setEditando] = useState(false); 
 
@@ -38,10 +36,13 @@ function JuegoResenia(){
 	        })
 	        .then(response => {
 	            if (response.ok) {
-	                alert("Reseña borrada con éxito.");
+	                setAlerta({ tipo: 'ok', mensaje: "Reseña borrada correctamente." });
+					cargarResenias();
+					//setTimeout(() => setAlerta(null), 30000);
 	                
 	            } else {
-	                alert("Hubo un error al borrar la reseña.");
+	                setAlerta({ tipo: 'error', mensaje: "Error al borrar reseia." });
+					setTimeout(() => setAlerta(null), 10000);
 	            }
 	        })
 	        .catch(error => console.error("Error en la petición:", error));
@@ -134,12 +135,13 @@ function JuegoResenia(){
 			  		        return res.text();
 			  		    })
 			  		    .then(mensaje => {
-			  		        mostrarNotificacion('exito', 'Reseña publicada correctamente');
-			  				e.target.reset();
+							setAlerta({ tipo: 'ok', mensaje: "Reseña publicada correctamente." });
+							e.target.reset();
+							setTimeout(() => setAlerta(null), 3000);
 			  				cargarResenias();
 			  		    })
 			  		    .catch(err => {
-			  		        mostrarNotificacion('error', 'No se pudo publicar la reseña');
+			  		        setAlerta({ tipo: 'error', mensaje: err.message });
 			  		    });
 	      };
 
@@ -168,12 +170,12 @@ function JuegoResenia(){
 	  				return res.text();
 	  			})
 	  			.then(mensaje => {
-	  				mostrarNotificacion('exito', 'Reseña editada correctamente');
+	  				setAlerta({ tipo: 'ok', mensaje: "Reseña editada correctamente." });
 	  				setEditando(false); 
 	  				cargarResenias();
 	  			})
 	  			.catch(err => {
-	  				mostrarNotificacion('error', 'No se pudo editar la resenia');
+	  				setAlerta({ tipo: 'error', mensaje: err.message });
 	  			});
 	  };
 
@@ -197,11 +199,7 @@ function JuegoResenia(){
 		      </header>
 	
 		      <section className="reviews-section">
-			  {notificacion && (
-			      <div className={`toast toast-${notificacion.tipo}`}>
-			        {notificacion.tipo === 'exito' ? '✓' : '✕'} {notificacion.texto}
-			      </div>
-			    )}
+			  
 
 		        <h2>Reseñas de usuarios</h2>
 	
@@ -217,6 +215,7 @@ function JuegoResenia(){
 	
 				{usuarioLogueado && !reseniaPropia && (
 				    <div className="review-card">
+					
 				        <form onSubmit={manejarEnvioResenia} className="formulario-resenia">
 				            <div className="form-group">
 				                <label>Titulo</label>
@@ -235,6 +234,13 @@ function JuegoResenia(){
 	
 				            <button type="submit" className="btn-primario">Enviar</button>
 				        </form>
+						{alerta && (
+																		        <AlertMessage 
+																		            tipo={alerta.tipo} 
+																		            mensaje={alerta.mensaje} 
+																		           
+																		        />
+																		    )}
 				    </div>
 				)}
 	
@@ -246,6 +252,7 @@ function JuegoResenia(){
 		        	
 		        	if (esPropia && editando) {
 		        		return (
+							
 		        			<div key={index} className="review-card review-card-propia">
 		        				<form onSubmit={manejarEdicionResenia} className="formulario-resenia">
 		        					<div className="form-group">

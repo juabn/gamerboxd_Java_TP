@@ -179,7 +179,7 @@ public class AbmcResenia {
 	            	 codigoestado = 404;
 	                
 	            }else {
-	            	if (Moderacion.contienePalabrasProhibidas(reseniaExistente.getDescripcion()) || Moderacion.contienePalabrasProhibidas(reseniaExistente.getTitulo())) {
+	            	if (Moderacion.contienePalabrasProhibidas(reseniaExistente.getDescripcion()) != "" || Moderacion.contienePalabrasProhibidas(reseniaExistente.getTitulo())!="") {
 	    	        	String error = "la resenia tiene palabras prohibidas";
 	    	        	exchange.sendResponseHeaders(400, error.getBytes().length);
 	    	            return; 
@@ -326,7 +326,7 @@ public class AbmcResenia {
     	    String jsonBody = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 	        Resenia nuevaResenia = gson.fromJson(jsonBody, Resenia.class);
 	        nuevaResenia.setMail_usuario(mail);
-	        if (Moderacion.contienePalabrasProhibidas(nuevaResenia.getDescripcion())||Moderacion.contienePalabrasProhibidas(nuevaResenia.getTitulo())) {
+	        if (Moderacion.contienePalabrasProhibidas(nuevaResenia.getDescripcion())!=""||Moderacion.contienePalabrasProhibidas(nuevaResenia.getTitulo())!="") {
 	        	String error = "la resenia tiene palabras prohibidas";
 	        	exchange.sendResponseHeaders(400, error.getBytes().length);
 	            return; 
