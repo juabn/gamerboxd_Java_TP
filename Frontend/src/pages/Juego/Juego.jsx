@@ -236,12 +236,12 @@ function JuegoResenia(){
 				            <button type="submit" className="btn-primario">Enviar</button>
 				        </form>
 						{alerta && (
-																		        <AlertMessage 
-																		            tipo={alerta.tipo} 
-																		            mensaje={alerta.mensaje} 
-																		           
-																		        />
-																		    )}
+				            <AlertMessage 
+				                tipo={alerta.tipo} 
+				                mensaje={alerta.mensaje} 
+				                onClose={() => setAlerta(null)} 
+				            />
+				        )}
 				    </div>
 				)}
 	
@@ -276,7 +276,16 @@ function JuegoResenia(){
 		        						<button type="button" className="btn-secundario" onClick={() => setEditando(false)}>Cancelar</button>
 		        					</div>
 		        				</form>
+								{alerta && (
+					                <AlertMessage 
+					                    tipo={alerta.tipo} 
+					                    mensaje={alerta.mensaje} 
+					                    onClose={() => setAlerta(null)} 
+					                />
+					            )}
 		        			</div>
+							
+							
 		        		);
 		        	}
 	

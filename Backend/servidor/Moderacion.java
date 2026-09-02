@@ -9,11 +9,11 @@ public class Moderacion {
 
     
 	static ArrayList<String> PALABRAS_PROHIBIDAS = new ArrayList<>(List.of("mierda", "puto", "puta", "pendejo", "pendeja", 
-		    "verga", "joder", "coño", "maricon", "mamada", "mamon", "chingar",
+		    "verga", "joder", "coño", "maricon", "mamada", "mamon", "chingar","nigger",
 		    "concha", "boludo", "boluda", "tarado", "tarada",
 		    "retrasado", "retrasada", "mogolico", "mogolica", 
 		    "suicidate", "invalido", "invalida","conchudo","conchuda",
-		    "free-skins", "sorteo"));
+		    "free-skins"));
 		    
 
 

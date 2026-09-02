@@ -110,8 +110,8 @@ public class AbmcResenia {
 
 	    String sql = "UPDATE resenia SET titulo = ?, descripcion = ?, puntaje = ? " +
 	                 "WHERE id_juego = ? AND mail_usuario = ?";
-
-	    try (Connection conn = Conexion.getInstancia().getConn();
+	    Connection conn = Conexion.getInstancia().getConn();
+	    try (
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
 	        stmt.setString(1, r.getTitulo());
@@ -133,19 +133,18 @@ public class AbmcResenia {
 	public static class editarResenia implements HttpHandler{
 		@Override
 		public void handle(HttpExchange exchange) throws IOException{
-			 int codigoestado;
-			 String mensaje = "";
-			 Cors.controlCors(exchange);
-			if (exchange.getRequestMethod().equals("OPTIONS")) {
-	            exchange.sendResponseHeaders(204, -1);
-	            exchange.close();
-	            return;
-	        }
-			if (!exchange.getRequestMethod().equals("PUT")) {
-	            exchange.sendResponseHeaders(405, -1);
-	            exchange.close();
-	            return;
-	        }
+			
+			 exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+		        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE");
+		        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+		        
+		        
+		        if ("OPTIONS".equals(exchange.getRequestMethod())) {
+		            exchange.sendResponseHeaders(204, -1);
+		            return;
+		        }
+		        int codigoestado;
+				 String mensaje = "";
 			
 			try {
 
@@ -169,20 +168,25 @@ public class AbmcResenia {
 
 	            
 	            Resenia reseniaExistente = recuperarPorIdJuegoYmail(reseniaRecibida.getId_juego(), mail);
-
-	            if (reseniaExistente == null) {
-	            	 codigoestado = 404;
-	                
-	            }else {
-	            	if (Moderacion.contienePalabrasProhibidas(reseniaExistente.getDescripcion()) != "" || Moderacion.contienePalabrasProhibidas(reseniaExistente.getTitulo())!="") {
-	    	        	String error = "la resenia tiene palabras prohibidas";
-	    	        	exchange.sendResponseHeaders(400, error.getBytes().length);
-	    	            return; 
-	    	        	
-	    	        }
 	            reseniaExistente.setTitulo(reseniaRecibida.getTitulo());
 	            reseniaExistente.setPuntaje(reseniaRecibida.getPuntaje());
 	            reseniaExistente.setDescripcion(reseniaRecibida.getDescripcion());
+
+	            if (reseniaExistente == null) {
+	            	 codigoestado = 404;
+	           
+	                
+	            }else {
+	            	if (Moderacion.contienePalabrasProhibidas(reseniaExistente.getDescripcion()).isEmpty() == false || Moderacion.contienePalabrasProhibidas(reseniaExistente.getTitulo()).isEmpty()==false) {
+	            		String error = "La reseña contiene palabras prohibidas";
+	            		exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
+	                    exchange.sendResponseHeaders(400, error.getBytes().length);
+	                    OutputStream os = exchange.getResponseBody();
+	                    os.write(error.getBytes());
+	                    os.close();
+	    	        	
+	    	        }
+	            
 
 	            boolean actualizado = actualizar(reseniaExistente);
 	            
@@ -253,9 +257,9 @@ public class AbmcResenia {
 		 resenia.setTitulo(titulo);
 		 resenia.setDescripcion(descripcion);
 		 resenia.setPuntaje(puntaje);
-		
+		 Connection conn = Conexion.getInstancia().getConn();
 		try {
-			Connection conn = Conexion.getInstancia().getConn();
+			
 			// definir la query
             PreparedStatement pstmt = conn.prepareStatement(
             		"insert into resenia(id_juego,fecha,hora,titulo,descripcion,puntaje,mail_usuario) values (?,?,?,?,?,?,?)"
@@ -278,10 +282,7 @@ public class AbmcResenia {
 
             if (pstmt != null) { pstmt.close(); }
 
-            System.out.println("Nueva Resenia");
-            System.out.println(resenia);
-            System.out.println();
-            System.out.println();
+           
 
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -315,18 +316,24 @@ public class AbmcResenia {
 
     	    
     	    String mail = claims.getSubject();
-    	    System.out.println(mail);
+    	   
     	    Gson gson = new Gson();
     	    InputStream is = exchange.getRequestBody();
     	    String jsonBody = new String(is.readAllBytes(), StandardCharsets.UTF_8);
 	        Resenia nuevaResenia = gson.fromJson(jsonBody, Resenia.class);
 	        nuevaResenia.setMail_usuario(mail);
-	        if (Moderacion.contienePalabrasProhibidas(nuevaResenia.getDescripcion())!=""||Moderacion.contienePalabrasProhibidas(nuevaResenia.getTitulo())!="") {
-	        	String error = "la resenia tiene palabras prohibidas";
-	        	exchange.sendResponseHeaders(400, error.getBytes().length);
-	            return; 
-	        	
-	        }
+	        if (Moderacion.contienePalabrasProhibidas(nuevaResenia.getDescripcion()).isEmpty() == false|| Moderacion.contienePalabrasProhibidas(nuevaResenia.getTitulo()).isEmpty() == false) {
+	                
+	                String error = "La reseña contiene palabras prohibidas.";
+	                exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
+	                exchange.sendResponseHeaders(400, error.getBytes().length);
+	                
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(error.getBytes());
+	                os.close();
+	                 
+	                return; 
+	            }
 	        	
 	        
 	        	
@@ -337,6 +344,7 @@ public class AbmcResenia {
 	        
 	            
 	            String error = "ya escribiste una reseña para este juego.";
+	            exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
 	            exchange.sendResponseHeaders(400, error.getBytes().length);
 	            OutputStream os = exchange.getResponseBody();
 	            os.write(error.getBytes());
@@ -345,6 +353,7 @@ public class AbmcResenia {
 	            
 	            insertarNuevo(nuevaResenia.getId_juego(),nuevaResenia.getMail_usuario(),nuevaResenia.getTitulo(),nuevaResenia.getDescripcion(),nuevaResenia.getPuntaje());
 	            String exito = "reseña guardada correctamente";
+	            exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
 	            exchange.sendResponseHeaders(200, exito.getBytes().length);
 	            OutputStream os = exchange.getResponseBody();
 	            os.write(exito.getBytes());
@@ -520,11 +529,7 @@ public class AbmcResenia {
 		
 				// mostrar objetos
 		
-				System.out.println("Buscar por id juego");
-		
-				System.out.println();
-		
-				System.out.println();
+				
 	
 	
 	
@@ -616,7 +621,7 @@ public class AbmcResenia {
 		
 				if (stmt != null) { stmt.close(); }
 		
-				conn.close();
+				
 		
 		
 		
