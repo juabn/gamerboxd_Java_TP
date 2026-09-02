@@ -145,6 +145,9 @@
   color: #c0c0c0;
   line-height: 1.5;
   margin: 8px 0 12px;
+  overflow-wrap:break-word;
+  word-break:break-word;
+  white-space:pre-wrap;
 }
 
 .puntaje-badge {
@@ -309,4 +312,61 @@
 .btn-danger:hover {
     background-color: #ef4444;
     color: white;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; 
+    animation: fadeInModal 0.2s ease-out;
+}
+
+.modal-content {
+    background-color: var(--color1); 
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.2);
+    
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 25px var(--color1);
+    color: #fff;
+    animation: scaleInModal 0.2s ease-out;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.modal-content p {
+    color: #ccc;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.modal-acciones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleInModal {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }

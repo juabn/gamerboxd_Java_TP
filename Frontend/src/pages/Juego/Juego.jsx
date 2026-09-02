@@ -12,7 +12,7 @@ function JuegoResenia(){
 	const [juego, setJuego] = useState(null);
 	const [resenias, setResenias] = useState([]);
 	const [usuario, setUsuario] = useState(null);
-
+	const [mostrarModalBorrar, setMostrarModalBorrar] = useState(false);
 	const [alerta, setAlerta] = useState(null);
 	const [usuarioLogueado, setUsuarioLogueado] = useState(()=>{
 		const token = localStorage.getItem('token');
@@ -23,32 +23,35 @@ function JuegoResenia(){
 	const [editando, setEditando] = useState(false); 
 
 	const handleBorrarResenia = () => {
-	    const confirmacion = window.confirm("esstas seguro de que deseas eliminar esta reseña?");
-	    
-	    if (confirmacion) {
-			
-			const token = localStorage.getItem('token'); 
-	        fetch(`${API_URL}/borrarResenia?id=${id}`, {
-	            method: 'DELETE',
-				headers: {
-					        'Content-Type': 'application/json',
-					        'Authorization': `Bearer ${token}`
-					      }
-	        })
-	        .then(response => {
-	            if (response.ok) {
-	                setAlerta({ tipo: 'ok', mensaje: "Reseña borrada correctamente." });
-					cargarResenias();
-					//setTimeout(() => setAlerta(null), 30000);
-	                
-	            } else {
-	                setAlerta({ tipo: 'error', mensaje: "Error al borrar reseia." });
-					setTimeout(() => setAlerta(null), 10000);
-	            }
-	        })
-	        .catch(error => console.error("Error en la petición:", error));
-	    }
-	};
+	    setMostrarModalBorrar(true);};
+		  
+	  const confirmarBorrado = () => {
+		    const token = localStorage.getItem('token'); 
+		    
+		    fetch(`${API_URL}/borrarResenia?id=${id}`, {
+		        method: 'DELETE',
+		        headers: {
+		            'Content-Type': 'application/json',
+		            'Authorization': `Bearer ${token}`
+		        }
+		    })
+		    .then(response => {
+		        setMostrarModalBorrar(false); // Cerramos el modal
+		        
+		        if (response.ok) {
+		            setAlerta({ tipo: 'ok', mensaje: "Reseña borrada correctamente." });
+		            cargarResenias();
+		            setTimeout(() => setAlerta(null), 3000);
+		        } else {
+		            setAlerta({ tipo: 'error', mensaje: "Error al borrar reseña." });
+		            setTimeout(() => setAlerta(null), 5000);
+		        }
+		    })
+		    .catch(error => {
+		        console.error("Error en la petición:", error);
+		        setMostrarModalBorrar(false); // Cerramos el modal si hay error
+		    });
+		};
 	const obtenerUsuario = async () => {
 	  const token = localStorage.getItem('token'); 
 
@@ -83,7 +86,9 @@ function JuegoResenia(){
 	  }, [id]);
 
 	  const cargarResenias = () => {
-		fetch(`${API_URL}/reseniasPorJuego?id=${id}`)
+		fetch(`${API_URL}/reseniasPorJuego?id=${id}`, {
+		        cache: 'no-store'
+		    })
 		  .then(res => res.json())
 		  .then(data => setResenias(data))
 		  .catch(err => console.error(err));
@@ -104,7 +109,7 @@ function JuegoResenia(){
 	  		const propia = resenias.find(
 	  			r => r.usuario.mail === usuario.mail
 	  		);
-	  		setReseniaPropia(propia || null);
+	  		setReseniaPropia(propia);
 	  	} else {
 	  		setReseniaPropia(null);
 	  	}
@@ -185,6 +190,28 @@ function JuegoResenia(){
 
 	  return (
 		<section className="paginaJuegoDetalle">
+		{mostrarModalBorrar && (
+		        <div className="modal-overlay">
+		            <div className="modal-content">
+		                <h3>Eliminar reseña?</h3>
+		                <p>Estas seguro de que queres borrar tu reseña?</p>
+		                <div className="modal-acciones">
+		                    <button 
+		                        className="btn-secundario" 
+		                        onClick={() => setMostrarModalBorrar(false)}
+		                    >
+		                        Cancelar
+		                    </button>
+		                    <button 
+		                        className="btn-primary btn-danger" 
+		                        onClick={confirmarBorrado}
+		                    >
+		                        Eliminar
+		                    </button>
+		                </div>
+		            </div>
+		        </div>
+		    )}
 	    <div className="detalle-juego-container">
 		      <header className="game-header">
 			  	<div className="gameInfo">
@@ -235,13 +262,7 @@ function JuegoResenia(){
 	
 				            <button type="submit" className="btn-primario">Enviar</button>
 				        </form>
-						{alerta && (
-				            <AlertMessage 
-				                tipo={alerta.tipo} 
-				                mensaje={alerta.mensaje} 
-				                onClose={() => setAlerta(null)} 
-				            />
-				        )}
+						
 				    </div>
 				)}
 	
@@ -318,6 +339,14 @@ function JuegoResenia(){
 						<h3 className="titulo-resenia">{r.titulo}</h3>
 			            <p>{r.descripcion}</p>
 			            <span className="puntaje-badge">Puntaje: {r.puntaje}/5</span>
+						
+						{esPropia && alerta && (
+						            <AlertMessage 
+						                tipo={alerta.tipo} 
+						                mensaje={alerta.mensaje} 
+						                onClose={() => setAlerta(null)} 
+						            />
+						        )}
 			          </div>
 			        );
 		        })}

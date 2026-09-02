@@ -168,35 +168,43 @@ public class AbmcResenia {
 
 	            
 	            Resenia reseniaExistente = recuperarPorIdJuegoYmail(reseniaRecibida.getId_juego(), mail);
-	            reseniaExistente.setTitulo(reseniaRecibida.getTitulo());
-	            reseniaExistente.setPuntaje(reseniaRecibida.getPuntaje());
-	            reseniaExistente.setDescripcion(reseniaRecibida.getDescripcion());
+
 
 	            if (reseniaExistente == null) {
 	            	 codigoestado = 404;
 	           
 	                
 	            }else {
-	            	if (Moderacion.contienePalabrasProhibidas(reseniaExistente.getDescripcion()).isEmpty() == false || Moderacion.contienePalabrasProhibidas(reseniaExistente.getTitulo()).isEmpty()==false) {
+	            	if (Moderacion.contienePalabrasProhibidas(reseniaRecibida.getDescripcion()).isEmpty() == false || Moderacion.contienePalabrasProhibidas(reseniaRecibida.getTitulo()).isEmpty()==false) {
 	            		String error = "La reseña contiene palabras prohibidas";
 	            		exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
 	                    exchange.sendResponseHeaders(400, error.getBytes().length);
 	                    OutputStream os = exchange.getResponseBody();
 	                    os.write(error.getBytes());
 	                    os.close();
+	                    return;
 	    	        	
 	    	        }
 	            
-
+		            reseniaExistente.setTitulo(reseniaRecibida.getTitulo());
+		            reseniaExistente.setPuntaje(reseniaRecibida.getPuntaje());
+		            reseniaExistente.setDescripcion(reseniaRecibida.getDescripcion());
 	            boolean actualizado = actualizar(reseniaExistente);
 	            
 	            if (actualizado) {
-	                codigoestado = 200;
-	                mensaje = "Resenia actualizada correctamente";
+	            	mensaje = "Resenia actualizada correctamente";
+	                exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
+	                exchange.sendResponseHeaders(200, mensaje.getBytes().length);
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(mensaje.getBytes());
+	                os.close();
 	            } else {
-	                codigoestado=500;
-	                mensaje = "No se pudo actualizar la resenia";
-	            }
+	            	String error = "No se pudo actualizar la resenia";
+	                exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
+	                exchange.sendResponseHeaders(500, error.getBytes().length);
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(error.getBytes());
+	                os.close();	            }
 	            }
 	            
 

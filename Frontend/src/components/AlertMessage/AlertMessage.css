@@ -1,17 +1,21 @@
+/* --- Contenedor principal adaptado al Dark Mode --- */
 .alert-container {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Alineamos todo al centro verticalmente */
-    padding: 10px 14px;
-    margin-top: 12px; /* Separación con el botón de enviar de arriba */
-    border-radius: 6px;
+    align-items: center;
+    padding: 12px 16px;
+    margin-top: 15px;
+    border-radius: 8px; /* Mismo borde redondeado que tus tarjetas */
     width: 100%;
     box-sizing: border-box;
     border-left: 4px solid;
+    /* Un color base oscuro que combina con tu fondo */
+    background-color: #1a1a24; 
+    color: #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra más profunda para darle volumen */
     animation: aparecerSuave 0.3s ease-out forwards;
 }
 
-/* Animación sutil de aparición hacia abajo */
 @keyframes aparecerSuave {
     from {
         opacity: 0;
@@ -26,7 +30,7 @@
 .alert-content {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .alert-icon {
@@ -36,8 +40,8 @@
 }
 
 .icono-svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
 
 .alert-text {
@@ -46,53 +50,61 @@
 }
 
 .alert-text strong {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 2px;
+    font-weight: 600;
 }
 
 .alert-text p {
     margin: 0;
-    font-size: 13.5px;
-    color: #333;
+    font-size: 14px;
+    color: #b0b0c0; /* Un gris claro azulado para que no resalte tanto como el título */
 }
 
+/* --- Botón de cerrar --- */
 .alert-close-btn {
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 1;
     cursor: pointer;
-    color: #666;
+    color: #6b6b80;
     transition: color 0.2s;
     padding: 0 4px;
 }
 
 .alert-close-btn:hover {
-    color: #000;
+    color: #ffffff; /* Brilla en blanco al pasar el mouse */
 }
 
-/* --- Variantes de Colores más suaves para fondos --- */
+/* --- Variantes de Colores (Estilo Neón/Oscuro) --- */
 
+/* ÉXITO */
 .alert-ok {
-    background-color: #e6f4ea;
-    border-left-color: #34a853;
+    /* Fondo ligeramente teñido de verde muy oscuro */
+    background-color: #17241d; 
+    border-left-color: #2ecc71; /* Verde vibrante */
 }
 .alert-ok strong, .alert-ok .alert-icon {
-    color: #1e8e3e; 
+    color: #2ecc71; 
 }
 
+/* ADVERTENCIA */
 .alert-warning {
-    background-color: #fef7e0;
-    border-left-color: #fbbc04;
+    /* Fondo ligeramente teñido de amarillo muy oscuro */
+    background-color: #2a2415; 
+    border-left-color: #f1c40f; 
 }
 .alert-warning strong, .alert-warning .alert-icon {
-    color: #f29900; 
+    color: #f1c40f; 
 }
 
+/* ERROR */
 .alert-error {
-    background-color: #fce8e6;
-    border-left-color: #ea4335;
+    /* Fondo ligeramente teñido de rojo muy oscuro */
+    background-color: #2a1515; 
+    border-left-color: #e74c3c; 
 }
 .alert-error strong, .alert-error .alert-icon {
-    color: #d93025; 
+    color: #e74c3c; 
 }
