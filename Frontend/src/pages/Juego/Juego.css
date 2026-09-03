@@ -278,11 +278,6 @@
   transition: background 0.2s ease;
 }
 
-.juegoDetalleFooter{
-	padding:5rem 0;
-	background-color:var(--color0)
-}
-
 .botones-accion-resenia {
     position: absolute;
   top: 20px;

@@ -36,7 +36,7 @@ function JuegoResenia(){
 		        }
 		    })
 		    .then(response => {
-		        setMostrarModalBorrar(false); // Cerramos el modal
+		        setMostrarModalBorrar(false); 
 		        
 		        if (response.ok) {
 		            setAlerta({ tipo: 'ok', mensaje: "Reseña borrada correctamente." });
@@ -49,7 +49,7 @@ function JuegoResenia(){
 		    })
 		    .catch(error => {
 		        console.error("Error en la petición:", error);
-		        setMostrarModalBorrar(false); // Cerramos el modal si hay error
+		        setMostrarModalBorrar(false); 
 		    });
 		};
 	const obtenerUsuario = async () => {
@@ -353,9 +353,9 @@ function JuegoResenia(){
 		      </section>
 			  </div>
 			  
-			  <section className="juegoDetalleFooter">
+			  
 			  	<FooterC/>
-			  </section>
+			  
 		</section>
 	    
 	  );

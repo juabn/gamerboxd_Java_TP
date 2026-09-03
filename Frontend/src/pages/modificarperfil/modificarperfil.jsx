@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import './modificarperfil.css'
 import { API_URL } from '../../config';
-
-
+import AlertMessage from '../../components/AlertMessage/AlertMessage';
+import Footer from '../../components/Footer/Footer';
 
 
 function Modificarperfil(){		
@@ -12,13 +12,12 @@ function Modificarperfil(){
 	
 	
 	const [estadofoto, setestadofoto] = useState(false)
-	
+	const [mostrarModalBaja, setMostrarModalBaja] = useState(false);
 	const [nuevonombre, setnuevonombre] = useState("")
-	
+	const [alerta, setAlerta] = useState(null);
 	const insertarnombre = (e) => {
 		
 		setnuevonombre(e.target.value)
-		console.log(e.target.value)
 		
 		
 	}
@@ -29,44 +28,39 @@ function Modificarperfil(){
 	    window.location.href = '/login'; 
 	  };
 	  
+	  const handleDarDeBaja = (e) => {
+	  		e.preventDefault();
+	  		setMostrarModalBaja(true);
+	  	}
 	
-	
-	const dardebaja = (e) => {
-		
-		let token = localStorage.getItem('token');
-		
-		e.preventDefault();
-		
-		fetch(`${API_URL}/dardebaja`,{
-			
-			method: 'POST', 
-			headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + token },
-			body: JSON.stringify({}) 
+		const confirmarBaja = () => {
+		        let token = localStorage.getItem('token');
 				
-		})
-		
-		.then(response => {
-			
-			if(response.status=== 200){
-				
-				alert("Usuario dado de baja correctamente");
-				handleLogout();
-				
-				
-			}
-			
-			else if (response.status === 401){
-				
-				alert("Error en la bd, intente nuevamente mas tarde");
-			}
-			
-			
-			
-		}).catch(() => {alert("Error inesperado, intente nuevamente mas tarde")})
-		
-	}
+				fetch(`${API_URL}/dardebaja`, {
+					method: 'POST', 
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}` 
+					},
+					body: JSON.stringify({}) 	
+				})
+				.then(res => {
+		            if (!res.ok) {
+		                return res.text().then(text => { throw new Error(text) });
+		            }
+		            return res.text();
+		        })
+		        .then(mensaje => {
+		            setMostrarModalBaja(false); 
+		            setAlerta({ tipo: 'ok', mensaje: "Usuario dado de baja correctamente." });
+		            setTimeout(handleLogout, 2000);
+		        })
+		        .catch(err => {
+		            setMostrarModalBaja(false); 
+		            setAlerta({ tipo: 'error', mensaje: "Error al dar de baja." });
+		            setTimeout(() => setAlerta(null), 5000);
+		        });
+		    }
 	
 	const enviar = (e) => {
 		let token = localStorage.getItem('token');
@@ -74,7 +68,7 @@ function Modificarperfil(){
 		e.preventDefault();
 		
 		console.log(imagen)
-		console.log(nuevonombre)	
+		
 		
 		console.log("Token a enviar:", token);
 		
@@ -90,22 +84,25 @@ function Modificarperfil(){
 		})
 		
 		.then(response => response.json())
-		.then(data => {
-			
-			console.log('Respuesta de exito:', data);
-		
-			if (data == "ok") {
-			        alert("Actualizacion de perfil correcta");
-			    } else {
-			        alert("Hubo un problema al actualizar: " + data.status);
-			    }
-		})
-		.catch(error => {
-			
-			console.error('Error:', error);
-			alert("Error en la base de datos, intenta mas tarde");
-		
-	});
+		.then(res => {
+					console.log("res:" + res);
+		            if (res=='ok') {
+		                return true;
+		            }else{throw new Error("error");}
+		            
+		        })
+		.then(() => {
+	            
+	            setAlerta({ tipo: 'ok', mensaje: "Perfil actualizado correctamente." });
+				setnombreoriginal(nuevonombre);
+	            setnuevonombre(""); 
+	            setTimeout(() => setAlerta(null), 3000);
+			})
+			.catch(error => {
+				console.error('Fallo en la petición:', error);
+				setAlerta({ tipo: 'error', mensaje: "Error al intentar actualizar los datos." });
+	            setTimeout(() => setAlerta(null), 5000);
+		    });
 	}
 	
 	const [imagen, setimagen] = useState("")
@@ -179,9 +176,12 @@ function Modificarperfil(){
 
 		
 		return(	
+			<section>
+			
+			
 			
 			<div className="contendorprincipal">
-			
+			<h1 className='texto-modificar-perfil'> Modificar tu perfil </h1>
 			<form onSubmit={enviar} className='form'>
 			<p className='text'>Actualizar imagen</p>
 			
@@ -191,7 +191,7 @@ function Modificarperfil(){
 						/>
 			<img className='imagen' style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }} src = {imagen} //lo pongo asi porque en el css no aplica los cambios no se qeu onda
 						/>
-			<p className='text'>{nombreoriginal}</p>	
+			<p className='texto-nombre'>{nombreoriginal}</p>	
 			<p className='text'>Cambiar nombre</p>			
 			<input  className='input'
 			placeholder="Ingrese nuevo nombre"
@@ -201,17 +201,48 @@ function Modificarperfil(){
 				/>			
 			
 			<button className='submit-btn' type="submit" disabled={!estadofoto && nuevonombre == ""} >Confirmar cambios  </button>
-			<button type = "button" onClick={dardebaja}> Dar de baja </button>
-			<button type="button" onClick={volver}> Volver </button>
+			<button type = "button"className='btn-dar-baja' onClick={handleDarDeBaja }> Dar de baja </button>
+			<button type="button" className='btn-volver'onClick={volver}> Volver </button>
 			
 			
-			
+			{alerta !== null && (
+			    <AlertMessage 
+			        tipo={alerta.tipo} 
+			        mensaje={alerta.mensaje} 
+			        onClose={() => setAlerta(null)} 
+			    />
+			)}
 			
 			
 			
 			
 			</form>
+			
 		</div>
+		{mostrarModalBaja && (
+		                <div className="modal-overlay">
+		                    <div className="modal-content">
+		                        <h3>Eliminar cuenta?</h3>
+		                        <p>Esta accion es irreversible y se borraran todas tus reseñas.</p>
+		                        <div className="modal-acciones">
+		                            <button 
+		                                className="btn-secundario" 
+		                                onClick={() => setMostrarModalBaja(false)}
+		                            >
+		                                Cancelar
+		                            </button>
+		                            <button 
+		                                className="btn-peligro" 
+		                                onClick={confirmarBaja}
+		                            >
+		                                Confirmar
+		                            </button>
+		                        </div>
+		                    </div>
+		                </div>
+		            )}
+		<Footer/>
+		</section>
 		
 		)
 }

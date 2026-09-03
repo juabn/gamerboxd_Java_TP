@@ -1,18 +1,18 @@
-/* --- Contenedor principal adaptado al Dark Mode --- */
+
 .alert-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
     margin-top: 15px;
-    border-radius: 8px; /* Mismo borde redondeado que tus tarjetas */
+    border-radius: 8px;
     width: 100%;
     box-sizing: border-box;
     border-left: 4px solid;
-    /* Un color base oscuro que combina con tu fondo */
+
     background-color: #1a1a24; 
     color: #e0e0e0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Sombra más profunda para darle volumen */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); 
     animation: aparecerSuave 0.3s ease-out forwards;
 }
 
@@ -58,10 +58,10 @@
 .alert-text p {
     margin: 0;
     font-size: 14px;
-    color: #b0b0c0; /* Un gris claro azulado para que no resalte tanto como el título */
+    color: #b0b0c0; 
 }
 
-/* --- Botón de cerrar --- */
+
 .alert-close-btn {
     background: none;
     border: none;
@@ -74,24 +74,21 @@
 }
 
 .alert-close-btn:hover {
-    color: #ffffff; /* Brilla en blanco al pasar el mouse */
+    color: #ffffff; 
 }
 
-/* --- Variantes de Colores (Estilo Neón/Oscuro) --- */
 
-/* ÉXITO */
+
+
 .alert-ok {
-    /* Fondo ligeramente teñido de verde muy oscuro */
     background-color: #17241d; 
-    border-left-color: #2ecc71; /* Verde vibrante */
+    border-left-color: #2ecc71; 
 }
 .alert-ok strong, .alert-ok .alert-icon {
     color: #2ecc71; 
 }
 
-/* ADVERTENCIA */
 .alert-warning {
-    /* Fondo ligeramente teñido de amarillo muy oscuro */
     background-color: #2a2415; 
     border-left-color: #f1c40f; 
 }
@@ -99,9 +96,8 @@
     color: #f1c40f; 
 }
 
-/* ERROR */
+
 .alert-error {
-    /* Fondo ligeramente teñido de rojo muy oscuro */
     background-color: #2a1515; 
     border-left-color: #e74c3c; 
 }

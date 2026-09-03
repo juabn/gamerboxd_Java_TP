@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import GameCard from '../../components/GameCard/GameCard'
 
 import { API_URL } from '../../config';
+import Footer from '../../components/Footer/Footer'
 
 function Juegos(){
 	
@@ -142,6 +143,7 @@ function Juegos(){
 			</div>
 		
 		</div>
+		<Footer/>
 		</section>
 		
 	)	
