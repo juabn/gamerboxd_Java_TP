@@ -103,14 +103,13 @@
     margin-top: 15px;
 }
 
-.submit-btn:hover:not(:disabled) {
-    background-color: #0066de;
-}
+
 
 .submit-btn:disabled {
     background-color: #444;
     color: #888;
     cursor: not-allowed;
+    transition: .2;
 }
 
 .modal-overlay {
