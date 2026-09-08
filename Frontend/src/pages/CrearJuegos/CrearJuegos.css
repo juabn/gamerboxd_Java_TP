@@ -1,28 +1,245 @@
-.divprincipalcreajuego{
-	
-	
-background-color: var(--color1);
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-	justify-content:space-between;
-	padding-top: 200px;
+
+.divprincipalcreajuego {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	background-color: var(--color1);
+	padding: 140px 20px 80px;
 }
 
 
-.textocreajuegos{
-	
-	
-	color: white;
-	
+
+.crearjuego-card {
+	width: 100%;
+	max-width: 560px;
+	background-color: #1a1a24;
+	border: 1px solid #333;
+	border-radius: 16px;
+	padding: 40px 44px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+.crearjuego-titulo {
+	color: var(--color6);
+	font-size: 1.9rem;
+	font-weight: 800;
+	margin-bottom: 8px;
+}
+
+.crearjuego-subtitulo {
+	color: var(--color6);
+	font-size: 0.95rem;
+	line-height: 1.5;
+	margin-bottom: 32px;
 }
 
 
-.imagen {
-	
-	
-	width: 20vh;
-    height: 20vh;
-    object-fit: cover;
-    border-radius:100px
+
+.crearjuego-alerta:has(.alert-container) {
+	margin-bottom: 12px;
+}
+
+
+.crearjuego-form {
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+}
+
+.crearjuego-campo {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.crearjuego-label {
+	color: var(--color6);
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.crearjuego-input {
+	background-color: var(--color0);
+	border: 1px solid var(--color1);
+	border-radius: 10px;
+	padding: 12px 14px;
+	color: var(--color6);
+	font-family: inherit;
+	font-size: 0.95rem;
+	outline: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.crearjuego-input::placeholder {
+	color: rgb(255,255,255,20%);
+}
+
+.crearjuego-input:focus {
+	border-color: var(--color3);
+	box-shadow: 0 0 0 3px rgba(56, 56, 173, 0.35);
+}
+
+
+
+.crearjuego-imagen-row {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.crearjuego-imagen-preview {
+	width: 88px;
+	height: 88px;
+	border-radius: 50%;
+	background-color: var(--color0);
+	border: 2px solid var(--color2);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.crearjuego-imagen {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.crearjuego-imagen-placeholder {
+	color: var(--color3);
+	font-size: 0.7rem;
+	text-align: center;
+	padding: 0 8px;
+}
+
+.crearjuego-file-btn {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--color2);
+	color: var(--color6);
+	border: 1px solid var(--color2);
+	border-radius: 10px;
+	padding: 10px 18px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.crearjuego-file-btn:hover {
+	background-color: var(--color3);
+	border-color: var(--color3);
+}
+
+.crearjuego-file-input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.crearjuego-select__control {
+	background-color: var(--color0) !important;
+	border: 1px solid var(--color2) !important;
+	border-radius: 10px !important;
+	min-height: 46px !important;
+	box-shadow: none !important;
+}
+
+.crearjuego-select__control--is-focused {
+	border-color: var(--color3) !important;
+	box-shadow: 0 0 0 3px rgba(56, 56, 173, 0.35) !important;
+}
+
+.crearjuego-select__placeholder {
+	color: var(--color3) !important;
+}
+
+.crearjuego-select__input-container,
+.crearjuego-select__single-value {
+	color: var(--color6) !important;
+}
+
+.crearjuego-select__menu {
+	background-color: var(--color1) !important;
+	border: 1px solid var(--color2) !important;
+	border-radius: 10px !important;
+	overflow: hidden;
+	z-index: 20;
+}
+
+.crearjuego-select__option {
+	background-color: var(--color1) !important;
+	color: var(--color6) !important;
+	cursor: pointer;
+}
+
+.crearjuego-select__option--is-focused {
+	background-color: var(--color2) !important;
+}
+
+.crearjuego-select__option--is-selected {
+	background-color: var(--color3) !important;
+	color: var(--color6) !important;
+}
+
+.crearjuego-select__multi-value {
+	background-color: var(--color2) !important;
+	border-radius: 6px !important;
+}
+
+.crearjuego-select__multi-value__label {
+	color: var(--color6) !important;
+}
+
+.crearjuego-select__multi-value__remove {
+	color: var(--color4) !important;
+	cursor: pointer;
+}
+
+.crearjuego-select__multi-value__remove:hover {
+	background-color: var(--color3) !important;
+	color: var(--color6) !important;
+}
+
+.crearjuego-select__indicator-separator {
+	background-color: var(--color2) !important;
+}
+
+.crearjuego-select__dropdown-indicator,
+.crearjuego-select__clear-indicator {
+	color: var(--color4) !important;
+}
+
+.crearjuego-select__dropdown-indicator:hover,
+.crearjuego-select__clear-indicator:hover {
+	color: var(--color6) !important;
+}
+
+
+.crearjuego-boton {
+	margin-top: 8px;
+	background-color: var(--color3);
+	color: var(--color6);
+	border: none;
+	border-radius: 10px;
+	padding: 13px;
+	font-size: 1rem;
+	font-weight: 700;
+	font-family: inherit;
+	cursor: pointer;
+	transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.crearjuego-boton:hover {
+	background-color: var(--color4);
+	color: var(--color0);
+}
+
+.crearjuego-boton:active {
+	transform: scale(0.98);
 }

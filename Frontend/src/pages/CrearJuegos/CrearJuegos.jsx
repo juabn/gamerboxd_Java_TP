@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router";
 import Select from 'react-select'
 import { API_URL } from '../../config';
+import AlertMessage from '../../components/AlertMessage/AlertMessage';
+import Footer from '../../components/Footer/Footer';
 
 function CrearJuegos(){
 	
@@ -13,12 +15,22 @@ function CrearJuegos(){
 	const [listaEmpresas, setListaEmpresas] = useState([])
 	const [companiasElegidas, setCompaniasElegidas] = useState([]);
 
+	const [alerta, setAlerta] = useState({ tipo: '', mensaje: '' });
+
 	
 	
 	const navigate = useNavigate();
 
+	const mostrarAlerta = (tipo, mensaje) => {
+		setAlerta({ tipo, mensaje });
+	};
+
+	const cerrarAlerta = () => {
+		setAlerta({ tipo: '', mensaje: '' });
+	};
+
 	
-	
+
 	useEffect(() => {
 			
 		  fetch(`${API_URL}/listaempresas`)
@@ -81,7 +93,7 @@ function CrearJuegos(){
 		const enviar = (e) => {
 			
 			if (companiasElegidas.length === 0) {
-			        alert("Debes seleccionar al menos una compañia.");
+			        mostrarAlerta('warning', "Debes seleccionar al menos una compañia.");
 			        return; 
 			    }
 			
@@ -106,77 +118,117 @@ function CrearJuegos(){
 		    }) 
 		    .then(response => {
 		        if (response.status === 200) {
-		            alert("Solicitud enviada correctamente");
-					navigate('/');
+		            mostrarAlerta('ok', "Solicitud enviada correctamente");
+		            setTimeout(() => navigate('/'), 1500);
 		        } 
 		        else if (response.status === 402) {
-		            alert("Este juego ya existe");
+		            mostrarAlerta('warning', "Este juego ya existe");
 		        }
 		        else {
-		            alert("Hubo un problema al crear la empresa: " + response.status);
+		            mostrarAlerta('error', "Hubo un problema al crear la empresa: " + response.status);
 		        }
 		    })
-		    .catch(error => console.error('Error en el fetch:', error));
+		    .catch(error => {
+		        console.error('Error en el fetch:', error);
+		        mostrarAlerta('error', "No se pudo conectar con el servidor. Intentá de nuevo.");
+		    });
 		}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
 	return(
-		
-		
+
+		<div className='crearjuego-page'>
+
 		<div className='divprincipalcreajuego'>
-		
-		<form onSubmit={enviar}>
-		
-		<p className="textocreajuegos"> nombre</p>
-		<input
-		required
-		onChange={manejarnombrejuego} />
-		<p className="textocreajuegos"> descripcion</p>
-		
-		<input
-		required
-		onChange={manejardescripcion} />
-		<input 
-		required
-		type = "file" 
-		accept="image/*"
-		onChange={insertarimagen}	
-		/>
-		<img className='imagen' style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }} src = {imagen} //lo pongo asi porque en el css no aplica los cambios no se qeu onda
-		/>
-		
-		<Select
-		isMulti
-		  
-		  options={listaEmpresas}
-		  onChange={manejarCambioOpcion}
-		/>
-		
-		
-		
-		<button type='submit'>Enviar</button>
-		
-		</form>
-		
+
+			<div className='crearjuego-card'>
+
+				<h1 className='crearjuego-titulo'>Proponer un juego</h1>
+				<p className='crearjuego-subtitulo'>
+					¿No encontrás el juego que buscás? Completá el formulario y un admin va a revisar tu solicitud.
+				</p>
+
+				<div className='crearjuego-alerta'>
+					<AlertMessage
+						tipo={alerta.tipo}
+						mensaje={alerta.mensaje}
+						onClose={cerrarAlerta}
+					/>
+				</div>
+
+				<form onSubmit={enviar} className='crearjuego-form'>
+
+					<div className='crearjuego-campo'>
+						<label className='crearjuego-label'>Nombre del juego</label>
+						<input
+							className='crearjuego-input'
+							placeholder='Ej: Red Dead Redemption 2'
+							required
+							onChange={manejarnombrejuego} />
+					</div>
+
+					<div className='crearjuego-campo'>
+						<label className='crearjuego-label'>Descripción</label>
+						<input
+							className='crearjuego-input'
+							placeholder='Contanos de qué trata el juego'
+							required
+							onChange={manejardescripcion} />
+					</div>
+
+					<div className='crearjuego-campo'>
+						<label className='crearjuego-label'>Imagen de portada</label>
+
+						<div className='crearjuego-imagen-row'>
+
+							<div className='crearjuego-imagen-preview'>
+								{imagen
+									? <img className='crearjuego-imagen' src={imagen} alt='Portada del juego' />
+									: <span className='crearjuego-imagen-placeholder'>Sin imagen</span>
+								}
+							</div>
+
+							<label className='crearjuego-file-btn'>
+								Elegir imagen
+								<input
+									className='crearjuego-file-input'
+									required
+									type='file'
+									accept='image/*'
+									onChange={insertarimagen}
+								/>
+							</label>
+
+						</div>
+					</div>
+
+					<div className='crearjuego-campo'>
+						<label className='crearjuego-label'>Compañías desarrolladoras</label>
+						<Select
+							isMulti
+							classNamePrefix='crearjuego-select'
+							placeholder='Buscá una compañía...'
+							noOptionsMessage={() => 'No hay compañías disponibles'}
+							options={listaEmpresas}
+							onChange={manejarCambioOpcion}
+						/>
+					</div>
+
+					<button type='submit' className='crearjuego-boton'>Enviar solicitud</button>
+
+				</form>
+
+			</div>
+
 		</div>
-		
-		
+
+		<Footer />
+
+		</div>
+
 	)
-	
-	
-	
-	
-	
+
 }
 
 export default CrearJuegos
