@@ -328,7 +328,7 @@ public static LinkedList<Grupo> listargrupos() {
 		Connection conn = Conexion.getInstancia().getConn();
 
 		
-		String query = "select * from grupo where estado = ?";
+		String query = "SELECT g.idgrupo, g.nombre, g.descripcion, g.foto_perfil, COUNT(p.mail) AS total_integrantes FROM grupo g LEFT JOIN persona p ON g.idgrupo = p.idgrupo WHERE g.estado = ? GROUP BY g.idgrupo, g.nombre, g.descripcion, g.foto_perfil";
 	    PreparedStatement ps = conn.prepareStatement(query);
 	    ps.setString(1, "activo");
 	    ResultSet rs = ps.executeQuery();
@@ -342,7 +342,7 @@ public static LinkedList<Grupo> listargrupos() {
         	gru.setFoto_perfil(rs.getString("foto_perfil"));
         	gru.setNombre(rs.getString("nombre"));
         	gru.setId(rs.getInt("idgrupo"));
-
+        	gru.setCantidadIntegrantes(rs.getInt("total_integrantes"));
         	 
             grupos.add(gru);
 

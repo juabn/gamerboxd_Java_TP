@@ -8,6 +8,7 @@ public class Grupo {
 	 private String nombre;
 	 private String descripcion;
 	 private ArrayList<Persona> integrantes;
+	 private int cantidadIntegrantes;
 	 
 	public ArrayList<Persona> getIntegrantes() {return integrantes;}
 		
@@ -39,6 +40,13 @@ public class Grupo {
 	 public void setDescripcion(String descripcion) {
 		 this.descripcion = descripcion;
 	 }
+	 public int getCantidadIntegrantes() {
+		    return cantidadIntegrantes;
+		}
+
+	public void setCantidadIntegrantes(int cantidadIntegrantes) {
+	    this.cantidadIntegrantes = cantidadIntegrantes;
+	}
 	 
 	 
 }

@@ -1,6 +1,105 @@
-.textogruposs {
-	
-	
-	
-	color:white;
+
+.card-grupo {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    height: 100%; 
+    min-height: 420px; 
+}
+
+.card-grupo:hover {
+    border: 1px solid rgba(38, 132, 255, 0.3);
+}
+
+
+.card-grupo-imagen-container {
+    width: 100%;
+    height: 200px;
+    background-color: #2a2a35;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-grupo-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.card-grupo-contenido {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+    gap: 12px;
+}
+
+.card-grupo-titulo {
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.card-grupo-descripcion {
+    color: #b0b0c0;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1; 
+}
+
+.card-grupo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(38, 132, 255, 0.15); 
+    color: #4db8ff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: fit-content;
+    border: 1px solid rgba(38, 132, 255, 0.3);
+    margin-top: 10px;
+}
+
+
+.card-grupo-footer {
+    padding: 0 20px 20px;
+}
+
+.btn-entrar {
+    width: 100%;
+    background-color: transparent;
+    
+    color: white;
+    border: 1px solid rgb(255,255,255,50%);
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-entrar:hover {
+    background: rgba(38, 132, 255, 0.15); 
+     border: 1px solid rgba(38, 132, 255, 0.3);
+      color: #4db8ff;
+      transition:.3s;
+}
+
+.btn-entrar:active {
+    transform: scale(0.98);
 }

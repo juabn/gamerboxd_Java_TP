@@ -1,18 +1,66 @@
-.textolistadogrupos {
+.pagina-listado-grupos {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color1);
+}
 
+.divprincipallistadogrupos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 100px 20px 80px;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
+    box-sizing: border-box;
+}
 
+.listadogrupos-header {
+    text-align: center;
+    margin-bottom: 40px;
+    width: 100%;
+}
 
-	color: white;
+.listadogrupos-titulo {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.listadogrupos-subtitulo {
+    color: #b0b0c0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0;
 }
 
 
-.divprincipallistadogrupos {
+.listadogrupos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
 
 
-	background-color: var(--color1);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding-top: 200px;
+.listadogrupos-alerta-wrapper {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-content:center;
+    align-self:center;
+    width: 30%;
+}
+
+
+.listadogrupos-alerta-wrapper > div {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
 }

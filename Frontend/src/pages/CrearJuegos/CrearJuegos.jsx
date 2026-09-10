@@ -208,7 +208,7 @@ function CrearJuegos(){
 						<Select
 							isMulti
 							classNamePrefix='crearjuego-select'
-							placeholder='Buscá una compañía...'
+							placeholder='Busca una compañía...'
 							noOptionsMessage={() => 'No hay compañías disponibles'}
 							options={listaEmpresas}
 							onChange={manejarCambioOpcion}
