@@ -48,12 +48,11 @@
 
 
 .listadogrupos-alerta-wrapper {
-    margin-top: 25px;
+
     display: flex;
     justify-content: center;
-    align-content:center;
-    align-self:center;
-    width: 30%;
+    margin:25px auto 0 auto;
+    width: 50%;
 }
 
 
