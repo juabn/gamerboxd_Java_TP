@@ -156,7 +156,7 @@
 }
 
 .crearjuego-select__placeholder {
-	color: var(--color3) !important;
+	color: rgba(255, 255, 255, 20%) !important;
 }
 
 .crearjuego-select__input-container,
