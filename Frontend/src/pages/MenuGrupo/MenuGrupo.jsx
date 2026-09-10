@@ -2,21 +2,21 @@ import './MenuGrupo.css'
 import { useNavigate } from "react-router";
 
 
-function MenuGrupo(){
+function MenuGrupo({ onNavigate }){
 	
 	const navigate = useNavigate();
 	
 	const redirigiraGrupos = () =>{
 		
 		navigate("/ListadoGrupos")
-		
+		onNavigate?.();
 		
 	}
 	
 	const redirigiraCrearGrupos = () =>{
 		
 		navigate("/crearGrupo")
-		
+		onNavigate?.();
 		
 	}
 	
@@ -26,8 +26,8 @@ function MenuGrupo(){
 	
 	return (
 		<div className='divprincipalmenugrupo'>
-		<button onClick={redirigiraCrearGrupos}> Crear grupo </button>
-		<button onClick={redirigiraGrupos}> Ver grupos existentes </button>
+		<button className='menugrupo-item' onClick={redirigiraCrearGrupos}> Crear grupo </button>
+		<button className='menugrupo-item' onClick={redirigiraGrupos}> Ver grupos existentes </button>
 		</div>
 	)
 }

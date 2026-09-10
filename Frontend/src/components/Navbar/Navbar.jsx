@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { API_URL } from '../../config';
 
@@ -8,7 +8,9 @@ export default function Navbar({ autenticado }) {
     const [rolGrupo, setrolGrupo] = useState("");
     const [imagen, setimagen] = useState("");
     const [rol, setrol] = useState("");
+    const [menuGrupoAbierto, setMenuGrupoAbierto] = useState(false);
     const navigate = useNavigate();
+    const comunidadRef = useRef(null);
 
     let tokenActual = localStorage.getItem('token');
 
@@ -50,12 +52,30 @@ export default function Navbar({ autenticado }) {
             .catch(error => console.error('Error al obtener foto:', error));
     }, [tokenActual]);
 
+    
+    useEffect(() => {
+        function manejarClickAfuera(e) {
+            if (comunidadRef.current && !comunidadRef.current.contains(e.target)) {
+                setMenuGrupoAbierto(false);
+            }
+        }
+
+        document.addEventListener('mousedown', manejarClickAfuera);
+        return () => document.removeEventListener('mousedown', manejarClickAfuera);
+    }, []);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         window.location.href = '/login';
     };
 
     const handleComunidad = async () => {
+        
+        if (menuGrupoAbierto) {
+            setMenuGrupoAbierto(false);
+            return;
+        }
+
         try {
             const response = await fetch(`${API_URL}/rolengrupo`, {
                 method: 'POST',
@@ -78,11 +98,21 @@ export default function Navbar({ autenticado }) {
             if (rolObtenido === "admin" || rolObtenido === "miembro") {
                 navigate("/PaginaGrupo", { state: { rol: rolObtenido } });
             } else {
-                navigate("/MenuGrupo");
+                setMenuGrupoAbierto(true);
             }
         } catch (error) {
             console.error('Error al procesar comunidad:', error);
         }
+    };
+
+    const irACrearGrupo = () => {
+        setMenuGrupoAbierto(false);
+        navigate("/crearGrupo");
+    };
+
+    const irAGruposExistentes = () => {
+        setMenuGrupoAbierto(false);
+        navigate("/ListadoGrupos");
     };
 
     const renderPanelDerecho = () => {
@@ -120,14 +150,25 @@ export default function Navbar({ autenticado }) {
                     <li><Link to="Juegos">Juegos</Link></li>
 
                     {autenticado && rol === "usuario" && (
-                        <>
-                            <li>
-                                <span onClick={handleComunidad} style={{ cursor: 'pointer' }}>
-                                    Comunidad
-                                </span>
-                            </li>
-                            <li><Link to="/CrearJuegos">Agregar juego</Link></li>
-                        </>
+                    <>
+                        <li className="nav-comunidad" ref={comunidadRef}>
+                            <span onClick={handleComunidad} style={{ cursor: 'pointer' }}>
+                                Comunidad
+                            </span>
+
+                            {menuGrupoAbierto && (
+                                <div className="comunidad-dropdown">
+                                <button className="menugrupo-item" onClick={irACrearGrupo}>
+                                    Crear grupo
+                                </button>
+                                <button className="menugrupo-item" onClick={irAGruposExistentes}>
+                                    Ver grupos existentes
+                                </button>
+                                </div>
+                            )}
+                        </li>
+                        <li><Link to="/CrearJuegos">Agregar juego</Link></li>
+                    </>
                     )}
 
                     {autenticado && rol === "administrador" && (
