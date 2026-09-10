@@ -259,7 +259,8 @@ public static boolean dardebajagrupo (int id) {
 	    			
 	    			Persona per = new Persona();
 	    			per.setNombre_usuario(rs2.getString("nombre"));
-			
+	    			per.setIdgrupo(rs2.getInt("idgrupo"));
+	    			per.setRolgrupo(rs2.getString("rolgrupo"));
 	    			miembros.add(per);
 				}	
 	    		

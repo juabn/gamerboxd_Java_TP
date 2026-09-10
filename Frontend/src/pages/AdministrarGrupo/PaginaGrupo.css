@@ -1,19 +1,192 @@
-.divprincipalgrupo{
-	
-		background-color: var(--color1);
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-	justify-content:space-between;
-	
-	
-	padding-top: 100px;
+
+.pagina-detalle-grupo {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color1);
+    padding-top:4rem;
 }
 
 
+.grupo-alerta-wrapper {
+    width: 90%;
+    max-width: 450px;
+    margin: 100px auto 0 auto;
+    display: flex;
+    justify-content: center;
+}
 
-.textojuego{
-	
-	
-	color:white;
+.grupo-alerta-wrapper > div {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+}
+
+
+.divprincipalgrupo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px 80px;
+}
+
+
+.grupo-card-glass {
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.grupo-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+.grupo-imagen {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #2684ff;
+    box-shadow: 0 0 15px rgba(38, 132, 255, 0.3);
+    background-color: #2a2a35;
+}
+
+.grupo-titulo {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.grupo-body {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.grupo-subtitulo {
+    color: #4db8ff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.grupo-texto {
+    color: #b0b0c0;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 10px 0;
+}
+
+
+.seccion-miembros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.miembro-pill {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.grupo-acciones {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-primario {
+    width: 100%;
+    background-color: #2684ff;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primario:hover {
+    background-color: #0066de;
+}
+
+.btn-peligro {
+    width: 100%;
+    background-color: transparent;
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-peligro:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.seccion-miembros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.miembro-pill {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+
+.pill-admin {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--color7, #d4af37); 
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.pill-admin svg {
+    
+    stroke-width: 2.5; 
 }
