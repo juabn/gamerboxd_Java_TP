@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { API_URL } from '../../config';
+import "./ModificarGrupo.css";
+import Footer from '../../components/Footer/Footer';
+import AlertMessage from '../../components/AlertMessage/AlertMessage'; 
 
 function ModificarGrupo() {
     const location = useLocation();
@@ -9,15 +12,14 @@ function ModificarGrupo() {
 
     const idgrupo = location.state?.id || '';
 
-    // Estados para los datos visibles actuales
     const [fotoActual, setFotoActual] = useState(location.state?.img || '');
     const [nombreActual, setNombreActual] = useState(location.state?.nombre || '');
-
-    // Estados para los inputs del formulario
     const [nuevonombre, setnuevonombre] = useState("");
     const [descripcion, setdescripcion] = useState("");
     const [nuevaImagen, setNuevaImagen] = useState("");
     const [estadofoto, setestadofoto] = useState(false);
+
+    const [alerta, setAlerta] = useState(null);
 
     const insertarnombre = (e) => setnuevonombre(e.target.value);
     const insertardescripcion = (e) => setdescripcion(e.target.value);
@@ -40,14 +42,17 @@ function ModificarGrupo() {
         })
         .then(response => {
             if (response.status === 200) {
-                alert("Grupo dado de baja correctamente");
-                handleLogout();
+                setAlerta({ tipo: 'ok', mensaje: "Grupo dado de baja correctamente" });
+                
+                setTimeout(() => handleLogout(), 2000);
             } else if (response.status === 401) {
-                alert("Error en la bd, intente nuevamente más tarde");
+                setAlerta({ tipo: 'error', mensaje: "Error en la bd, intente nuevamente más tarde" });
+                setTimeout(() => setAlerta(null), 5000);
             }
         })
         .catch(() => {
-            alert("Error inesperado, intente nuevamente más tarde");
+            setAlerta({ tipo: 'error', mensaje: "Error inesperado, intente nuevamente más tarde" });
+            setTimeout(() => setAlerta(null), 5000);
         });
     };
 
@@ -70,9 +75,9 @@ function ModificarGrupo() {
         })
         .then(response => {
             if (response.status === 200) {
-                alert("Actualización realizada con éxito");
+                setAlerta({ tipo: 'ok', mensaje: "Actualización realizada con éxito" });
+                setTimeout(() => setAlerta(null), 3500);
 
-                // Actualizamos la vista inmediatamente si se enviaron cambios
                 if (nuevonombre.trim() !== "") {
                     setNombreActual(nuevonombre);
                     setnuevonombre("");
@@ -84,14 +89,17 @@ function ModificarGrupo() {
                 }
                 setdescripcion("");
             } else if (response.status === 409) {
-                alert("Ya existe grupo con ese nombre");
+                setAlerta({ tipo: 'error', mensaje: "Ya existe un grupo con ese nombre" });
+                setTimeout(() => setAlerta(null), 5000);
             } else {
-                alert("Error en la conexión, pruebe más tarde");
+                setAlerta({ tipo: 'error', mensaje: "Error en la conexión, pruebe más tarde" });
+                setTimeout(() => setAlerta(null), 5000);
             }
         })
         .catch(error => {
             console.error("El error real es:", error);
-            alert('Error en la conexión con la base de datos, pruebe más tarde');
+            setAlerta({ tipo: 'error', mensaje: "Error en la conexión con la base de datos, pruebe más tarde" });
+            setTimeout(() => setAlerta(null), 5000);
         });
     };
 
@@ -111,55 +119,71 @@ function ModificarGrupo() {
     };
 
     return (
-        <div className="contendorprincipal">
-            <form onSubmit={enviar} className='form'>
-                <p className='text'>Actualizar imagen</p>
+		<section style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            
+            
+            
+            <div className="contendorprincipal" style={{ flex: 1 }}>
+			
+                <form onSubmit={enviar} className='form'>
+                    <p className='text'>Actualizar imagen</p>
 
-                <input
-                    className='file-input'
-                    type="file"
-                    accept="image/*"
-                    onChange={insertarimagen}
-                />
+                    <input
+                        className='file-input'
+                        type="file"
+                        accept="image/*"
+                        onChange={insertarimagen}
+                    />
 
-                {/* Muestra la previsualización si seleccionó una nueva, o la actual si no */}
-                <img
-                    className='imagen'
-                    style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }}
-                    src={nuevaImagen || fotoActual}
-                    alt="Foto del grupo"
-                />
+                    <img
+                        className='imagen'
+                        style={{ width: '20vh', height: '20vh', objectFit: 'cover', borderRadius: '50%' }}
+                        src={nuevaImagen || fotoActual}
+                        alt="Foto del grupo"
+                    />
+                    
+                    <p className='text'>{nombreActual}</p>
 
-                {/* Muestra el estado nombreActual */}
-                <p className='text'>{nombreActual}</p>
+                    <p className='text'>Cambiar nombre del grupo</p>
+                    <input
+                        className='input'
+                        placeholder="Ingrese nuevo nombre"
+                        value={nuevonombre}
+                        onChange={insertarnombre}
+                    />
 
-                <p className='text'>Cambiar nombre del grupo</p>
-                <input
-                    className='input'
-                    placeholder="Ingrese nuevo nombre"
-                    value={nuevonombre}
-                    onChange={insertarnombre}
-                />
+                    <p className='text'>Cambiar descripción</p>
+                    <input
+                        className='input'
+                        placeholder="Ingrese nueva descripción"
+                        value={descripcion}
+                        onChange={insertardescripcion}
+                    />
 
-                <p className='text'>Cambiar descripción</p>
-                <input
-                    className='input'
-                    placeholder="Ingrese nueva descripción"
-                    value={descripcion}
-                    onChange={insertardescripcion}
-                />
+                    <button
+                        className='submit-btn'
+                        type="submit"
+                        disabled={!estadofoto && nuevonombre.trim() === "" && descripcion.trim() === ""}
+                    >
+                        Confirmar cambios
+                    </button>
+                    <button type="button" className="botonDarBaja" onClick={dardebaja}>Dar de baja grupo</button>
+                    <button type="button" className="botonVolver" onClick={volver}>Volver</button>
+                </form>
+				
+				{alerta !== null && (
+                <div className="grupo-alerta-wrapper">
+                    <AlertMessage 
+                        tipo={alerta.tipo} 
+                        mensaje={alerta.mensaje} 
+                        onClose={() => setAlerta(null)} 
+                    />
+                </div>
+            )}
 
-                <button
-                    className='submit-btn'
-                    type="submit"
-                    disabled={!estadofoto && nuevonombre.trim() === "" && descripcion.trim() === ""}
-                >
-                    Confirmar cambios
-                </button>
-                <button type="button" onClick={dardebaja}>Dar de baja grupo</button>
-                <button type="button" onClick={volver}>Volver</button>
-            </form>
-        </div>
+            </div>
+		    <Footer/>
+		</section>
     );
 }
 

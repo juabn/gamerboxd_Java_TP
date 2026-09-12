@@ -1,0 +1,61 @@
+.botonDarBaja{
+	width: 100%;
+    background-color: transparent;
+    color: #ff4d4d;
+    border: 1px solid #ff4d4d;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+	
+	
+}
+
+.botonDarBaja:hover{
+	background-color: #ff4d4d;
+    color: white;
+	
+}
+
+.botonVolver{
+	width: 100%;
+    background-color: transparent;
+    color: var(--color5);
+    border: 1px solid var(--color5);
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+	
+}
+
+.botonVolver:hover{
+	
+	background-color: var(--color5);
+    color: white;
+}
+
+.form{
+	margin: 0rem auto;
+  padding: 2.5rem;
+ 
+  background-color: rgba(255, 255, 255, 10%); 
+  backdrop-filter: blur(16px); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: #e0e0e0;
+  width:30%
+}
+
+.grupo-alerta-wrapper {
+    width: 90%;
+    max-width: 450px;
+    margin: 5px auto 0 auto;
+    display: flex;
+    justify-content: center;
+}
