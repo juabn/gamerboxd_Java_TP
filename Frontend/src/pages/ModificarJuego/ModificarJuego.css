@@ -1,19 +1,236 @@
-.divprincipalmodificarjuegos{
-	
-		background-color: var(--color1);
-	display:flex;
-	flex-direction:column;
-	align-items:center;
-	justify-content:space-between;
-	
-	
-	padding-top: 100px;
+
+.pagina-modificar-juego {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color1); 
+    margin: 0;
+    padding: 0;
 }
 
 
+.modificar-juego-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-.textojuego{
-	
-	
-	color:white;
+
+.modificar-juego-card-glass {
+    width: 100%;
+    max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+}
+
+
+.modificar-juego-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.modificar-juego-titulo {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+}
+
+.modificar-juego-subtitulo {
+    color: #b0b0c0;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.modificar-juego-subtitulo strong {
+    color: #ffffff;
+}
+
+
+.modificar-juego-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+
+.modificar-juego-avatar-seccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.modificar-juego-avatar {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #2684ff;
+    background-color: #1e1e24; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+.file-input-oculto {
+    display: none;
+}
+
+
+.modificar-juego-info {
+    display: flex;
+    justify-content: center;
+}
+
+.estado-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.estado-activo {
+    background-color: rgba(38, 132, 255, 0.2);
+    color: #4db8ff;
+    border: 1px solid rgba(38, 132, 255, 0.4);
+}
+
+.estado-inactivo {
+    background-color: rgba(255, 77, 77, 0.15);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.3);
+}
+
+
+.modificar-juego-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modificar-juego-label {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.modificar-juego-input {
+    background: rgba(0, 0, 0, 0.2); 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modificar-juego-input:focus {
+    border-color: #2684ff;
+    box-shadow: 0 0 0 2px rgba(38, 132, 255, 0.25);
+    outline: none;
+}
+
+
+.modificar-juego-acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-primario {
+    width: 100%;
+    background-color: #2684ff;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primario:hover:not(:disabled) {
+    background-color: #0066de;
+}
+
+.btn-primario:disabled {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+}
+
+.btn-secundario {
+    width: 100%;
+    background-color: transparent;
+    color: #b0b0c0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-chico {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.btn-secundario:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-peligro {
+    width: 100%;
+    background-color: transparent;
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.4);
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-peligro:hover {
+    background-color: rgba(255, 0, 0, 0.15);
+    color: white;
+}
+
+.modificar-juego-alerta-wrapper {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+.modificar-juego-alerta-wrapper > div {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+    width: 100%;
 }

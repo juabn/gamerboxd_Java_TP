@@ -84,7 +84,7 @@ function MenuPropuestas(){
                             <input
                                 className="menu-propuestas-input"
                                 type="text"
-                                placeholder="Ej: Killing Floor"
+                                placeholder="Ej: Fallout 4"
                                 value={nombrejuego}
                                 onChange={manejarnombrejuego}
                             /> 
