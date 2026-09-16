@@ -113,17 +113,10 @@ function AdministrarCompanias(){
 	return(
         <section className="pagina-companias">
             
-            {alerta !== null && (
-                <div className="companias-alerta-wrapper">
-                    <AlertMessage 
-                        tipo={alerta.tipo} 
-                        mensaje={alerta.mensaje} 
-                        onClose={() => setAlerta(null)} 
-                    />
-                </div>
-            )}
+            
 
             <div className='companias-container'>
+			
                 <div className="companias-card-glass">
                     
                     <div className="companias-header">
@@ -151,6 +144,18 @@ function AdministrarCompanias(){
                         </div>
                     </form>
                 </div>
+				{alerta !== null && (
+								<div className={`companias-alerta-wrapper ${alerta ? 'visible' : ''}`}>
+								                    
+								                    {alerta && (
+								                        <AlertMessage 
+								                            tipo={alerta.tipo} 
+								                            mensaje={alerta.mensaje} 
+								                            onClose={() => setAlerta(null)} 
+								                        />
+								                    )}
+								                </div>
+							            )}
             </div>
 
             <Footer />

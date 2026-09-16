@@ -6,28 +6,37 @@
     background-color: var(--color1); 
     
 }
-
+/*codigo d mierda pq intente arreglar un bug y ahora me da paja borrar todo, lo puse abajo y se ve bien */
 .companias-alerta-wrapper {
-    width: 90%;
-    max-width: 450px;
-    margin: 40px auto 0 auto;
+width: 100%;
+    max-width: 500px;
+    min-height: 60px; 
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
+    opacity: 0;
+    visibility: hidden; 
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.companias-alerta-wrapper.visible {
+    opacity: 1;
+    visibility: visible;
 }
 
 .companias-alerta-wrapper > div {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
+
     margin: 0 auto;
+    width: 100%;
 }
 
 .companias-container {
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 3vh;
     padding:27vh 0;
 }
 
