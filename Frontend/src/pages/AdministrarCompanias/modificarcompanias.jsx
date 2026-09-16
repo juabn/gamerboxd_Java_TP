@@ -1,8 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import { useNavigate } from "react-router";
-import './modificarcompanias.css'
+import { useNavigate } from "react-router-dom"; 
 import { useState, useEffect } from 'react';
 import { API_URL } from '../../config';
+import Footer from '../../components/Footer/Footer';
+import AlertMessage from '../../components/AlertMessage/AlertMessage';
+import './modificarcompanias.css'
 
 function Modificarcompanias(){
 	
@@ -10,14 +12,14 @@ function Modificarcompanias(){
 	const location = useLocation();
 	const nombreEmpresaOriginal = location.state?.nombre || "";
 	
-	
 	const [nuevonombreempresa, setnuevonombre] = useState("");
 	const [estado, setestado] = useState("");
 	const [id, setid] = useState("");
 	
-	
 	const [empresaconfirmada, setempresaconfirmada] = useState(nombreEmpresaOriginal);
 	const [estadoconfirmado, setestadoconfirmado] = useState(""); 
+
+    const [alerta, setAlerta] = useState(null);
 	
 	let token = localStorage.getItem('token');
 	
@@ -37,7 +39,6 @@ function Modificarcompanias(){
 		}
 	}
 	
-	
 	const huboCambios = 
 		(nuevonombreempresa.trim() !== "" && nuevonombreempresa.trim() !== empresaconfirmada) || 
 		(estado !== estadoconfirmado);
@@ -45,16 +46,15 @@ function Modificarcompanias(){
 	const guardarcambios = (e) => {
 		e.preventDefault();
 		
-		
 		let nombreFinalParaEnviar = nuevonombreempresa.trim() === "" ? empresaconfirmada : nuevonombreempresa;
-		
 		
 		if (nuevonombreempresa.trim() !== "") {
 			const nombreoriginalnormalizado = empresaconfirmada.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
 			const nuevonombrenormalizado = nuevonombreempresa.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u0306]/g, "");
 			
 			if(nombreoriginalnormalizado === nuevonombrenormalizado){
-				alert("El nombre elegido es el mismo que ya posee la empresa");
+                setAlerta({ tipo: 'error', mensaje: "El nombre elegido es el mismo que ya posee la empresa." });
+                setTimeout(() => setAlerta(null), 4000);
 				return;
 			}
 		}
@@ -73,28 +73,28 @@ function Modificarcompanias(){
 		})
 		.then(response => {
 			if(response.status === 200){
-				alert("Actualización realizada con éxito");
-				
+                setAlerta({ tipo: 'ok', mensaje: "Actualización realizada con exito." });
+                setTimeout(() => setAlerta(null), 3500);
 				
 				setempresaconfirmada(nombreFinalParaEnviar);
 				setestadoconfirmado(estado);
-				
-				
 				setnuevonombre(""); 
 			}
-			else if (response.status == 409){
-				alert("Ya existe empresa con ese nombre");
+			else if (response.status === 409){
+                setAlerta({ tipo: 'error', mensaje: "Ya existe una empresa registrada con ese nombre." });
+                setTimeout(() => setAlerta(null), 4000);
 			}
 			else{
-				alert("Error en la conexión, pruebe más tarde");
+                setAlerta({ tipo: 'error', mensaje: "Error en la conexion, pruebe mas tarde." });
+                setTimeout(() => setAlerta(null), 4000);
 			}
 		})
 		.catch(error => {
 			console.error("El error real es:", error); 
-			alert('Error en la conexión con la base de datos, pruebe más tarde');
+            setAlerta({ tipo: 'error', mensaje: "Error en la conexion con la base de datos." });
+            setTimeout(() => setAlerta(null), 4000);
 		});
 	}
-	
 	
 	useEffect(() => {		
 		fetch(`${API_URL}/devolverempresa`,{
@@ -110,50 +110,82 @@ function Modificarcompanias(){
 				return response.json().then(data => {
 					console.log(data);
 					setid(data.id);
-					
 					setestado(data.estado);
-					
 					setestadoconfirmado(data.estado); 
 				});
 			} 
 			else if (response.status === 402) {
-				alert("Error en el token");
+                setAlerta({ tipo: 'error', mensaje: "Error de autorizacion (Token invalido)." });
 			}
 			else {
-				alert("Error en la bd intente más tarde");
+                setAlerta({ tipo: 'error', mensaje: "Error en la base de datos, intente mas tarde." });
 			}
 		})
 		.catch(error => {
 			console.error("El error real es:", error); 
-			alert('Error en la conexión con la base de datos, pruebe más tarde');
+            setAlerta({ tipo: 'error', mensaje: "Error en la conexion con la base de datos." });
 		});
-	}, []);
+	}, [nombreEmpresaOriginal, token]);
 
 	return(
-		<form onSubmit={guardarcambios}>
-			<div className='divprincipalmodificarcompanias'>
-			
-				
-				<p className='textoempresa'> Nombre: {empresaconfirmada} </p>
-				<p className='textoempresa'> Estado: {estado} </p>
-				
-				<p className='textoempresa'> Ingrese nuevo nombre </p>
-				
-				<input 
-					type="text"
-					value={nuevonombreempresa} 
-					onChange={cambiarnombre}
-				/>
-				
-				<button type="button" onClick={dardebaja}> Cambiar estado </button>
-				
-				
-				<button type="submit" disabled={!huboCambios}> Guardar cambios </button>
-				
-				<button type="button" onClick={volver}> Volver </button>
-			
-			</div>
-		</form>
+        <section className="pagina-modificar-compania">
+            <div className='modificar-container'>
+                
+                <div className="modificar-card-glass">
+                    <div className="modificar-header">
+                        <h2 className="modificar-titulo">Modificar Compañia</h2>
+                        <p className="modificar-subtitulo">Gestionando: <strong>{empresaconfirmada}</strong></p>
+                    </div>
+
+                    <form className="modificar-form" onSubmit={guardarcambios}>
+                        
+                        <div className="modificar-info">
+                            <span className={`estado-badge ${estado === 'activo' ? 'estado-activo' : 'estado-inactivo'}`}>
+                                Estado actual: {estado}
+                            </span>
+                        </div>
+
+                        <div className="modificar-campo">
+                            <label className="modificar-label">Cambiar nombre</label>
+                            <input 
+                                className="modificar-input"
+                                type="text"
+                                placeholder="Dejar en blanco para conservar el actual"
+                                value={nuevonombreempresa} 
+                                onChange={cambiarnombre}
+                            />
+                        </div>
+                        
+                        <div className="modificar-acciones">
+                            <button className="btn-secundario" type="button" onClick={dardebaja}>
+                                Pasar a {estado === 'activo' ? 'Inactivo' : 'Activo'}
+                            </button>
+                            
+                            <button className="btn-primario" type="submit" disabled={!huboCambios}>
+                                Guardar cambios
+                            </button>
+                            
+                            <button className="btn-peligro" type="button" onClick={volver}>
+                                Volver
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {alerta !== null && (
+                    <div className="modificar-alerta-wrapper">
+                        <AlertMessage 
+                            tipo={alerta.tipo} 
+                            mensaje={alerta.mensaje} 
+                            onClose={() => setAlerta(null)} 
+                        />
+                    </div>
+                )}
+
+            </div>
+            
+            <Footer />
+        </section>
 	)
 }
 
