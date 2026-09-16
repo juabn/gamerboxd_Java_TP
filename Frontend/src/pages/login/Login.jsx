@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom"; // Actualizado a react-router-dom
+import { useNavigate } from "react-router-dom"; 
 import { API_URL } from '../../config';
 import Footer from '../../components/Footer/Footer';
 import AlertMessage from '../../components/AlertMessage/AlertMessage';
