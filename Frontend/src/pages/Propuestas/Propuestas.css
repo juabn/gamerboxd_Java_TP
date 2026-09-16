@@ -1,18 +1,333 @@
-.textopropuesta {
 
-
-
-	color: white;
+.pagina-propuestas {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color1);
 }
 
 
-.divprincipalpropuesta {
+.propuestas-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12vh 0 80px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
 
 
-	background-color: var(--color1);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding-top: 200px;
+.propuestas-header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.propuestas-titulo {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+}
+
+.propuestas-subtitulo {
+    color: #b0b0c0;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+
+.propuestas-alerta-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 25px auto 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.propuestas-alerta-wrapper > div {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+    width: 100%;
+}
+
+
+
+.tabla-glass-wrapper {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+}
+
+
+.tabla-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.propuestas-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 800px; 
+}
+
+
+.propuestas-tabla th {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #4db8ff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 20px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.propuestas-tabla td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.propuestas-tabla tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.propuestas-tabla tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03); 
+}
+
+
+.tabla-img-container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #2684ff;
+    background-color: #2a2a35;
+}
+
+.tabla-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tabla-texto-destacado {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.tabla-descripcion {
+    color: #b0b0c0;
+    font-size: 0.9rem;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.tabla-texto {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+}
+
+
+.tabla-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-pendiente {
+    background-color: rgba(212, 175, 55, 0.15);
+    color: #d4af37;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.badge-aceptado {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.badge-rechazado {
+    background-color: rgba(255, 77, 77, 0.15);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.3);
+}
+
+
+.tabla-acciones {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-tabla-aceptar, .btn-tabla-rechazar {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-tabla-aceptar {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.4);
+}
+
+.btn-tabla-aceptar:hover {
+    background-color: #2ecc71;
+    color: #ffffff;
+}
+
+.btn-tabla-rechazar {
+    background-color: rgba(255, 77, 77, 0.2);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 77, 77, 0.4);
+}
+
+.btn-tabla-rechazar:hover {
+    background-color: #ff4d4d;
+    color: #ffffff;
+}
+
+.propuestas-vacio {
+    text-align: center;
+    padding: 40px !important;
+    color: #b0b0c0;
+    font-size: 1.1rem;
+}
+
+
+.tablas-seccion {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tabla-titulo-seccion {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 15px 5px;
+    align-self: flex-start;
+}
+
+.titulo-espaciado {
+    margin-top: 50px; 
+}
+
+
+.descripcion-clickable {
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.descripcion-clickable:hover {
+    color: #4db8ff; 
+    text-decoration: underline;
+}
+
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); 
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-glass {
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(30, 30, 40, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    padding: 25px;
+    animation: modalFadeIn 0.3s ease; 
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-titulo {
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.modal-cerrar {
+    background: transparent;
+    border: none;
+    color: #b0b0c0;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-cerrar:hover {
+    color: #ff4d4d; 
+}
+
+.modal-body {
+    max-height: 60vh; 
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.modal-texto {
+    color: #e0e0e0;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    white-space: pre-wrap; 
+}
+
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }

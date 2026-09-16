@@ -64,9 +64,8 @@ public class DataPropuesta {
 			Connection conn = Conexion.getInstancia().getConn();
 
 			// ejecutar la quer
-			String query = "select * from propuesta where estado = ?";
+			String query = "select * from propuesta";
 		    PreparedStatement ps = conn.prepareStatement(query);
-		    ps.setString(1, "pendiente");
 		    ResultSet rs = ps.executeQuery();
 
             // mapear de resultset a objeto

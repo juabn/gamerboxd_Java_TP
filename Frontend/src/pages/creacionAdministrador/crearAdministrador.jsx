@@ -1,102 +1,112 @@
-import './crearAdministrador.css'
+import './crearAdministrador.css';
 import { useState } from 'react';
 import { API_URL } from '../../config';
+import Footer from '../../components/Footer/Footer';
+import AlertMessage from '../../components/AlertMessage/AlertMessage';
 
 function CreacionAdmin(){
 	
-	
-	
-	const [mail, setmail] = useState("")
-	
+	const [mail, setmail] = useState("");
+    const [alerta, setAlerta] = useState(null);
 	
 	const handlemail = (e) => {
-		
-		setmail(e.target.value)
-		
+		setmail(e.target.value);
 	}
 	
 	const enviar = (e) => {
-		
-		let token = localStorage.getItem('token');
-		console.log(mail)
-				
 		e.preventDefault();
+		let token = localStorage.getItem('token');
+		
+        if (!mail.trim()) {
+            setAlerta({ tipo: 'error', mensaje: "Por favor, ingresa un correo electronico." });
+            setTimeout(() => setAlerta(null), 4000);
+            return;
+        }
 				
 		fetch(`${API_URL}/convertirenadmin`,{
-			
 			method: 'POST', 
 			headers: {
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + token },
+			    'Content-Type': 'application/json',
+			    'Authorization': 'Bearer ' + token 
+            },
 			body: JSON.stringify({mail: mail}) 
-				
 		})
-		
 		.then(response => {
-			
-			if(response.status=== 200){
-				
-				alert("Usuario creado como administrador correctamente");
-				setmail("")
+			if(response.status === 200){
+                setAlerta({ tipo: 'ok', mensaje: "Usuario convertido en administrador exitosamente." });
+				setmail("");
+                setTimeout(() => setAlerta(null), 4000);
 			}
-			
 			else if (response.status === 405){
-				alert("No existe usuario con ese mail");
+                setAlerta({ tipo: 'error', mensaje: "No existe un usuario con ese correo." });
+                setTimeout(() => setAlerta(null), 4000);
 			}
-			
 			else if (response.status === 401){
-				alert("Este usuario se encuentra inactivo, cambia su estado para convertirlo en administrador");
+                setAlerta({ tipo: 'error', mensaje: "Este usuario se encuentra inactivo. Cambia su estado para convertirlo en administrador." });
+                setTimeout(() => setAlerta(null), 5000);
 			}
-			
 			else if (response.status === 402){
-				
-				alert("Este usuario ya es administrador")
+                setAlerta({ tipo: 'error', mensaje: "Este usuario ya posee permisos de administrador." });
+                setTimeout(() => setAlerta(null), 4000);
 			}
-			
 			else{
-				
-				alert("Error en la bd, intente nuevamente mas tarde");
+                setAlerta({ tipo: 'error', mensaje: "Error en la base de datos, intente nuevamente mas tarde." });
+                setTimeout(() => setAlerta(null), 4000);
 			}
-					
-					
-					
-			}).catch(() => {alert("Error inesperado, intente nuevamente mas tarde")})
-		
-		
+        })
+        .catch(() => {
+            setAlerta({ tipo: 'error', mensaje: "Error inesperado de conexion, intente nuevamente mas tarde." });
+            setTimeout(() => setAlerta(null), 4000);
+        });
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	return(
-		
-	<form onSubmit={enviar}>
-	
-	<div className="div_principal_creardmin">
-	<p className='textocrearadmin'> Creacion de administrador</p>
-	<p className='textocrearadmin'>Ingrese nombre del usuario </p>
-	<input
-	
-	type = "email"
-	value={mail}
-	onChange={handlemail}
-	placeholder='Ingrese mail'
-	
-	/>
-	 
-	 <button> Convertir en administrador </button>
-	
+        <section className="pagina-crear-admin">
+            <div className="crear-admin-container">
+                
+                <div className="crear-admin-card-glass">
+                    <div className="crear-admin-header">
+                        <h2 className="crear-admin-titulo">Crear Administrador</h2>
+                        <p className="crear-admin-subtitulo">Otorga permisos especiales a un usuario de la plataforma.</p>
+                    </div>
 
-	</div>
-	
-	</form>
+                    <form className="crear-admin-form" onSubmit={enviar}>
+                        
+                        <div className="crear-admin-campo">
+                            <label className="crear-admin-label">Correo electronico del usuario</label>
+                            <input
+                                className="crear-admin-input"
+                                type="email"
+                                value={mail}
+                                onChange={handlemail}
+                                placeholder="Ej: usuario@gamerboxd.com"
+                                required
+                            />
+                        </div>
+                        
+                        <div className="crear-admin-acciones">
+                            <button className="btn-primario" type="submit">
+                                Convertir en administrador
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                
+                {alerta !== null && (
+                    <div className="crear-admin-alerta-wrapper">
+                        <AlertMessage 
+                            tipo={alerta.tipo} 
+                            mensaje={alerta.mensaje} 
+                            onClose={() => setAlerta(null)} 
+                        />
+                    </div>
+                )}
+
+            </div>
+            
+            <Footer />
+        </section>
 	)
 }
 
