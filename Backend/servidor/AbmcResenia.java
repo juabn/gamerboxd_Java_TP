@@ -148,29 +148,36 @@ public class AbmcResenia {
 
 	
 	public static class obtenerResenias implements HttpHandler {
-		@Override
-		public void handle(HttpExchange exchange) throws IOException {
-			exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-			exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
-			exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
-			if ("GET".equals(exchange.getRequestMethod())) {
-				LinkedList<Resenia> listaResenias = recuperarTodos();
-				
-				Gson gson = new Gson();
-				String jsonResponse = gson.toJson(listaResenias);
-				
-				byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
-				exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
-				exchange.sendResponseHeaders(200, bytesResponse.length);
-				
-				OutputStream os = exchange.getResponseBody();
-				os.write(bytesResponse);
-				os.close();
-				
-			} else {
-				exchange.sendResponseHeaders(405, -1);
-			}
-		}
+	    @Override
+	    public void handle(HttpExchange exchange) throws IOException {
+	        
+	        Cors.controlCors(exchange);
+	        
+	        if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
+	            exchange.sendResponseHeaders(204, -1);
+	            exchange.getResponseBody().close();
+	            return;
+	        }
+
+	        if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+	            LinkedList<Resenia> listaResenias = recuperarTodos();
+	            
+	            Gson gson = new Gson();
+	            String jsonResponse = gson.toJson(listaResenias);
+	            
+	            byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
+	            exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
+	            exchange.sendResponseHeaders(200, bytesResponse.length);
+	            
+	            OutputStream os = exchange.getResponseBody();
+	            os.write(bytesResponse);
+	            os.close();
+	            
+	        } else {
+	            exchange.sendResponseHeaders(405, -1);
+	            exchange.getResponseBody().close();
+	        }
+	    }
 	}
     
 	
