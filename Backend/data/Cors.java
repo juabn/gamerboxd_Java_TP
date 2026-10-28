@@ -8,7 +8,7 @@ public class Cors {
     public static void controlCors(HttpExchange exchange) {
         try {
             // Permitir el origen exacto de Vercel y métodos necesarios
-            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "https://gamerboxdd.vercel.app");
+            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
             exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
 
