@@ -6,8 +6,7 @@ import java.util.List;
 
 import javax.crypto.SecretKey;
 
-
-
+import data.Cors;
 import data.DataResenia;
 
 
@@ -254,13 +253,12 @@ public class AbmcResenia {
 	    @Override
 	    public void handle(HttpExchange exchange) throws IOException {
 	        
-	        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-	        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
-	        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type,Authorization");
+	    	Cors.controlCors(exchange);
 	        
 	        
-	        if ("OPTIONS".equals(exchange.getRequestMethod())) {
+	    	if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
 	            exchange.sendResponseHeaders(204, -1);
+	            exchange.getResponseBody().close(); 
 	            return;
 	        }
 
