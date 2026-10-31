@@ -160,18 +160,36 @@ public class AbmcResenia {
 	        }
 
 	        if ("GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-	            LinkedList<Resenia> listaResenias = recuperarTodos();
-	            
-	            Gson gson = new Gson();
-	            String jsonResponse = gson.toJson(listaResenias);
-	            
-	            byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
-	            exchange.getResponseHeaders().add("Content-Type", "application/json; charset=UTF-8");
-	            exchange.sendResponseHeaders(200, bytesResponse.length);
-	            
-	            OutputStream os = exchange.getResponseBody();
-	            os.write(bytesResponse);
-	            os.close();
+	            try {
+	                // Especificá explícitamente la clase de datos (ej: DataResenia o AbmcResenia)
+	                LinkedList<Resenia> listaResenias = data.DataResenia.recuperarTodos(); 
+	                
+	                Gson gson = new Gson();
+	                String jsonResponse = gson.toJson(listaResenias);
+	                
+	                byte[] bytesResponse = jsonResponse.getBytes("UTF-8");
+	                exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+	                exchange.sendResponseHeaders(200, bytesResponse.length);
+	                
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(bytesResponse);
+	                os.close();
+
+	            } catch (Exception e) {
+	                // Imprime el error real en la consola de Render
+	                System.err.println("Error en /allresenias: " + e.getMessage());
+	                e.printStackTrace();
+
+	                // Devuelve un error 500 limpio en lugar de colapsar el servidor con un 502
+	                String jsonError = "{\"error\": \"" + e.getMessage() + "\"}";
+	                byte[] bytesError = jsonError.getBytes("UTF-8");
+	                exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
+	                exchange.sendResponseHeaders(500, bytesError.length);
+	                
+	                OutputStream os = exchange.getResponseBody();
+	                os.write(bytesError);
+	                os.close();
+	            }
 	            
 	        } else {
 	            exchange.sendResponseHeaders(405, -1);
