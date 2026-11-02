@@ -10,7 +10,13 @@ Los usuarios pueden crear grupos de reseñadores y solicitar unirse a otros grup
 
 <h2>Diagrama de Entidad Relación </h2>
 
-![Texto Alternativo](assets/modelooo.drawio.png)
+![DER](assets/modelo.drawio.svg)
+
+<h2>Pasaje a Tablas</h2>
+
+![PT](assets/pasajetablas.drawio.svg)
+
+
 
 
 <h2>Checklist regularidad</h2>
